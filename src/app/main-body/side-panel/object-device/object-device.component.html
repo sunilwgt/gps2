@@ -1,0 +1,112 @@
+<ul class="CarList">
+
+    <ng-container *ngFor="let xb of mydata">
+      <li>
+
+        <div class="checkbox">
+          <input type="checkbox"  name={{xb.deviceid}} value={{xb.deviceid}} checked="checked">
+          <label></label>
+        </div>
+
+        <div class="name" (click)="onClick($event)" id={{xb.deviceid}}>
+          <span data-device="name">{{xb.name}}</span>
+          <span data-device="time">{{xb.date}}&nbsp; &nbsp;{{xb.time}}</span>
+        </div>
+
+
+        <div class="details">
+          <span data-device="speed">{{xb.speed}}</span>
+          <span data-device="detect_engine" class="on"><fa name="cogs"></fa></span>
+          <span data-device="status" title="Online"  [ngStyle]="{'background-color': xb.status=='Online'? 'green' : 'red'}"></span>
+
+          <div class="btn-group dropleft droparrow" data-position="fixed" ngbDropdown class="d-inline-block" >
+              <fa name="ellipsis-v" id="dropdownBasic1" ngbDropdownToggle></fa>
+              <!-- <i class="btn icon options dropdown-toggle" id="dropdownBasic1" ngbDropdownToggle></i> -->
+
+            <ul class="dropdown-menu" ngbDropdownMenu aria-labelledby="dropdownBasic1">
+              <li>
+                <a href="javascript:" class="object_edit">
+                  <fa name="cogs"></fa>
+                  <span class="text">Edit</span>
+                </a>
+              </li>
+              <li>
+                <a href="javascript:" class="object_delete">
+                  <fa name="cogs"></fa>
+                  <span class="text">Delete</span>
+                </a>
+              </li>
+              <li>
+                <a href="javascript:" class="object_command">
+                  <fa name="cogs"></fa>
+                  <span class="text">Command</span>
+                </a>
+              </li>
+              <li>
+                <a href="javascript:" class="object_driver">
+                  <fa name="cogs"></fa>
+                  <span class="text">Driver</span>
+                </a>
+              </li>
+              <li>
+                <a href="javascript:" class="object_geofences">
+                  <fa name="cogs"></fa>
+                  <span class="text">Geofences</span>
+                </a>
+              </li>
+              <li>
+                <a href="javascript:" class="object_notifications">
+                  <fa name="cogs"></fa>
+                  <span class="text">Notifications</span>
+                </a>
+              </li>
+              <li>
+                <a href="javascript:" class="object_computed_attributes">
+                  <fa name="cogs"></fa>
+                  <span class="text">Computed Attributes</span>
+                </a>
+              </li>
+              <li>
+                <a href="javascript:" class="object_saved_commands">
+                  <fa name="cogs"></fa>
+                  <span class="text">Saved Commands</span>
+                </a>
+              </li>
+              <li>
+                <a href="javascript:" class="object_maintenances">
+                  <fa name="cogs"></fa>
+                  <span class="text">Maintenances</span>
+                </a>
+              </li>
+              <li>
+                <a href="javascript:" class="object_Accumulators">
+                  <fa name="cogs"></fa>
+                  <span class="text">Accumulators</span>
+                </a>
+              </li>
+            </ul>
+
+
+          </div>
+        </div>
+
+
+
+      </li>
+    </ng-container>
+
+    <!-- <ng-container *ngFor="let xb of mydata">
+
+      <tr data-toggle="collapse" data-target="#demo1" class="accordion-toggle">
+        <td>{{ xb.name }}</td>
+        <td>{{ xb.email }}</td>
+        <td>{{ xb.company }}</td>
+        <td>{{ xb.status }}</td>
+      </tr>
+
+    </ng-container> -->
+
+
+
+
+  </ul>
