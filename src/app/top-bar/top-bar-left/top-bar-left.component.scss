@@ -1,0 +1,10 @@
+ul { margin-bottom: 0; list-style: none; padding-left: .5rem;
+    li { flex: 0 0 auto;
+        a {
+            text-decoration: none; padding:.5rem 1rem; display: block;
+            &:hover {
+                background: #ccc;
+            }
+        }
+    }
+}

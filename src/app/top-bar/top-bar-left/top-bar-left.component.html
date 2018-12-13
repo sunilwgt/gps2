@@ -1,0 +1,41 @@
+<ul class="d-flex justify-content-start">
+  <li><a href="#" (click)="open(content)"><fa name="info-circle"></fa></a></li>
+  <!-- <button class="btn btn-lg btn-outline-primary" (click)="open()">Launch demo modal</button> -->
+  <li><a href="#"><fa name="sliders"></fa></a></li>
+  <li><a href="#"><fa name="map-marker"></fa></a></li>
+  <li><a href="#"><fa name="search"></fa></a></li>
+  <li><a href="#"><fa name="bar-chart"></fa></a></li>  
+  <li><a href="#"><fa name="check-square-o"></fa></a></li>  
+  <li><a href="#"><fa name="book"></fa></a></li>
+  <li><a href="#"><fa name="delicious"></fa></a></li> 
+  <li><a href="#"><fa name="object-group"></fa></a></li> 
+  <li><a href="#"><fa name="camera"></fa></a></li>
+  <li><a href="#"><fa name="comments"></fa></a></li> 
+</ul>
+
+
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Profile update</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form>
+      <div class="form-group">
+        <label for="dateOfBirth">Date of birth</label>
+        <div class="input-group">
+          <input id="dateOfBirth" class="form-control" placeholder="yyyy-mm-dd" name="dp" ngbDatepicker #dp="ngbDatepicker">
+          <div class="input-group-append">
+            <button class="btn btn-outline-secondary calendar" (click)="dp.toggle()" type="button"></button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Save</button>
+  </div>
+</ng-template>
+
