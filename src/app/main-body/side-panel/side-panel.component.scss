@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 .left_top_tab {
     background: #fff;
     margin: 5px;
@@ -11,18 +10,4 @@
             }
         }
     }    
-=======
-.left_top_tab {
-    background: #fff;
-    margin: 5px;
-    padding: 10px;
-    ngb-tabset {
-        ul {
-            justify-content: space-between;
-            li {
-                flex: 0 0 33.33%
-            }
-        }
-    }    
->>>>>>> 2e476591acd126955d4b5a9c614aceba4afbbb50
 }
