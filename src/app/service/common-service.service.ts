@@ -1,6 +1,6 @@
-import { Injectable, OnInit } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/observable/of';
+import { Injectable, OnInit, EventEmitter, Output } from '@angular/core';
+//import { Observable } from 'rxjs/Observable';
+//import 'rxjs/add/observable/of';
 
 
 @Injectable({
@@ -11,7 +11,8 @@ import 'rxjs/add/observable/of';
 
 export class CommonServiceService implements OnInit {  
   status : boolean = false;
-  deviceNumber : number;
+  @Output() deviceNumber = new EventEmitter<number>(); 
+  
   
   tempData: any = [
     {
@@ -44,6 +45,10 @@ export class CommonServiceService implements OnInit {
 
   ngOnInit() {
 
+  }
+
+  detaemit ( data){
+    this.deviceNumber.emit(data); 
   }
 
 

@@ -13,11 +13,14 @@ export class ObjectDetailsComponent implements OnInit {
 
   constructor( public CommonService:CommonServiceService ) { }
 
-  deviceID = this.CommonService.deviceNumber;
+  deviceID:number;
   
   ngOnInit() {
+    this.CommonService.deviceNumber.subscribe((data)=>{
+      console.log(data.value);
+      this.deviceID=data.value;
+    })
 
-    alert(this.deviceID);
   }
 
   status: boolean = false;

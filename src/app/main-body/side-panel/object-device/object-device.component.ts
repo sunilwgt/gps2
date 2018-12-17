@@ -1,4 +1,4 @@
-import { Component, OnInit} from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output} from '@angular/core';
 import { CommonServiceService } from './../../../service/common-service.service';
 
 
@@ -25,8 +25,10 @@ export class ObjectDeviceComponent implements OnInit {
   onClick(event) {
     var target = event.target || event.srcElement || event.currentTarget;
     var idAttr = target.attributes.id;
-    this.CommonService.deviceNumber = idAttr.nodeValue; 
-    alert(this.CommonService.deviceNumber);   
+    this.CommonService.detaemit(idAttr);
+     //alert(this.CommonService.deviceNumber); 
+     //console.log(event);
+    
   }
 
 }
