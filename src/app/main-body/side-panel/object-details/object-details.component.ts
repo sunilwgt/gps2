@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { CommonServiceService } from '../../../service/common-service.service';
-
-
+import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
+import { CommonServiceService } from './../../../service/common-service.service';
+import { RestService } from '../../../service/rest.service';
 
 
 @Component({
@@ -11,22 +11,28 @@ import { CommonServiceService } from '../../../service/common-service.service';
 })
 export class ObjectDetailsComponent implements OnInit {
 
-  constructor( public CommonService:CommonServiceService ) { }
+  constructor( public CommonService:CommonServiceService, private ajax:RestService ) { }
 
-  deviceID:number;
+  deviceID:object;
   
   ngOnInit() {
-    this.CommonService.deviceNumber.subscribe((data)=>{
-      console.log(data.value);
-      this.deviceID=data.value;
-    })
 
+    this.CommonService.deviceNumber.subscribe((value)=>{
+      //console.log(value);
+      this.deviceID = value[0];
+    })
+    
   }
+
+
+  
+
+
+
 
   status: boolean = false;
   public showhide(){
     this.status = !this.status;
   }
-
 
 }

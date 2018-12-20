@@ -11,12 +11,12 @@ import { Injectable, OnInit, EventEmitter, Output } from '@angular/core';
 
 export class CommonServiceService implements OnInit {  
   status : boolean = false;
-  @Output() deviceNumber = new EventEmitter<number>(); 
+  @Output() deviceNumber = new EventEmitter<object>(); 
   
   
   tempData: any = [
     {
-        'deviceid' : 1347,
+        'deviceid' : 1,
         'name': 'BMW M5',
         'date':'2018-12-11',
         'time':'12:13:55',
@@ -24,7 +24,7 @@ export class CommonServiceService implements OnInit {
         'status':'Online',
     },
     {
-        'deviceid' : 1348,
+        'deviceid' : 2,
         'name': 'BMW M6',
         'date':'2018-12-11',
         'time':'12:13:55',
@@ -32,7 +32,7 @@ export class CommonServiceService implements OnInit {
         'status':'Ofline',      
   },
   {
-        'deviceid' : 1349,
+        'deviceid' : 3,
         'name': 'BMW M7',
         'date':'2019-12-11',
         'time':'12:13:55',
@@ -41,14 +41,18 @@ export class CommonServiceService implements OnInit {
 }
     
 ];
-  constructor() { }
+  
+  //public tododata: any;
+  constructor() {
+    //this.tododata=null;
+   }
 
   ngOnInit() {
 
   }
 
-  detaemit ( data){
-    this.deviceNumber.emit(data); 
+  detaemit (value){
+    this.deviceNumber.emit(value); 
   }
 
 

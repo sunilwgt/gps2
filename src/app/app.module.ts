@@ -1,4 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
+import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { AngularFontAwesomeModule } from 'angular-font-awesome';
 
@@ -32,6 +33,7 @@ import { ObjectDeviceComponent } from './main-body/side-panel/object-device/obje
   
   imports: [
     BrowserModule,
+    HttpClientModule,
     AppRoutingModule,
     NgbModule.forRoot(),
     AngularFontAwesomeModule, 
