@@ -15,12 +15,4 @@ export class SidePanelComponent implements OnInit {
   ngOnInit() {        
 
   }
-
-  mydata = this.CommonService.tempData;
-
-
-
-  
-
-
 }

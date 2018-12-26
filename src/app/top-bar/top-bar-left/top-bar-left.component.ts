@@ -1,4 +1,4 @@
-import { Component, OnInit,  Input } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 
 
@@ -9,7 +9,7 @@ import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./top-bar-left.component.scss'],
 })
 export class TopBarLeftComponent implements OnInit {
-
+  model: any = {};
   closeResult: string;
 
   constructor(private modalService: NgbModal) { }
@@ -36,6 +36,10 @@ export class TopBarLeftComponent implements OnInit {
   ngOnInit() {
   }
 
+
+  onSubmit() {
+    alert('SUCCESS!! :-)\n\n' + JSON.stringify(this.model))
+  }
 
   
 }

@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { AngularFontAwesomeModule } from 'angular-font-awesome';
+import { FormsModule } from '@angular/forms';
 
 
 import { AppRoutingModule } from './app-routing.module';
@@ -37,6 +38,7 @@ import { ObjectDeviceComponent } from './main-body/side-panel/object-device/obje
     AppRoutingModule,
     NgbModule.forRoot(),
     AngularFontAwesomeModule, 
+    FormsModule
     
 
   ],

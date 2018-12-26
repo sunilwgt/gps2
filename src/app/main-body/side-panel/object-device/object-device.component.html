@@ -1,16 +1,16 @@
 <ul class="CarList">
 
-    <ng-container *ngFor="let xb of mydata">
+    <ng-container *ngFor="let xb of device">
       <li>
 
         <div class="checkbox">
-          <input type="checkbox"  name={{xb.deviceid}} value={{xb.deviceid}} checked="checked">
+          <input type="checkbox"  name={{xb.id}} value={{xb.id}} checked="checked">
           <label></label>
         </div>
 
-        <div class="name" (click)="onClick($event)" id={{xb.deviceid}}>
+        <div class="name" (click)="onClick($event)" id={{xb.id}}>
           <span data-device="name">{{xb.name}}</span>
-          <span data-device="time">{{xb.date}}&nbsp; &nbsp;{{xb.time}}</span>
+          <span data-device="time">{{xb.lastUpdate}}</span>
         </div>
 
 
@@ -21,7 +21,6 @@
 
           <div class="btn-group dropleft droparrow" data-position="fixed" ngbDropdown class="d-inline-block" >
               <fa name="ellipsis-v" id="dropdownBasic1" ngbDropdownToggle></fa>
-              <!-- <i class="btn icon options dropdown-toggle" id="dropdownBasic1" ngbDropdownToggle></i> -->
 
             <ul class="dropdown-menu" ngbDropdownMenu aria-labelledby="dropdownBasic1">
               <li>
@@ -31,7 +30,7 @@
                 </a>
               </li>
               <li>
-                <a href="javascript:" class="object_delete">
+                <a href="javascript:" class="object_delete" (click)="open(content, xb.id, xb.name)">
                   <fa name="trash-o"></fa>
                   <span class="text">Delete</span>
                 </a>
@@ -95,18 +94,24 @@
       </li>
     </ng-container>
 
-    <!-- <ng-container *ngFor="let xb of mydata">
-
-      <tr data-toggle="collapse" data-target="#demo1" class="accordion-toggle">
-        <td>{{ xb.name }}</td>
-        <td>{{ xb.email }}</td>
-        <td>{{ xb.company }}</td>
-        <td>{{ xb.status }}</td>
-      </tr>
-
-    </ng-container> -->
-
-
-
-
   </ul>
+
+
+  <ng-template #content let-modal>
+      <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Delete Device</h4>    
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+          <h3>
+            Are you sure you want to delete {{deviceId}} {{deviceName}}
+          </h3>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark" (click)="delete()">Save</button>
+      </div>
+  </ng-template>

@@ -11,36 +11,36 @@ import { Injectable, OnInit, EventEmitter, Output } from '@angular/core';
 
 export class CommonServiceService implements OnInit {  
   status : boolean = false;
-  @Output() deviceNumber = new EventEmitter<object>(); 
+  @Output() device = new EventEmitter<object>(); 
+  @Output() deviceDetails = new EventEmitter<object>(); 
   
-  
-  tempData: any = [
-    {
-        'deviceid' : 1,
-        'name': 'BMW M5',
-        'date':'2018-12-11',
-        'time':'12:13:55',
-        'speed':'15 kph',
-        'status':'Online',
-    },
-    {
-        'deviceid' : 2,
-        'name': 'BMW M6',
-        'date':'2018-12-11',
-        'time':'12:13:55',
-        'speed':'15 kph',
-        'status':'Ofline',      
-  },
-  {
-        'deviceid' : 3,
-        'name': 'BMW M7',
-        'date':'2019-12-11',
-        'time':'12:13:55',
-        'speed':'15 kph',
-        'status':'Ofline',      
-}
+//   tempData: any = [
+//     {
+//         'deviceid' : 1,
+//         'name': 'BMW M5',
+//         'date':'2018-12-11',
+//         'time':'12:13:55',
+//         'speed':'15 kph',
+//         'status':'Online',
+//     },
+//     {
+//         'deviceid' : 2,
+//         'name': 'BMW M6',
+//         'date':'2018-12-11',
+//         'time':'12:13:55',
+//         'speed':'15 kph',
+//         'status':'Ofline',      
+//   },
+//   {
+//         'deviceid' : 3,
+//         'name': 'BMW M7',
+//         'date':'2019-12-11',
+//         'time':'12:13:55',
+//         'speed':'15 kph',
+//         'status':'Ofline',      
+// }
     
-];
+// ];
   
   //public tododata: any;
   constructor() {
@@ -51,10 +51,12 @@ export class CommonServiceService implements OnInit {
 
   }
 
-  detaemit (value){
-    this.deviceNumber.emit(value); 
+  deviceemit (value){
+    this.device.emit(value); 
   }
 
-
+  deviceDetailsemit (value){
+    this.deviceDetails.emit(value); 
+  }
 
 }
