@@ -35,7 +35,7 @@ export class ObjectDeviceComponent implements OnInit {
 
 
   apiurl1:string = "http://13.232.8.87:8082/api/devices";
-  apiurl2:string = "http://13.232.8.87:8082/api/positions?id=";
+  apiurl2:string = "http://13.232.8.87:8082/api/positions?deviceId=";
   apiurldelete:string = "http://13.232.8.87:8082/api/devices/";
 
 
@@ -56,8 +56,8 @@ export class ObjectDeviceComponent implements OnInit {
   }
 
   public delete(){   
-    alert(this.apiurldelete);
-    alert(this.deviceId); 
+    //alert(this.apiurldelete);
+    //alert(this.deviceId);     
     this.deleteDevice(this.apiurldelete, this.deviceId);
   }
 
@@ -83,6 +83,7 @@ export class ObjectDeviceComponent implements OnInit {
         //console.log(value);
         if(value.length){
           deviceId = value[0].id;
+          //deviceId = 21;
           this.getDeviceDetails(this.apiurl2, deviceId);
         }        
       })

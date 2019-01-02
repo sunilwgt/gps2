@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
+import { CommonServiceService } from '../service/common-service.service';
+import { RestService } from '../service/rest.service';
 
 
 @Component({
@@ -8,8 +11,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TopBarComponent implements OnInit {
 
-  constructor( ) { }
-
+  constructor() { }
+  
   ngOnInit() {
   }
 
