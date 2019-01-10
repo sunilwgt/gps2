@@ -3,6 +3,9 @@ import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http
 import { CommonServiceService } from './../../../service/common-service.service';
 import { RestService } from '../../../service/rest.service';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+import { SocketDataService } from '../../../socket-data.service';
+import { Subject } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 var headers_object = new HttpHeaders();
 headers_object.append('Content-Type', 'application/json');
@@ -25,9 +28,17 @@ var deviceId: number;
 export class ObjectDeviceComponent implements OnInit {
   model: any = {};
   closeResult: string;
+  deviceData: any;
 
 
-  constructor(private CommonService: CommonServiceService, private ajax: RestService, private modalService: NgbModal) { }
+  constructor(private CommonService: CommonServiceService, private ajax: RestService, private modalService: NgbModal, private wsService: SocketDataService) {
+    this.deviceData = <Subject<any>>wsService
+      .connect("ws://13.232.8.87:8082/api/socket")
+      .pipe(map((response: MessageEvent): any => {
+        // let data = JSON.parse(response.data);
+        return response.data;
+      }));
+  }
 
   active: boolean = false;
 
@@ -55,10 +66,10 @@ export class ObjectDeviceComponent implements OnInit {
     });
   }
 
-  public delete() {
+  public delete(closeModal) {
     //alert(this.apiurldelete);
     //alert(this.deviceId);     
-    this.deleteDevice(this.apiurldelete, this.deviceId);
+    this.deleteDevice(this.apiurldelete, closeModal);
   }
 
 
@@ -80,11 +91,31 @@ export class ObjectDeviceComponent implements OnInit {
 
     this.CommonService.device.subscribe((value) => {
       this.device = value;
+      // console.log(value);
+      this.CommonService.tempData = value;
       if (value.length) {
         deviceId = value[0].id;
         //deviceId = 21;
         this.getDeviceDetails(this.apiurl2, deviceId);
       }
+    })
+
+    this.deviceData.subscribe((val) => {
+      let currentData = JSON.parse(val);
+      if ("devices" in currentData) {
+        let curDeviceData = currentData.devices;
+        this.CommonService.tempData.map((data, index) => {
+          for (let cDD of curDeviceData) {
+            if (data.id == cDD.id) {
+              this.CommonService.tempData[index] = cDD;
+            }
+          }
+
+        });
+        // console.log(this.CommonService.tempData);
+        this.CommonService.deviceemit(this.CommonService.tempData);
+      }
+
     })
   }
 
@@ -117,9 +148,10 @@ export class ObjectDeviceComponent implements OnInit {
 
 
 
-  deleteDevice(apiurl, headerconst?) {
-    this.ajax.delete(apiurl + deviceId, httpOptions).then((value) => {
-      alert("Device sussessfuly deleted")
+  deleteDevice(apiurl, closeModal) {
+    this.ajax.delete(apiurl + this.deviceId, httpOptions).then((value) => {
+      closeModal.click();
+      this.getDevice(this.apiurl1);
     }).catch(() => {
       console.log('error happened');
     });
