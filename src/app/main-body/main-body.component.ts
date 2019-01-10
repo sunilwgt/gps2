@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { CommonServiceService } from '../service/common-service.service';
 
 declare var ol: any;
 
@@ -14,10 +15,11 @@ export class MainBodyComponent implements OnInit {
 
   latitude: number = 18.5204;
   longitude: number = 73.8567;
-
+  zoom: number = 8;
   map: any;
+  deviceDetails: any;
 
-  constructor() { }
+  constructor(private commonService: CommonServiceService) { }
 
   ngOnInit() {
 
@@ -29,18 +31,49 @@ export class MainBodyComponent implements OnInit {
         })
       ],
       view: new ol.View({
-        center: ol.proj.fromLonLat([73.8567, 18.5204]),
-        zoom: 8
+        center: ol.proj.fromLonLat([this.longitude, this.latitude]),
+        zoom: this.zoom
       })
     });
-  
+
+    this.commonService.deviceDetails.subscribe((value) => {
+      this.deviceDetails = value[0];
+      if (this.deviceDetails) {
+        this.latitude = this.deviceDetails.latitude;
+        this.longitude = this.deviceDetails.longitude;
+        this.setCenter();
+        this.addMapPoint(this.longitude, this.latitude);
+      }
+
+    })
+
+  }
+
+  addMapPoint(lng, lat) {
+
+    var vectorLayer = new ol.layer.Vector({
+      source: new ol.source.Vector({
+        features: [new ol.Feature({
+          geometry: new ol.geom.Point(ol.proj.transform([parseFloat(lng), parseFloat(lat)], 'EPSG:4326', 'EPSG:3857')),
+        })]
+      }),
+      style: new ol.style.Style({
+        image: new ol.style.Icon({
+          anchor: [0.5, 0.5],
+          anchorXUnits: "fraction",
+          anchorYUnits: "fraction",
+          src: "https://upload.wikimedia.org/wikipedia/commons/e/ec/RedDot.svg"
+        })
+      })
+    });
+    this.map.addLayer(vectorLayer);
   }
 
   setCenter() {
     var view = this.map.getView();
     view.setCenter(ol.proj.fromLonLat([this.longitude, this.latitude]));
-    view.setZoom(8);
-}
+    view.setZoom(this.zoom);
+  }
 
 
 }
