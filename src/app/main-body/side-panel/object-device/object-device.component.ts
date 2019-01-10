@@ -1,8 +1,8 @@
-import { Component, OnInit, Input, EventEmitter, Output} from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { CommonServiceService } from './../../../service/common-service.service';
 import { RestService } from '../../../service/rest.service';
-import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 
 var headers_object = new HttpHeaders();
 headers_object.append('Content-Type', 'application/json');
@@ -13,7 +13,7 @@ const httpOptions = {
   headers: headers_object
 };
 
-var deviceId :number;
+var deviceId: number;
 //var apiurl:string = "";
 
 @Component({
@@ -27,35 +27,35 @@ export class ObjectDeviceComponent implements OnInit {
   closeResult: string;
 
 
-  constructor( private CommonService:CommonServiceService, private ajax:RestService, private modalService: NgbModal) { }
-  
-  active:boolean = false;
+  constructor(private CommonService: CommonServiceService, private ajax: RestService, private modalService: NgbModal) { }
 
-  devices:object;
+  active: boolean = false;
 
-
-  apiurl1:string = "http://13.232.8.87:8082/api/devices";
-  apiurl2:string = "http://13.232.8.87:8082/api/positions?deviceId=";
-  apiurldelete:string = "http://13.232.8.87:8082/api/devices/";
+  devices: object;
 
 
-  device:object;
+  apiurl1: string = "http://13.232.8.87:8082/api/devices";
+  apiurl2: string = "http://13.232.8.87:8082/api/positions?deviceId=";
+  apiurldelete: string = "http://13.232.8.87:8082/api/devices/";
 
-  deviceId:number;
-  deviceName:string
+
+  device: object;
+
+  deviceId: number;
+  deviceName: string
 
 
-  open(content, deviceID, deviceName ) {
-    this.deviceId = deviceID; 
+  open(content, deviceID, deviceName) {
+    this.deviceId = deviceID;
     this.deviceName = deviceName;
-    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
+    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
     });
   }
 
-  public delete(){   
+  public delete() {
     //alert(this.apiurldelete);
     //alert(this.deviceId);     
     this.deleteDevice(this.apiurldelete, this.deviceId);
@@ -70,29 +70,27 @@ export class ObjectDeviceComponent implements OnInit {
     } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
       return 'by clicking on a backdrop';
     } else {
-      return  `with: ${reason}`;
+      return `with: ${reason}`;
     }
   }
-  
+
   ngOnInit() {
-    
-      this.getDevice(this.apiurl1)
-      
-      this.CommonService.device.subscribe((value)=>{        
-        this.device = value;
-        //console.log(value);
-        if(value.length){
-          deviceId = value[0].id;
-          //deviceId = 21;
-          this.getDeviceDetails(this.apiurl2, deviceId);
-        }        
-      })
+
+    this.getDevice(this.apiurl1)
+
+    this.CommonService.device.subscribe((value) => {
+      this.device = value;
+      if (value.length) {
+        deviceId = value[0].id;
+        //deviceId = 21;
+        this.getDeviceDetails(this.apiurl2, deviceId);
+      }
+    })
   }
 
 
-  getDevice(apiurl, headerconst?)
-  {    
-    this.ajax.get(apiurl,httpOptions).then((value) => {      
+  getDevice(apiurl, headerconst?) {
+    this.ajax.get(apiurl, httpOptions).then((value) => {
       this.CommonService.deviceemit(value)
     }).catch(() => {
       console.log('error happened');
@@ -107,10 +105,9 @@ export class ObjectDeviceComponent implements OnInit {
     deviceId = target.attributes.id.value;
     this.getDeviceDetails(this.apiurl2, deviceId);
   }
-  
-  getDeviceDetails(apiurl, headerconst?)
-  {        
-    this.ajax.get(apiurl+deviceId,httpOptions).then((value) => { 
+
+  getDeviceDetails(apiurl, headerconst?) {
+    this.ajax.get(apiurl + deviceId, httpOptions).then((value) => {
       this.CommonService.deviceDetailsemit(value)
       //console.log(this.device);
     }).catch(() => {
@@ -120,9 +117,8 @@ export class ObjectDeviceComponent implements OnInit {
 
 
 
-  deleteDevice(apiurl, headerconst?)
-  {    
-    this.ajax.delete(apiurl+deviceId,httpOptions).then((value) => {      
+  deleteDevice(apiurl, headerconst?) {
+    this.ajax.delete(apiurl + deviceId, httpOptions).then((value) => {
       alert("Device sussessfuly deleted")
     }).catch(() => {
       console.log('error happened');
@@ -130,5 +126,5 @@ export class ObjectDeviceComponent implements OnInit {
   }
 
 
- 
+
 }
