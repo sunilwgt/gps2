@@ -14,6 +14,7 @@ export class CommonServiceService implements OnInit {
   tempData: any[];
   @Output() device = new EventEmitter<object>();
   @Output() deviceDetails = new EventEmitter<object>();
+  @Output() deviceDetailsEdit = new EventEmitter<object>();
 
   //   tempData: any = [
   //     {

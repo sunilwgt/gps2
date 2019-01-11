@@ -7,7 +7,7 @@ import { map, catchError, tap } from 'rxjs/operators';
 
 const httpOptions = {
   headers: new HttpHeaders({
-    'Content-Type':  'application/json',
+    'Content-Type': 'application/json',
     'Authorization': 'Basic ' + 'YWRtaW46YWRtaW4='
   })
 };
@@ -18,8 +18,8 @@ const httpOptions = {
 })
 
 export class RestService {
-  
-  constructor(private http: HttpClient, public CommonService:CommonServiceService) { }
+
+  constructor(private http: HttpClient, public CommonService: CommonServiceService) { }
 
   public get(url: string, data?: any, headers?: any): Promise<any> {
     let promise = new Promise((resolve, reject) => {
@@ -46,7 +46,7 @@ export class RestService {
 
 
 
-  addDevice(url: string, device?:object, headers?: any){
+  addDevice(url: string, device?: object, headers?: any) {
     let promise = new Promise((resolve, reject) => {
       this.http.post(url, device, headers).subscribe((device: object) => {
         resolve(device);
@@ -57,7 +57,29 @@ export class RestService {
     return promise;
   }
 
-  
+  editDevice(url: string, device?: object, headers?: any) {
+    let promise = new Promise((resolve, reject) => {
+      this.http.put(url, device, headers).subscribe((device: object) => {
+        resolve(device);
+      }, (error) => {
+        reject(error);
+      })
+    });
+    return promise;
+  }
+
+  deleteDevice(url: string, headers?: any) {
+    let promise = new Promise((resolve, reject) => {
+      this.http.delete(url, headers).subscribe((device: object) => {
+        resolve(device);
+      }, (error) => {
+        reject(error);
+      })
+    });
+    return promise;
+  }
+
+
 
 }
 

@@ -15,6 +15,9 @@ import { SidePanelComponent } from './main-body/side-panel/side-panel.component'
 import { LeftSideBarComponent } from './main-body/left-side-bar/left-side-bar.component';
 import { ObjectDetailsComponent } from './main-body/side-panel/object-details/object-details.component';
 import { ObjectDeviceComponent } from './main-body/side-panel/object-device/object-device.component';
+import { UserModalComponent } from './modals/user-modal/user-modal.component';
+import { DeviceModalComponent } from './modals/device-modal/device-modal.component';
+import { DriverModalComponent } from './modals/driver-modal/driver-modal.component';
 
 
 
@@ -29,17 +32,20 @@ import { ObjectDeviceComponent } from './main-body/side-panel/object-device/obje
     LeftSideBarComponent,
     ObjectDetailsComponent,
     ObjectDeviceComponent,
+    UserModalComponent,
+    DeviceModalComponent,
+    DriverModalComponent,
   ],
 
-  
+
   imports: [
     BrowserModule,
     HttpClientModule,
     AppRoutingModule,
     NgbModule.forRoot(),
-    AngularFontAwesomeModule, 
+    AngularFontAwesomeModule,
     FormsModule
-    
+
 
   ],
   providers: [],
