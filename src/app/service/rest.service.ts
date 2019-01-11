@@ -68,6 +68,17 @@ export class RestService {
     return promise;
   }
 
+  deleteDevice(url: string, headers?: any) {
+    let promise = new Promise((resolve, reject) => {
+      this.http.delete(url, headers).subscribe((device: object) => {
+        resolve(device);
+      }, (error) => {
+        reject(error);
+      })
+    });
+    return promise;
+  }
+
 
 
 }

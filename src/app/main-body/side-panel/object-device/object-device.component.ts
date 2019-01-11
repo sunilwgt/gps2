@@ -102,6 +102,7 @@ export class ObjectDeviceComponent implements OnInit {
 
     this.deviceData.subscribe((val) => {
       let currentData = JSON.parse(val);
+      // console.log(currentData);
       if ("devices" in currentData) {
         let curDeviceData = currentData.devices;
         this.CommonService.tempData.map((data, index) => {

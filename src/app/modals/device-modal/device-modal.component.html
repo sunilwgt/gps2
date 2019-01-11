@@ -1,0 +1,161 @@
+<a href="#" (click)="openDevice(Device)">
+  <fa name="plus"></fa>
+</a>
+
+<ng-template #Device let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">{{editDevice ? 'Update' : 'Add'}} Device</h4>
+    <button type="button" class="close" aria-label="Close" #deviceclose (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+
+    <form name="form" (ngSubmit)="DeviceForm.form.valid && AddSubmit(DeviceForm,deviceclose)" #DeviceForm="ngForm"
+      novalidate>
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input type="text" class="form-control" name="name" [(ngModel)]="model.name" #name="ngModel" [ngClass]="{ 'is-invalid': DeviceForm.submitted && name.invalid }"
+          required />
+        <div *ngIf="DeviceForm.submitted && name.invalid" class="invalid-feedback">
+          <div *ngIf="name.errors.required">Name is required</div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="id">Unique Id</label>
+        <input type="text" class="form-control" name="uniqueId" [(ngModel)]="model.uniqueId" #id="ngModel" [ngClass]="{ 'is-invalid': DeviceForm.submitted && id.invalid }"
+          required />
+        <div *ngIf="DeviceForm.submitted && id.invalid" class="invalid-feedback">
+          <div *ngIf="id.errors.required">Id is required</div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="group">Group</label>
+        <select name="groupId" [(ngModel)]="model.groupId">
+          <option *ngFor="let group of groups" [value]="group.id">{{group.name}}</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="phone">Phone</label>
+        <input type="text" class="form-control" name="phone" [(ngModel)]="model.phone" />
+
+      </div>
+
+      <div class="form-group">
+        <label for="model">Model</label>
+        <input type="text" class="form-control" name="model" [(ngModel)]="model.model" />
+
+      </div>
+
+      <div class="form-group">
+        <label for="contact">Contact</label>
+        <input type="text" class="form-control" name="contact" [(ngModel)]="model.contact" />
+
+      </div>
+
+      <div class="form-group">
+        <label for="category">Category</label>
+        <select name="category" [(ngModel)]="model.category">
+          <option *ngFor="let cat of category" [value]="cat">{{cat | uppercase}}</option>
+        </select>
+
+      </div>
+
+      <div class="form-group">
+        <label for="disabled">Disabled</label>
+        <input type="checkbox" name="disabled" [(ngModel)]="model.disabled">
+
+      </div>
+      <div class="form-group">
+        <button class="btn btn-primary" type="submit">{{editDevice ? 'Update' : 'Add'}}</button>
+      </div>
+
+    </form>
+    <div class="form-group">
+      <button class="btn btn-primary" (click)="open(attributeModal)">Attributes</button>
+    </div>
+  </div>
+</ng-template>
+
+
+<ng-template #attributeModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Attributes</h4>
+    <button type="button" class="close" aria-label="Close" #attributeModalClose (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+
+    <div>
+      <span><button (click)="AddAttr(attributeAddModal)">Add</button></span>&nbsp;
+      <span><button [disabled]="!attributeIndex" (click)="editAttr(attributeAddModal)">Edit</button></span>&nbsp;
+      <span><button [disabled]="!attributeIndex" (click)="deleteAttr()">Delete</button></span>
+    </div>
+    <div>
+      <table>
+        <tr>
+          <th>Name</th>
+          <th>Value</th>
+        </tr>
+        <tr *ngFor="let attr of getKeys(attributes)" (click)="attributeIndex = attr">
+          <td>{{attr}}</td>
+          <td>{{attributes[attr]}}</td>
+        </tr>
+      </table>
+    </div>
+
+
+  </div>
+</ng-template>
+
+<ng-template #attributeAddModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">{{attributeIndex ? 'Edit' : 'Add'}} Attribute</h4>
+    <button type="button" class="close" aria-label="Close" #attributeAddModalClose (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form name="form" (ngSubmit)="addAttributeForm.form.valid && AddAttributeSubmit(addAttributeForm,attributeAddModalClose)"
+      #addAttributeForm="ngForm" novalidate>
+
+      <div class="form-group">
+        <label for="name">Name</label>
+        <select name="name" (change)="onAttrNameChange(attrName.value)" [(ngModel)]="attributeEdit.name" #attrName="ngModel"
+          [ngClass]="{ 'is-invalid': addAttributeForm.submitted && attrName.invalid }" required>
+          <option *ngFor="let attr of attrNames" [value]="attr.key">{{attr.key}}</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="value">Value</label>
+        <ng-container *ngIf="attributeNameSelected === 'web.reportColor'">
+          <input type="color" class="form-control" name="value" [(ngModel)]="attributeEdit.value" required>
+        </ng-container>
+        <ng-container *ngIf="attributeNameSelected === 'decoder.timezone'">
+          <select name="value" [(ngModel)]="attributeEdit.value" required>
+            <option *ngFor="let time of timezones" [value]="time.key">{{time.key}}</option>
+          </select>
+        </ng-container>
+        <ng-container *ngIf="attributeNameSelected === 'speedLimit'">
+          <input type="number" class="form-control" name="value" [(ngModel)]="attributeEdit.value" required>Kn
+        </ng-container>
+        <ng-container *ngIf="attributeNameSelected === 'report.ignoreOdometer'">
+          <input type="checkbox" name="value" value="false" [(ngModel)]="attributeEdit.value">
+        </ng-container>
+        <ng-container *ngIf="attributeNameSelected === '' || attributeNameSelected === 'devicePassword' || attributeNameSelected === 'processing.copyAttributes'">
+          <input type="text" class="form-control" name="value" [(ngModel)]="attributeEdit.value" required />
+        </ng-container>
+
+      </div>
+
+      <div class="form-group">
+        <button class="btn btn-primary" [disabled]="!addAttributeForm.valid" type="submit">{{attributeIndex ?
+          'Update' : 'Add'}}</button>
+      </div>
+    </form>
+
+  </div>
+</ng-template>
