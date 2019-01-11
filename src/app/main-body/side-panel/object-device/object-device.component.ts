@@ -157,6 +157,10 @@ export class ObjectDeviceComponent implements OnInit {
     });
   }
 
+  editDevice(data) {
+    this.CommonService.deviceDetailsEdit.emit(data);
+  }
+
 
 
 }
