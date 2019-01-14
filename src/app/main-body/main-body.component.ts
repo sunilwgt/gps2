@@ -38,6 +38,7 @@ export class MainBodyComponent implements OnInit {
 
     this.commonService.deviceDetails.subscribe((value) => {
       this.deviceDetails = value[0];
+      console.log(this.deviceDetails);
       if (this.deviceDetails) {
         this.latitude = this.deviceDetails.latitude;
         this.longitude = this.deviceDetails.longitude;

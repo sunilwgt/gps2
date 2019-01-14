@@ -1,14 +1,14 @@
 <ul class="CarList">
 
   <ng-container *ngFor="let xb of device">
-    <li>
+    <li (click)="onClick(xb.id)" id={{xb.id}}>
 
       <div class="checkbox">
         <input type="checkbox" name={{xb.id}} value={{xb.id}} checked="checked">
         <label></label>
       </div>
 
-      <div class="name" (click)="onClick($event)" id={{xb.id}}>
+      <div class="name">
         <span data-device="name">{{xb.name}}</span>
         <span data-device="time">{{xb.lastUpdate}}</span>
       </div>

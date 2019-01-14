@@ -16,7 +16,7 @@ const httpOptions = {
   headers: headers_object
 };
 
-var deviceId: number;
+// var deviceId: number;
 //var apiurl:string = "";
 
 @Component({
@@ -104,21 +104,24 @@ export class ObjectDeviceComponent implements OnInit {
       // console.log(value);
       this.CommonService.tempData = value;
       if (value.length) {
-        deviceId = value[0].id;
+        this.deviceId = value[0].id;
         //deviceId = 21;
-        this.getDeviceDetails(this.apiurl2, deviceId);
+        this.getDeviceDetails(this.apiurl2, this.deviceId);
       }
     })
 
     this.deviceData.subscribe((val) => {
       let currentData = JSON.parse(val);
-      // console.log(currentData);
+      console.log(currentData);
       if ("devices" in currentData) {
         let curDeviceData = currentData.devices;
         this.CommonService.tempData.map((data, index) => {
           for (let cDD of curDeviceData) {
             if (data.id == cDD.id) {
               this.CommonService.tempData[index] = cDD;
+              if (data.id == this.deviceId) {
+                this.CommonService.deviceDetailsemit(cDD)
+              }
             }
           }
 
@@ -148,14 +151,14 @@ export class ObjectDeviceComponent implements OnInit {
 
 
 
-  onClick(event) {
-    var target = event.target || event.srcElement || event.currentTarget;
-    deviceId = target.attributes.id.value;
-    this.getDeviceDetails(this.apiurl2, deviceId);
+  onClick(id) {
+    // var target = event.target || event.srcElement || event.currentTarget;
+    this.deviceId = id;
+    this.getDeviceDetails(this.apiurl2, this.deviceId);
   }
 
   getDeviceDetails(apiurl, headerconst?) {
-    this.ajax.get(apiurl + deviceId, httpOptions).then((value) => {
+    this.ajax.get(apiurl + this.deviceId, httpOptions).then((value) => {
       this.CommonService.deviceDetailsemit(value)
       //console.log(this.device);
     }).catch(() => {

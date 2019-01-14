@@ -19,6 +19,7 @@ import { UserModalComponent } from './modals/user-modal/user-modal.component';
 import { DeviceModalComponent } from './modals/device-modal/device-modal.component';
 import { DriverModalComponent } from './modals/driver-modal/driver-modal.component';
 import { GroupModalComponent } from './modals/group-modal/group-modal.component';
+import { NotificationModalComponent } from './modals/notification-modal/notification-modal.component';
 
 
 
@@ -37,6 +38,7 @@ import { GroupModalComponent } from './modals/group-modal/group-modal.component'
     DeviceModalComponent,
     DriverModalComponent,
     GroupModalComponent,
+    NotificationModalComponent,
   ],
 
 
