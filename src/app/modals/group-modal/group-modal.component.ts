@@ -40,10 +40,6 @@ export class GroupModalComponent implements OnInit {
 
   getGroups() {
     this.ajax.get(this.apiurl, httpOptions).then((data) => {
-      this.groupIndex = '';
-      this.groupEdit = {};
-      this.attributes = {};
-      this.attributeIndex = '';
       this.groups = data;
     }).catch(error => {
       console.error(error);
@@ -75,9 +71,10 @@ export class GroupModalComponent implements OnInit {
   }
 
   openGroup(modal) {
-    // this.editGrp = false;
-    // this.groupEdit = {};
-    // this.attributes = {};
+    this.groupIndex = '';
+    this.groupEdit = {};
+    this.attributes = {};
+    this.attributeIndex = '';
     this.open(modal);
   }
 

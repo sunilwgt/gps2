@@ -32,7 +32,7 @@
               </a>
             </li>
             <li>
-              <a href="javascript:" class="object_delete" (click)="open(content, xb.id, xb.name)">
+              <a href="javascript:" class="object_delete" (click)="DeleteDevice(content, xb.id, xb.name)">
                 <fa name="trash-o"></fa>
                 <span class="text">Delete</span>
               </a>
@@ -46,7 +46,7 @@
             <li>
               <a href="javascript:" class="object_driver">
                 <fa name="key"></fa>
-                <span class="text">Driver</span>
+                <span class="text" (click)="assignDriver(xb.id,driverModal)">Driver</span>
               </a>
             </li>
             <li>
@@ -114,6 +114,35 @@
 
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-outline-dark" (click)="delete(closeModal)">Save</button>
+    <button type="button" class="btn btn-outline-dark" (click)="delete(closeModal)">Yes</button>
+  </div>
+</ng-template>
+
+
+<ng-template #driverModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Drivers</h4>
+    <button type="button" class="close" aria-label="Close" #DriverModalClose (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+
+
+    <div>
+      <table>
+        <tr>
+          <th>Name</th>
+          <th>Identifier</th>
+        </tr>
+        <tr *ngFor="let driver of drivers;let i = index">
+          <td><input type="checkbox" [disabled]="response" [checked]="driver.selected" (change)="onChangeDriver($event,driver.id)"></td>
+          <td>{{driver.name}}</td>
+          <td>{{driver.uniqueId}}</td>
+        </tr>
+      </table>
+    </div>
+
+
   </div>
 </ng-template>

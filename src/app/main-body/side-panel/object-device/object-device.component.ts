@@ -48,22 +48,32 @@ export class ObjectDeviceComponent implements OnInit {
   apiurl1: string = "http://13.232.8.87:8082/api/devices";
   apiurl2: string = "http://13.232.8.87:8082/api/positions?deviceId=";
   apiurldelete: string = "http://13.232.8.87:8082/api/devices/";
-
+  apiurlGetDrivers: string = "http://13.232.8.87:8082/api/drivers";
+  apiUrlDriverDevice: string = "http://13.232.8.87:8082/api/drivers?deviceId";
+  apiDriverAssign: string = "http://13.232.8.87:8082/api/permissions";
 
   device: object;
 
   deviceId: number;
-  deviceName: string
+  deviceName: string;
+  drivers: any = [];
+  driversSelected: any = [];
+  response: boolean = false;
 
 
-  open(content, deviceID, deviceName) {
-    this.deviceId = deviceID;
-    this.deviceName = deviceName;
+  open(content) {
+
     this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
     });
+  }
+
+  DeleteDevice(content, deviceID, deviceName) {
+    this.deviceId = deviceID;
+    this.deviceName = deviceName;
+    this.open(content);
   }
 
   public delete(closeModal) {
@@ -117,7 +127,13 @@ export class ObjectDeviceComponent implements OnInit {
         this.CommonService.deviceemit(this.CommonService.tempData);
       }
 
-    })
+    });
+
+    this.ajax.get(this.apiurlGetDrivers, httpOptions).then((data) => {
+      this.drivers = data;
+    }).catch(error => {
+      console.error(error);
+    });
   }
 
 
@@ -160,6 +176,55 @@ export class ObjectDeviceComponent implements OnInit {
 
   editDevice(data) {
     this.CommonService.deviceDetailsEdit.emit(data);
+  }
+
+  assignDriver(id: number, modal: any) {
+    let ids = [];
+    this.deviceId = id;
+    this.ajax.get(this.apiUrlDriverDevice + "=" + id, httpOptions).then((driv) => {
+      driv.map((val) => {
+        let i = val['id'];
+        ids.push(i);
+
+      });
+      this.drivers.map((value, index) => {
+        if (ids.indexOf(value.id) != -1) {
+          this.drivers[index].selected = true;
+        } else {
+          this.drivers[index].selected = false;
+        }
+      });
+      console.log(this.drivers);
+      this.open(modal);
+    });
+
+
+
+
+  }
+
+  onChangeDriver(event, i) {
+    let data = {
+      deviceId: this.deviceId,
+      driverId: i
+    };
+    this.response = true;
+    if (event.target.checked) {
+      this.ajax.addDevice(this.apiDriverAssign, data, httpOptions).then((data) => {
+        this.response = false;
+      }).catch(() => {
+        this.response = false;
+        console.log('error happened');
+      });
+    } else {
+      this.ajax.delete(this.apiDriverAssign, data, httpOptions).then((data) => {
+        this.response = false;
+      }).catch(() => {
+        this.response = false;
+        console.log('error happened');
+      });;
+    }
+
   }
 
 
