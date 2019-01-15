@@ -20,6 +20,7 @@ import { DeviceModalComponent } from './modals/device-modal/device-modal.compone
 import { DriverModalComponent } from './modals/driver-modal/driver-modal.component';
 import { GroupModalComponent } from './modals/group-modal/group-modal.component';
 import { NotificationModalComponent } from './modals/notification-modal/notification-modal.component';
+import { ComputedAttributesModalComponent } from './modals/computed-attributes-modal/computed-attributes-modal.component';
 
 
 
@@ -39,6 +40,7 @@ import { NotificationModalComponent } from './modals/notification-modal/notifica
     DriverModalComponent,
     GroupModalComponent,
     NotificationModalComponent,
+    ComputedAttributesModalComponent,
   ],
 
 
