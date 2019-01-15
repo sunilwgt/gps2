@@ -1,0 +1,86 @@
+<a href="#" (click)="openModal(compAttributeModal)">
+  <fa name="bars"></fa>
+</a>
+
+
+<ng-template #compAttributeModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Computed Attributes</h4>
+    <button type="button" class="close" aria-label="Close" #compAttributeModalClose (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+
+    <div>
+      <span><button (click)="Add(compAttributeAddModal)">Add</button></span>&nbsp;
+      <span><button [disabled]="compAttributeIndex === ''" (click)="edit(compAttributeAddModal)">Edit</button></span>&nbsp;
+      <span><button [disabled]="compAttributeIndex === ''" (click)="delete()">Delete</button></span>
+    </div>
+    <div>
+      <table>
+        <tr>
+          <th>Description</th>
+          <th>Attribute</th>
+          <th>Expression</th>
+          <th>Type</th>
+        </tr>
+        <tr *ngFor="let val of compAttributes;let i = index" (click)="compAttributeSelected(i)">
+          <td>{{val.description}}</td>
+          <td>{{val.attribute}}</td>
+          <td>{{val.expression}}</td>
+          <td>{{val.type}}</td>
+        </tr>
+      </table>
+    </div>
+
+
+  </div>
+</ng-template>
+
+<ng-template #compAttributeAddModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">{{compAttributeIndex ? 'Edit' : 'Add'}} compAttribute</h4>
+    <button type="button" class="close" aria-label="Close" #compAttributeAddModalClose (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form name="form" (ngSubmit)="compAttributeForm.form.valid && AddcompAttributeSubmit(compAttributeForm,compAttributeAddModalClose)"
+      #compAttributeForm="ngForm" novalidate>
+
+      <div class="form-group">
+        <label for="description">Description</label>
+        <input type="text" class="form-control" name="description" [(ngModel)]="compAttributeEdit.description" required>
+      </div>
+
+      <div class="form-group">
+        <label for="attribute">Attributes</label>
+        <select name="attribute" [(ngModel)]="compAttributeEdit.attribute" (change)="onChangeAttribute()" required>
+          <ng-container *ngFor="let attr of attributes;let i = index">
+            <option [value]="attr.key">{{attr.key
+              | uppercase}}</option>
+          </ng-container>
+        </select>
+
+
+      </div>
+
+      <div class="form-group">
+        <label for="expression">Expression</label>
+        <input type="textarea" class="form-control" name="expression" [(ngModel)]="compAttributeEdit.expression"
+          required>
+      </div>
+
+      <div class="form-group">
+        <label for="type">Type</label>
+        <input type="text" class="form-control" name="type" [(ngModel)]="compAttributeEdit.type" disabled>
+      </div>
+
+      <div class="form-group">
+        <button class="btn btn-primary" [disabled]="!compAttributeForm.valid" type="submit">{{compAttributeIndex ?
+          'Update' : 'Add'}}</button>
+      </div>
+    </form>
+  </div>
+</ng-template>

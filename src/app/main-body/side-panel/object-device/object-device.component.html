@@ -64,7 +64,7 @@
             <li>
               <a href="javascript:" class="object_computed_attributes">
                 <fa name="laptop"></fa>
-                <span class="text">Computed Attributes</span>
+                <span class="text" (click)="assigncompAttribute(xb.id,compAttributeModal)">Computed Attributes</span>
               </a>
             </li>
             <li>
@@ -169,6 +169,39 @@
           <td>{{notify.type}}</td>
           <td>{{notify.always}}</td>
           <td>{{notify.notificators}}</td>
+        </tr>
+      </table>
+    </div>
+
+
+  </div>
+</ng-template>
+
+
+<ng-template #compAttributeModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Notifications</h4>
+    <button type="button" class="close" aria-label="Close" #compAttributeModalClose (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+
+
+    <div>
+      <table>
+        <tr>
+          <th>Description</th>
+          <th>attribute</th>
+          <th>expression</th>
+          <th>type</th>
+        </tr>
+        <tr *ngFor="let compAttribute of compAttributes;let i = index">
+          <td><input type="checkbox" [disabled]="response" [checked]="compAttribute.selected" (change)="onChangecompAttribute($event,compAttribute.id)"></td>
+          <td>{{compAttribute.description}}</td>
+          <td>{{compAttribute.attribute}}</td>
+          <td>{{compAttribute.expression}}</td>
+          <td>{{compAttribute.type}}</td>
         </tr>
       </table>
     </div>

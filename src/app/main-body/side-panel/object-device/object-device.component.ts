@@ -52,6 +52,8 @@ export class ObjectDeviceComponent implements OnInit {
   apiDriverAssign: string = "http://13.232.8.87:8082/api/permissions";
   apiurlGetNotify: string = "http://13.232.8.87:8082/api/notifications";
   apiurlNotifyDevice: string = "http://13.232.8.87:8082/api/notifications?deviceId";
+  apiurlGetCompAttribute: string = "http://13.232.8.87:8082/api/attributes/computed";
+  apiurlCompAttrDevice: string = "http://13.232.8.87:8082/api/attributes/computed?deviceId";
 
   device: object;
 
@@ -61,6 +63,7 @@ export class ObjectDeviceComponent implements OnInit {
   driversSelected: any = [];
   response: boolean = false;
   notifys: any = [];
+  compAttributes: any = [];
 
 
   open(content) {
@@ -154,6 +157,12 @@ export class ObjectDeviceComponent implements OnInit {
 
     this.ajax.get(this.apiurlGetNotify, httpOptions).then((data) => {
       this.notifys = data;
+    }).catch(error => {
+      console.error(error);
+    });
+
+    this.ajax.get(this.apiurlGetCompAttribute, httpOptions).then((data) => {
+      this.compAttributes = data;
     }).catch(error => {
       console.error(error);
     });
@@ -293,10 +302,54 @@ export class ObjectDeviceComponent implements OnInit {
         this.response = false;
         console.log('error happened');
       });
-      // this.ajax.deletetag(this.apiDriverAssign, httpOptions, data).subscribe((data) => {
-      //   console.log(data);
-      // },
-      //   (error) => console.log(error));
+    }
+
+  }
+
+  assigncompAttribute(id: number, modal: any) {
+    let ids = [];
+    this.deviceId = id;
+    this.ajax.get(this.apiurlCompAttrDevice + "=" + id, httpOptions).then((not) => {
+      not.map((val) => {
+        let i = val['id'];
+        ids.push(i);
+
+      });
+      this.compAttributes.map((value, index) => {
+        if (ids.indexOf(value.id) != -1) {
+          this.compAttributes[index].selected = true;
+        } else {
+          this.compAttributes[index].selected = false;
+        }
+      });
+      this.open(modal);
+    });
+
+
+
+
+  }
+
+  onChangecompAttribute(event, i) {
+    let data = {
+      deviceId: this.deviceId,
+      attributeId: i
+    };
+    this.response = true;
+    if (event.target.checked) {
+      this.ajax.addDevice(this.apiDriverAssign, data, httpOptions).then((data) => {
+        this.response = false;
+      }).catch(() => {
+        this.response = false;
+        console.log('error happened');
+      });
+    } else {
+      this.ajax.delete(this.apiDriverAssign, httpOptions).then((data) => {
+        this.response = false;
+      }).catch(() => {
+        this.response = false;
+        console.log('error happened');
+      });
     }
 
   }
