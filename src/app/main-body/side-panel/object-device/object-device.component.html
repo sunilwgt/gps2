@@ -58,7 +58,7 @@
             <li>
               <a href="javascript:" class="object_notifications">
                 <fa name="envelope-o"></fa>
-                <span class="text">Notifications</span>
+                <span class="text" (click)="assignNotify(xb.id,notifyModal)">Notifications</span>
               </a>
             </li>
             <li>
@@ -139,6 +139,36 @@
           <td><input type="checkbox" [disabled]="response" [checked]="driver.selected" (change)="onChangeDriver($event,driver.id)"></td>
           <td>{{driver.name}}</td>
           <td>{{driver.uniqueId}}</td>
+        </tr>
+      </table>
+    </div>
+
+
+  </div>
+</ng-template>
+
+<ng-template #notifyModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Notifications</h4>
+    <button type="button" class="close" aria-label="Close" #notifyModalClose (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+
+
+    <div>
+      <table>
+        <tr>
+          <th>Type of notifcation</th>
+          <th>All Devices</th>
+          <th>Channels</th>
+        </tr>
+        <tr *ngFor="let notify of notifys;let i = index">
+          <td><input type="checkbox" [disabled]="response" [checked]="notify.selected" (change)="onChangeNotify($event,notify.id)"></td>
+          <td>{{notify.type}}</td>
+          <td>{{notify.always}}</td>
+          <td>{{notify.notificators}}</td>
         </tr>
       </table>
     </div>

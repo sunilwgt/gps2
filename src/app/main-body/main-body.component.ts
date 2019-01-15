@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonServiceService } from '../service/common-service.service';
 
 declare var ol: any;
-
+var vectorLayer;
 @Component({
   selector: 'app-main-body',
   templateUrl: './main-body.component.html',
@@ -15,7 +15,7 @@ export class MainBodyComponent implements OnInit {
 
   latitude: number = 18.5204;
   longitude: number = 73.8567;
-  zoom: number = 8;
+  zoom: number = 14;
   map: any;
   deviceDetails: any;
 
@@ -40,6 +40,7 @@ export class MainBodyComponent implements OnInit {
       this.deviceDetails = value[0];
       console.log(this.deviceDetails);
       if (this.deviceDetails) {
+        this.clearMap();
         this.latitude = this.deviceDetails.latitude;
         this.longitude = this.deviceDetails.longitude;
         this.setCenter();
@@ -52,7 +53,7 @@ export class MainBodyComponent implements OnInit {
 
   addMapPoint(lng, lat) {
 
-    var vectorLayer = new ol.layer.Vector({
+    vectorLayer = new ol.layer.Vector({
       source: new ol.source.Vector({
         features: [new ol.Feature({
           geometry: new ol.geom.Point(ol.proj.transform([parseFloat(lng), parseFloat(lat)], 'EPSG:4326', 'EPSG:3857')),
@@ -74,6 +75,10 @@ export class MainBodyComponent implements OnInit {
     var view = this.map.getView();
     view.setCenter(ol.proj.fromLonLat([this.longitude, this.latitude]));
     view.setZoom(this.zoom);
+  }
+
+  clearMap() {
+    this.map.removeLayer(vectorLayer)
   }
 
 
