@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { RestService } from '../../service/rest.service';
 import { HttpHeaders } from '@angular/common/http';
+import { NgForm } from '@angular/forms';
 
 var headers_object = new HttpHeaders();
 headers_object.append('Content-Type', 'application/json');
@@ -27,6 +28,9 @@ export class DriverModalComponent implements OnInit {
   drivers: any = [];
   driverEdit: any = {};
   apiurlGetDrivers: string = "http://13.232.8.87:8082/api/drivers";
+  attributes: any = {};
+  attributeEdit: any = {};
+  attributeIndex: string = '';
 
   ngOnInit() {
     this.getDrivers();
@@ -35,9 +39,16 @@ export class DriverModalComponent implements OnInit {
   getDrivers() {
     this.ajax.get(this.apiurlGetDrivers, httpOptions).then((data) => {
       this.drivers = data;
+      // this.attributes = {};
+      // this.driverIndex = '';
     }).catch(error => {
       console.error(error);
     });
+  }
+
+  driverSelected(i: string) {
+    this.driverIndex = i;
+    this.attributes = this.drivers[i].attributes;
   }
 
   open(content) {
@@ -58,10 +69,10 @@ export class DriverModalComponent implements OnInit {
     }
   }
 
-  AddAttributeSubmit(formdata, modal) {
+  AddDriverSubmit(formdata, modal) {
     // this.drivers.push(formdata.value);
     let driv = {
-      "attributes": {},
+      "attributes": this.attributes,
       "name": formdata.value.name,
       "uniqueId": formdata.value.uniqueId
 
@@ -102,6 +113,7 @@ export class DriverModalComponent implements OnInit {
   Add(modal) {
     this.driverIndex = '';
     this.driverEdit = {};
+    this.attributes = {};
     this.open(modal);
   }
 
@@ -119,6 +131,29 @@ export class DriverModalComponent implements OnInit {
     }).catch(() => {
       console.log('error happened');
     });
+  }
+
+
+  AddAttributeSubmit(formdata: NgForm, closeModal: any) {
+    this.attributes[formdata.value.name] = formdata.value.value;
+
+    formdata.reset();
+    closeModal.click();
+  }
+
+  editAttr(modal) {
+    this.attributeEdit['name'] = this.attributeIndex;
+    this.attributeEdit['value'] = this.attributes[this.attributeIndex];
+    this.open(modal);
+  }
+
+  deleteAttr(modal) {
+    delete this.attributes[this.attributeIndex];
+  }
+
+  AddAttr(modal) {
+    this.attributeIndex = '';
+    this.open(modal);
   }
 
 

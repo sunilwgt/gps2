@@ -4,7 +4,6 @@ import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http
 import { Observable, of } from 'rxjs';
 import { map, catchError, tap } from 'rxjs/operators';
 
-
 const httpOptions = {
   headers: new HttpHeaders({
     'Content-Type': 'application/json',
@@ -78,6 +77,12 @@ export class RestService {
     });
     return promise;
   }
+
+  // deletetag(url: any, header: any, body: any) {
+
+
+  //   return this.http.delete(url, new RequestOptions({ headers: header, body: body }));
+  // }
 
 
 

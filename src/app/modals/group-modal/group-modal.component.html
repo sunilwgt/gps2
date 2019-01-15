@@ -1,31 +1,28 @@
-<a href="#" (click)="openModal(driverModal)">
-  <fa name="key"></fa>
+<a href="#" (click)="openGroup(Group)">
+  <fa name="group"></fa>
 </a>
 
-
-<ng-template #driverModal let-modal>
+<ng-template #Group let-modal>
   <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title">Drivers</h4>
-    <button type="button" class="close" aria-label="Close" #driverModalClose (click)="modal.dismiss('Cross click')">
+    <h4 class="modal-title" id="modal-basic-title">Groups</h4>
+    <button type="button" class="close" aria-label="Close" #attributeModalClose (click)="modal.dismiss('Cross click')">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
   <div class="modal-body">
 
     <div>
-      <span><button (click)="Add(driverAddModal)">Add</button></span>&nbsp;
-      <span><button [disabled]="driverIndex === ''" (click)="edit(driverAddModal)">Edit</button></span>&nbsp;
-      <span><button [disabled]="driverIndex === ''" (click)="delete()">Delete</button></span>
+      <span><button (click)="AddGroup(GroupAddModal)">Add</button></span>&nbsp;
+      <span><button [disabled]="!groupIndex" (click)="editGroup(GroupAddModal)">Edit</button></span>&nbsp;
+      <span><button [disabled]="!groupIndex" (click)="deleteGroup()">Delete</button></span>
     </div>
     <div>
       <table>
         <tr>
           <th>Name</th>
-          <th>Value</th>
         </tr>
-        <tr *ngFor="let val of drivers;let i = index" (click)="driverSelected(i)">
-          <td>{{val.name}}</td>
-          <td>{{val.uniqueId}}</td>
+        <tr *ngFor="let grp of groups;let i = index" (click)="groupSelected(i)">
+          <td>{{grp.name}}</td>
         </tr>
       </table>
     </div>
@@ -34,31 +31,35 @@
   </div>
 </ng-template>
 
-<ng-template #driverAddModal let-modal>
+<ng-template #GroupAddModal let-modal>
   <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title">{{driverIndex ? 'Edit' : 'Add'}} Driver</h4>
-    <button type="button" class="close" aria-label="Close" #driverAddModalClose (click)="modal.dismiss('Cross click')">
+    <h4 class="modal-title" id="modal-basic-title">{{groupIndex ? 'Edit' : 'Add'}} Group</h4>
+    <button type="button" class="close" aria-label="Close" #GroupAddModalClose (click)="modal.dismiss('Cross click')">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
   <div class="modal-body">
-    <form name="form" (ngSubmit)="driverForm.form.valid && AddDriverSubmit(driverForm,driverAddModalClose)" #driverForm="ngForm"
-      novalidate>
+    <form name="form" (ngSubmit)="addGroupForm.form.valid && AddGroupSubmit(addGroupForm,GroupAddModalClose)"
+      #addGroupForm="ngForm" novalidate>
 
       <div class="form-group">
         <label for="name">Name</label>
-        <input type="text" class="form-control" name="name" [(ngModel)]="driverEdit.name" required>
-      </div>
-
-      <div class="form-group">
-        <label for="uniqueId">Value</label>
-        <input type="text" class="form-control" name="uniqueId" [(ngModel)]="driverEdit.uniqueId" required />
+        <input type="text" class="form-control" name="name" [(ngModel)]="groupEdit.name" required />
 
 
       </div>
 
       <div class="form-group">
-        <button class="btn btn-primary" [disabled]="!driverForm.valid" type="submit">{{driverIndex ?
+        <label for="groupId">Groups</label>
+        <select name="groupId" [(ngModel)]="groupEdit.groupId">
+          <option *ngFor="let grp of groups" [value]="grp.id">{{grp.name}}</option>
+        </select>
+      </div>
+
+
+
+      <div class="form-group">
+        <button class="btn btn-primary" [disabled]="!addGroupForm.valid" type="submit">{{groupIndex ?
           'Update' : 'Add'}}</button>
       </div>
     </form>

@@ -16,7 +16,7 @@ const httpOptions = {
   headers: headers_object
 };
 
-var deviceId: number;
+// var deviceId: number;
 //var apiurl:string = "";
 
 @Component({
@@ -44,26 +44,38 @@ export class ObjectDeviceComponent implements OnInit {
 
   devices: object;
 
-
   apiurl1: string = "http://13.232.8.87:8082/api/devices";
   apiurl2: string = "http://13.232.8.87:8082/api/positions?deviceId=";
   apiurldelete: string = "http://13.232.8.87:8082/api/devices/";
-
+  apiurlGetDrivers: string = "http://13.232.8.87:8082/api/drivers";
+  apiUrlDriverDevice: string = "http://13.232.8.87:8082/api/drivers?deviceId";
+  apiDriverAssign: string = "http://13.232.8.87:8082/api/permissions";
+  apiurlGetNotify: string = "http://13.232.8.87:8082/api/notifications";
+  apiurlNotifyDevice: string = "http://13.232.8.87:8082/api/notifications?deviceId";
 
   device: object;
 
   deviceId: number;
-  deviceName: string
+  deviceName: string;
+  drivers: any = [];
+  driversSelected: any = [];
+  response: boolean = false;
+  notifys: any = [];
 
 
-  open(content, deviceID, deviceName) {
-    this.deviceId = deviceID;
-    this.deviceName = deviceName;
+  open(content) {
+
     this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
     });
+  }
+
+  DeleteDevice(content, deviceID, deviceName) {
+    this.deviceId = deviceID;
+    this.deviceName = deviceName;
+    this.open(content);
   }
 
   public delete(closeModal) {
@@ -91,12 +103,11 @@ export class ObjectDeviceComponent implements OnInit {
 
     this.CommonService.device.subscribe((value) => {
       this.device = value;
-      // console.log(value);
       this.CommonService.tempData = value;
       if (value.length) {
-        deviceId = value[0].id;
+        // this.deviceId = value[0].id;
         //deviceId = 21;
-        this.getDeviceDetails(this.apiurl2, deviceId);
+        this.getDeviceDetails(this.apiurl2, value[0].id);
       }
     })
 
@@ -109,6 +120,7 @@ export class ObjectDeviceComponent implements OnInit {
           for (let cDD of curDeviceData) {
             if (data.id == cDD.id) {
               this.CommonService.tempData[index] = cDD;
+
             }
           }
 
@@ -117,7 +129,34 @@ export class ObjectDeviceComponent implements OnInit {
         this.CommonService.deviceemit(this.CommonService.tempData);
       }
 
-    })
+      if ("positions" in currentData && this.deviceId) {
+        let curDeviceData = currentData.positions;
+        this.CommonService.tempData.map((data, index) => {
+          // console.log(data);
+          for (let cDD of curDeviceData) {
+            if (data.id == cDD.deviceId) {
+              if (data.id == this.deviceId) {
+                this.CommonService.deviceDetailsemit(cDD)
+              }
+            }
+          }
+
+        });
+      }
+
+    });
+
+    this.ajax.get(this.apiurlGetDrivers, httpOptions).then((data) => {
+      this.drivers = data;
+    }).catch(error => {
+      console.error(error);
+    });
+
+    this.ajax.get(this.apiurlGetNotify, httpOptions).then((data) => {
+      this.notifys = data;
+    }).catch(error => {
+      console.error(error);
+    });
   }
 
 
@@ -132,14 +171,14 @@ export class ObjectDeviceComponent implements OnInit {
 
 
 
-  onClick(event) {
-    var target = event.target || event.srcElement || event.currentTarget;
-    deviceId = target.attributes.id.value;
-    this.getDeviceDetails(this.apiurl2, deviceId);
+  onClick(id) {
+    // var target = event.target || event.srcElement || event.currentTarget;
+    this.deviceId = id;
+    this.getDeviceDetails(this.apiurl2, this.deviceId);
   }
 
   getDeviceDetails(apiurl, headerconst?) {
-    this.ajax.get(apiurl + deviceId, httpOptions).then((value) => {
+    this.ajax.get(apiurl + this.deviceId, httpOptions).then((value) => {
       this.CommonService.deviceDetailsemit(value)
       //console.log(this.device);
     }).catch(() => {
@@ -160,6 +199,106 @@ export class ObjectDeviceComponent implements OnInit {
 
   editDevice(data) {
     this.CommonService.deviceDetailsEdit.emit(data);
+  }
+
+  assignDriver(id: number, modal: any) {
+    let ids = [];
+    this.deviceId = id;
+    this.ajax.get(this.apiUrlDriverDevice + "=" + id, httpOptions).then((driv) => {
+      driv.map((val) => {
+        let i = val['id'];
+        ids.push(i);
+
+      });
+      this.drivers.map((value, index) => {
+        if (ids.indexOf(value.id) != -1) {
+          this.drivers[index].selected = true;
+        } else {
+          this.drivers[index].selected = false;
+        }
+      });
+      this.open(modal);
+    });
+
+
+
+
+  }
+
+  onChangeDriver(event, i) {
+    let data = {
+      deviceId: this.deviceId,
+      driverId: i
+    };
+    this.response = true;
+    if (event.target.checked) {
+      this.ajax.addDevice(this.apiDriverAssign, data, httpOptions).then((data) => {
+        this.response = false;
+      }).catch(() => {
+        this.response = false;
+        console.log('error happened');
+      });
+    } else {
+      this.ajax.delete(this.apiDriverAssign, data, httpOptions).then((data) => {
+        this.response = false;
+      }).catch(() => {
+        this.response = false;
+        console.log('error happened');
+      });
+    }
+
+  }
+
+  assignNotify(id: number, modal: any) {
+    let ids = [];
+    this.deviceId = id;
+    this.ajax.get(this.apiurlNotifyDevice + "=" + id, httpOptions).then((not) => {
+      not.map((val) => {
+        let i = val['id'];
+        ids.push(i);
+
+      });
+      this.notifys.map((value, index) => {
+        if (ids.indexOf(value.id) != -1) {
+          this.notifys[index].selected = true;
+        } else {
+          this.notifys[index].selected = false;
+        }
+      });
+      this.open(modal);
+    });
+
+
+
+
+  }
+
+  onChangeNotify(event, i) {
+    let data = {
+      deviceId: this.deviceId,
+      notificationId: i
+    };
+    this.response = true;
+    if (event.target.checked) {
+      this.ajax.addDevice(this.apiDriverAssign, data, httpOptions).then((data) => {
+        this.response = false;
+      }).catch(() => {
+        this.response = false;
+        console.log('error happened');
+      });
+    } else {
+      this.ajax.delete(this.apiDriverAssign, httpOptions).then((data) => {
+        this.response = false;
+      }).catch(() => {
+        this.response = false;
+        console.log('error happened');
+      });
+      // this.ajax.deletetag(this.apiDriverAssign, httpOptions, data).subscribe((data) => {
+      //   console.log(data);
+      // },
+      //   (error) => console.log(error));
+    }
+
   }
 
 
