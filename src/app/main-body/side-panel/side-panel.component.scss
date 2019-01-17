@@ -1,0 +1,13 @@
+.left_top_tab {
+    background: #fff;
+    margin: 5px;
+    padding: 10px;
+    ngb-tabset {
+        ul {
+            justify-content: space-between;
+            li {
+                flex: 0 0 33.33%
+            }
+        }
+    }    
+}

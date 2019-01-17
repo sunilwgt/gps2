@@ -1,0 +1,149 @@
+<a href="#" (click)="openModal(notifyModal)">
+  <fa name="envelope"></fa>
+</a>
+
+
+<ng-template #notifyModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Notifications</h4>
+    <button type="button" class="close" aria-label="Close" #notifyModalClose (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+
+    <div>
+      <span><button (click)="Add(notifyAddModal)">Add</button></span>&nbsp;
+      <span><button [disabled]="notifyIndex === ''" (click)="edit(notifyAddModal)">Edit</button></span>&nbsp;
+      <span><button [disabled]="notifyIndex === ''" (click)="delete()">Delete</button></span>
+    </div>
+    <div>
+      <table>
+        <tr>
+          <th>Type of Notifications</th>
+          <th>All devices</th>
+          <th>Channels</th>
+        </tr>
+        <tr *ngFor="let val of notifys;let i = index" (click)="notifySelected(i)">
+          <td>{{val.type}}</td>
+          <td>{{val.always}}</td>
+          <td>{{val.notificators}}</td>
+        </tr>
+      </table>
+    </div>
+
+
+  </div>
+</ng-template>
+
+<ng-template #notifyAddModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">{{notifyIndex ? 'Edit' : 'Add'}} notification</h4>
+    <button type="button" class="close" aria-label="Close" #notifyAddModalClose (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form name="form" (ngSubmit)="notifyForm.form.valid && AddnotifySubmit(notifyForm,notifyAddModalClose)" #notifyForm="ngForm"
+      novalidate>
+
+      <div class="form-group">
+        <label for="type">Type</label>
+        <select class="form-control" name="type" [(ngModel)]="notifyEdit.type" required>
+          <option *ngFor="let type of notifyTypes" [value]="type.type">{{type.type}}</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="always">All Devices</label>
+        <input type="checkbox" class="form-control" name="always" [(ngModel)]="notifyEdit.always">
+
+      </div>
+
+      <div class="form-group">
+        <label for="notificators">Channels</label>
+        <select class="form-control" name="notificators" [(ngModel)]="notifyEdit.notificators" required>
+          <option value="web">Web</option>
+          <option value="Mail">Mail</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="calendarId">Calender</label>
+        <input type="number" class="form-control" name="calendarId" [(ngModel)]="notifyEdit.calendarId">
+      </div>
+
+      <div class="form-group">
+        <button class="btn btn-primary" [disabled]="!notifyForm.valid" type="submit">{{notifyIndex ?
+          'Update' : 'Add'}}</button>
+      </div>
+    </form>
+    <div class="form-group">
+      <button class="btn btn-primary" (click)="open(attributeModal)">Attributes</button>
+    </div>
+
+  </div>
+</ng-template>
+
+<ng-template #attributeModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Attributes</h4>
+    <button type="button" class="close" aria-label="Close" #attributeModalClose (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+
+    <div>
+      <span><button (click)="AddAttr(attributeAddModal)">Add</button></span>&nbsp;
+      <span><button [disabled]="!attributeIndex" (click)="editAttr(attributeAddModal)">Edit</button></span>&nbsp;
+      <span><button [disabled]="!attributeIndex" (click)="deleteAttr()">Delete</button></span>
+    </div>
+    <div>
+      <table>
+        <tr>
+          <th>Name</th>
+          <th>Value</th>
+        </tr>
+        <tr *ngFor="let attr of getKeys(attributes)" (click)="attributeIndex = attr">
+          <td>{{attr}}</td>
+          <td>{{attributes[attr]}}</td>
+        </tr>
+      </table>
+    </div>
+
+
+  </div>
+</ng-template>
+
+<ng-template #attributeAddModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">{{attributeIndex ? 'Edit' : 'Add'}} Attribute</h4>
+    <button type="button" class="close" aria-label="Close" #attributeAddModalClose (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form name="form" (ngSubmit)="addAttributeForm.form.valid && AddAttributeSubmit(addAttributeForm,attributeAddModalClose)"
+      #addAttributeForm="ngForm" novalidate>
+
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input type="text" class="form-control" name="name" [(ngModel)]="attributeEdit.name" required />
+      </div>
+
+      <div class="form-group">
+        <label for="value">Value</label>
+        <input type="text" class="form-control" name="value" [(ngModel)]="attributeEdit.value" required />
+
+
+      </div>
+
+      <div class="form-group">
+        <button class="btn btn-primary" [disabled]="!addAttributeForm.valid" type="submit">{{attributeIndex ?
+          'Update' : 'Add'}}</button>
+      </div>
+    </form>
+
+  </div>
+</ng-template>

@@ -1,0 +1,28 @@
+/* You can add global styles to this file, and also import other style files */
+
+@import "../node_modules/bootstrap/scss/bootstrap.scss";
+.left_top_tab {
+    background: #fff;
+    margin: 5px;
+    padding: 10px;
+    ngb-tabset {
+        ul {
+            justify-content: space-between;
+            li {
+                flex: 1 1 auto;
+                a {
+                    display: block;
+                    text-align: center;
+                    color: #495057;
+                    background-color: #fff;
+                    border-color: #dee2e6 #dee2e6 #fff !important;
+                    &.active { color:#007bff !important;
+                               border-color: #007bff #dee2e6 #fff !important;
+                               border-width: 3px 1px 1px;
+                            }
+                }
+            }
+        }
+        .tab-content { border-color: #007bff #dee2e6 #fff !important;  border-width: 3px 1px 1px;  }
+    }
+}

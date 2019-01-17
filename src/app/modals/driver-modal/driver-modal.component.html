@@ -1,0 +1,134 @@
+<a href="#" (click)="openModal(driverModal)">
+  <fa name="key"></fa>
+</a>
+
+
+<ng-template #driverModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Drivers</h4>
+    <button type="button" class="close" aria-label="Close" #driverModalClose (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+
+    <div>
+      <span><button (click)="Add(driverAddModal)">Add</button></span>&nbsp;
+      <span><button [disabled]="driverIndex === ''" (click)="edit(driverAddModal)">Edit</button></span>&nbsp;
+      <span><button [disabled]="driverIndex === ''" (click)="delete()">Delete</button></span>
+    </div>
+    <div>
+      <table>
+        <tr>
+          <th>Name</th>
+          <th>Value</th>
+        </tr>
+        <tr *ngFor="let val of drivers;let i = index" (click)="driverSelected(i)">
+          <td>{{val.name}}</td>
+          <td>{{val.uniqueId}}</td>
+        </tr>
+      </table>
+    </div>
+
+
+  </div>
+</ng-template>
+
+<ng-template #driverAddModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">{{driverIndex ? 'Edit' : 'Add'}} Driver</h4>
+    <button type="button" class="close" aria-label="Close" #driverAddModalClose (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form name="form" (ngSubmit)="driverForm.form.valid && AddDriverSubmit(driverForm,driverAddModalClose)" #driverForm="ngForm"
+      novalidate>
+
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input type="text" class="form-control" name="name" [(ngModel)]="driverEdit.name" required>
+      </div>
+
+      <div class="form-group">
+        <label for="uniqueId">Value</label>
+        <input type="text" class="form-control" name="uniqueId" [(ngModel)]="driverEdit.uniqueId" required />
+
+
+      </div>
+
+      <div class="form-group">
+        <button class="btn btn-primary" [disabled]="!driverForm.valid" type="submit">{{driverIndex ?
+          'Update' : 'Add'}}</button>
+      </div>
+    </form>
+    <div class="form-group">
+      <button class="btn btn-primary" (click)="open(attributeModal)">Attributes</button>
+    </div>
+
+  </div>
+</ng-template>
+
+
+<ng-template #attributeModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Attributes</h4>
+    <button type="button" class="close" aria-label="Close" #attributeModalClose (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+
+    <div>
+      <span><button (click)="AddAttr(attributeAddModal)">Add</button></span>&nbsp;
+      <span><button [disabled]="!attributeIndex" (click)="editAttr(attributeAddModal)">Edit</button></span>&nbsp;
+      <span><button [disabled]="!attributeIndex" (click)="deleteAttr()">Delete</button></span>
+    </div>
+    <div>
+      <table>
+        <tr>
+          <th>Name</th>
+          <th>Value</th>
+        </tr>
+        <tr *ngFor="let attr of getKeys(attributes)" (click)="attributeIndex = attr">
+          <td>{{attr}}</td>
+          <td>{{attributes[attr]}}</td>
+        </tr>
+      </table>
+    </div>
+
+
+  </div>
+</ng-template>
+
+<ng-template #attributeAddModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">{{attributeIndex ? 'Edit' : 'Add'}} Attribute</h4>
+    <button type="button" class="close" aria-label="Close" #attributeAddModalClose (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form name="form" (ngSubmit)="addAttributeForm.form.valid && AddAttributeSubmit(addAttributeForm,attributeAddModalClose)"
+      #addAttributeForm="ngForm" novalidate>
+
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input type="text" class="form-control" name="name" [(ngModel)]="attributeEdit.name" required />
+      </div>
+
+      <div class="form-group">
+        <label for="value">Value</label>
+        <input type="text" class="form-control" name="value" [(ngModel)]="attributeEdit.value" required />
+
+
+      </div>
+
+      <div class="form-group">
+        <button class="btn btn-primary" [disabled]="!addAttributeForm.valid" type="submit">{{attributeIndex ?
+          'Update' : 'Add'}}</button>
+      </div>
+    </form>
+
+  </div>
+</ng-template>

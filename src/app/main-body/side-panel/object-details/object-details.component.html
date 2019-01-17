@@ -1,0 +1,171 @@
+<div class="obj_details" [ngClass]="{'hide': status}">
+  <div class="slide_arrow" (click)="showhide()">
+    <fa name="angle-double-up"></fa>
+  </div>
+
+
+
+  <ul class="device_details">
+    <li>
+      <div class="device_info">
+        <div class="head_title">
+          <fa name="dot-circle-o"></fa> Accuracy
+        </div>
+        <div class="head_info">{{deviceDetails?.accuracy}}</div>
+      </div>
+    </li>
+    <li>
+      <div class="device_info">
+        <div class="head_title">
+          <fa name="address-card"></fa> Address
+        </div>
+        <div class="head_info">{{deviceDetails?.address}}</div>
+      </div>
+    </li>
+    <li>
+      <div class="device_info">
+        <div class="head_title">
+          <fa name="map-marker"></fa> Altitude
+        </div>
+        <div class="head_info">{{deviceDetails?.altitude}}</div>
+      </div>
+    </li>
+    <li>
+      <div class="device_info">
+        <div class="head_title">
+          <fa name="battery-full"></fa> BatteryLevel
+        </div>
+        <div class="head_info">{{deviceDetails?.attributes.batteryLevel}}</div>
+      </div>
+    </li>
+    <li>
+      <div class="device_info">
+        <div class="head_title">
+          <fa name="exchange"></fa> Distance
+        </div>
+        <div class="head_info">{{deviceDetails?.attributes.distance}}</div>
+      </div>
+    </li>
+    <li>
+      <div class="device_info">
+        <div class="head_title">
+          <fa name="tachometer"></fa> Motion
+        </div>
+        <div class="head_info">{{deviceDetails?.attributes.motion}}</div>
+      </div>
+    </li>
+    <li>
+      <div class="device_info">
+        <div class="head_title">
+          <fa name="exchange"></fa> Total Distance
+        </div>
+        <div class="head_info">{{deviceDetails?.attributes.totalDistance}}</div>
+      </div>
+    </li>
+    <li>
+      <div class="device_info">
+        <div class="head_title">Course</div>
+        <div class="head_info">{{deviceDetails?.course}}</div>
+      </div>
+    </li>
+    <li>
+      <div class="device_info">
+        <div class="head_title">
+          <fa name="tablet"></fa> DeviceId
+        </div>
+        <div class="head_info">{{deviceDetails?.deviceId}}</div>
+      </div>
+    </li>
+    <li>
+      <div class="device_info">
+        <div class="head_title">
+          <fa name="clock-o"></fa> Device Time
+        </div>
+        <div class="head_info">{{deviceDetails?.deviceTime}}</div>
+      </div>
+    </li>
+    <li>
+      <div class="device_info">
+        <div class="head_title">
+          <fa name="clock-o"></fa> Fix Time
+        </div>
+        <div class="head_info">{{deviceDetails?.fixTime}}</div>
+      </div>
+    </li>
+    <li>
+      <div class="device_info">
+        <div class="head_title">ID</div>
+        <div class="head_info">{{deviceDetails?.id}}</div>
+      </div>
+    </li>
+    <li>
+      <div class="device_info">
+        <div class="head_title">
+          <fa name="map-marker"></fa> Latitude
+        </div>
+        <div class="head_info">{{deviceDetails?.latitude}}</div>
+      </div>
+    </li>
+    <li>
+      <div class="device_info">
+        <div class="head_title">
+          <fa name="map-marker"></fa> Longitude
+        </div>
+        <div class="head_info">{{deviceDetails?.longitude}}</div>
+      </div>
+    </li>
+    <li>
+      <div class="device_info">
+        <div class="head_title">
+          <fa name="signal"></fa> Network
+        </div>
+        <div class="head_info">{{deviceDetails?.network}}</div>
+      </div>
+    </li>
+    <li>
+      <div class="device_info">
+        <div class="head_title">
+          <fa name="calendar-times-o"></fa> Outdated
+        </div>
+        <div class="head_info">{{deviceDetails?.outdated}}</div>
+      </div>
+    </li>
+    <li>
+      <div class="device_info">
+        <div class="head_title">
+          <fa name="file-text-o"></fa> Protocol
+        </div>
+        <div class="head_info">{{deviceDetails?.protocol}}</div>
+      </div>
+    </li>
+    <li>
+      <div class="device_info">
+        <div class="head_title">
+          <fa name="clock-o"></fa> Server Time
+        </div>
+        <div class="head_info">{{deviceDetails?.serverTime}}</div>
+      </div>
+    </li>
+    <li>
+      <div class="device_info">
+        <div class="head_title">
+          <fa name="tachometer"></fa> Speed
+        </div>
+        <div class="head_info">{{deviceDetails?.speed}}</div>
+      </div>
+    </li>
+    <li>
+      <div class="device_info">
+        <div class="head_title">Type</div>
+        <div class="head_info">{{deviceDetails?.type}}</div>
+      </div>
+    </li>
+    <li>
+      <div class="device_info">
+        <div class="head_title">Valid</div>
+        <div class="head_info">{{deviceDetails?.valid}}</div>
+      </div>
+    </li>
+  </ul>
+
+</div>

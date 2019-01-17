@@ -1,0 +1,211 @@
+<ul class="CarList">
+
+  <ng-container *ngFor="let xb of device">
+    <li (click)="onClick(xb.id)" id={{xb.id}}>
+
+      <div class="checkbox">
+        <input type="checkbox" name={{xb.id}} value={{xb.id}} checked="checked">
+        <label></label>
+      </div>
+
+      <div class="name">
+        <span data-device="name">{{xb.name}}</span>
+        <span data-device="time">{{xb.lastUpdate}}</span>
+      </div>
+
+
+      <div class="details">
+        <span data-device="speed">{{xb.speed}}</span>
+        <span data-device="detect_engine" class="on">
+          <fa name="cogs"></fa>
+        </span>
+        <span data-device="status" title="Online" [ngStyle]="{'background-color': xb.status=='online'? 'green' : 'red'}"></span>
+
+        <div class="btn-group dropleft droparrow" data-position="fixed" ngbDropdown class="d-inline-block">
+          <fa name="ellipsis-v" id="dropdownBasic1" ngbDropdownToggle></fa>
+
+          <ul class="dropdown-menu" ngbDropdownMenu aria-labelledby="dropdownBasic1">
+            <li>
+              <a href="javascript:" class="object_edit" (click)="editDevice(xb)">
+                <fa name="pencil-square-o"></fa>
+                <span class="text">Edit</span>
+              </a>
+            </li>
+            <li>
+              <a href="javascript:" class="object_delete" (click)="DeleteDevice(content, xb.id, xb.name)">
+                <fa name="trash-o"></fa>
+                <span class="text">Delete</span>
+              </a>
+            </li>
+            <li>
+              <a href="javascript:" class="object_command">
+                <fa name="upload"></fa>
+                <span class="text">Command</span>
+              </a>
+            </li>
+            <li>
+              <a href="javascript:" class="object_driver">
+                <fa name="key"></fa>
+                <span class="text" (click)="assignDriver(xb.id,driverModal)">Driver</span>
+              </a>
+            </li>
+            <li>
+              <a href="javascript:" class="object_geofences">
+                <fa name="globe"></fa>
+                <span class="text">Geofences</span>
+              </a>
+            </li>
+            <li>
+              <a href="javascript:" class="object_notifications">
+                <fa name="envelope-o"></fa>
+                <span class="text" (click)="assignNotify(xb.id,notifyModal)">Notifications</span>
+              </a>
+            </li>
+            <li>
+              <a href="javascript:" class="object_computed_attributes">
+                <fa name="laptop"></fa>
+                <span class="text" (click)="assigncompAttribute(xb.id,compAttributeModal)">Computed Attributes</span>
+              </a>
+            </li>
+            <li>
+              <a href="javascript:" class="object_saved_commands">
+                <fa name="floppy-o"></fa>
+                <span class="text">Saved Commands</span>
+              </a>
+            </li>
+            <li>
+              <a href="javascript:" class="object_maintenances">
+                <fa name="magic"></fa>
+                <span class="text">Maintenances</span>
+              </a>
+            </li>
+            <li>
+              <a href="javascript:" class="object_Accumulators">
+                <fa name="tachometer"></fa>
+                <span class="text">Accumulators</span>
+              </a>
+            </li>
+          </ul>
+
+
+        </div>
+      </div>
+
+
+
+    </li>
+  </ng-container>
+
+</ul>
+
+
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Delete Device</h4>
+    <button type="button" class="close" aria-label="Close" #closeModal (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+
+    <h3>
+      Are you sure you want to delete {{deviceId}} {{deviceName}}
+    </h3>
+
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="delete(closeModal)">Yes</button>
+  </div>
+</ng-template>
+
+
+<ng-template #driverModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Drivers</h4>
+    <button type="button" class="close" aria-label="Close" #DriverModalClose (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+
+
+    <div>
+      <table>
+        <tr>
+          <th>Name</th>
+          <th>Identifier</th>
+        </tr>
+        <tr *ngFor="let driver of drivers;let i = index">
+          <td><input type="checkbox" [disabled]="response" [checked]="driver.selected" (change)="onChangeDriver($event,driver.id)"></td>
+          <td>{{driver.name}}</td>
+          <td>{{driver.uniqueId}}</td>
+        </tr>
+      </table>
+    </div>
+
+
+  </div>
+</ng-template>
+
+<ng-template #notifyModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Notifications</h4>
+    <button type="button" class="close" aria-label="Close" #notifyModalClose (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+
+
+    <div>
+      <table>
+        <tr>
+          <th>Type of notifcation</th>
+          <th>All Devices</th>
+          <th>Channels</th>
+        </tr>
+        <tr *ngFor="let notify of notifys;let i = index">
+          <td><input type="checkbox" [disabled]="response" [checked]="notify.selected" (change)="onChangeNotify($event,notify.id)"></td>
+          <td>{{notify.type}}</td>
+          <td>{{notify.always}}</td>
+          <td>{{notify.notificators}}</td>
+        </tr>
+      </table>
+    </div>
+
+
+  </div>
+</ng-template>
+
+
+<ng-template #compAttributeModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Notifications</h4>
+    <button type="button" class="close" aria-label="Close" #compAttributeModalClose (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+
+
+    <div>
+      <table>
+        <tr>
+          <th>Description</th>
+          <th>attribute</th>
+          <th>expression</th>
+          <th>type</th>
+        </tr>
+        <tr *ngFor="let compAttribute of compAttributes;let i = index">
+          <td><input type="checkbox" [disabled]="response" [checked]="compAttribute.selected" (change)="onChangecompAttribute($event,compAttribute.id)"></td>
+          <td>{{compAttribute.description}}</td>
+          <td>{{compAttribute.attribute}}</td>
+          <td>{{compAttribute.expression}}</td>
+          <td>{{compAttribute.type}}</td>
+        </tr>
+      </table>
+    </div>
+
+
+  </div>
+</ng-template>
