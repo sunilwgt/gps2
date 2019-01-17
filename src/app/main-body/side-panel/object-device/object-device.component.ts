@@ -253,7 +253,7 @@ export class ObjectDeviceComponent implements OnInit {
         console.log('error happened');
       });
     } else {
-      this.ajax.delete(this.apiDriverAssign, data, httpOptions).then((data) => {
+      this.ajax.deleteDevicewithbody(this.apiDriverAssign, data).then((data) => {
         this.response = false;
       }).catch(() => {
         this.response = false;
@@ -301,7 +301,7 @@ export class ObjectDeviceComponent implements OnInit {
         console.log('error happened');
       });
     } else {
-      this.ajax.delete(this.apiDriverAssign, httpOptions).then((data) => {
+      this.ajax.deleteDevicewithbody(this.apiDriverAssign, data).then((data) => {
         this.response = false;
       }).catch(() => {
         this.response = false;
@@ -349,7 +349,7 @@ export class ObjectDeviceComponent implements OnInit {
         console.log('error happened');
       });
     } else {
-      this.ajax.delete(this.apiDriverAssign, httpOptions).then((data) => {
+      this.ajax.deleteDevicewithbody(this.apiDriverAssign, data).then((data) => {
         this.response = false;
       }).catch(() => {
         this.response = false;
