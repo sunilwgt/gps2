@@ -429,7 +429,7 @@ export class UserModalComponent implements OnInit {
         console.log('error happened');
       });
     } else {
-      this.ajax.delete(this.optionChangeApi, data, httpOptions).then((data) => {
+      this.ajax.deleteDevicewithbody(this.optionChangeApi, data).then((data) => {
         this.response = false;
       }).catch(() => {
         this.response = false;
