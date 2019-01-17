@@ -1,72 +1,384 @@
-<a href="#" (click)="open(content)">
-  <fa name="info-circle"></fa>
+<a href="#" (click)="openModal(userModal)">
+  <fa name="user"></fa>
 </a>
 
 
-<ng-template #content let-modal>
+<ng-template #userModal let-modal>
   <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title">Profile update</h4>
-    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+    <h4 class="modal-title" id="modal-basic-title">Users</h4>
+    <button type="button" class="close" aria-label="Close" #userModalClose (click)="modal.dismiss('Cross click')">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
   <div class="modal-body">
 
-    <form name="form" (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm" novalidate>
+    <div>
+      <span><button (click)="Add(userAddModal)">Add</button></span>&nbsp;
+      <span><button [disabled]="userIndex === ''" (click)="edit(userAddModal)">Edit</button></span>&nbsp;
+      <span><button [disabled]="userIndex === ''" (click)="delete()">Delete</button></span>
+      <span><button [disabled]="userIndex === ''" (click)="loadOther('geofences',ModalOption)">Geofences</button></span>
+      <span><button [disabled]="userIndex === ''" (click)="loadOther('devices',ModalOption)">Devices</button></span>
+      <span><button [disabled]="userIndex === ''" (click)="loadOther('groups',ModalOption)">Groups</button></span>
+      <span><button [disabled]="userIndex === ''" (click)="loadOther('notifications',ModalOption)">Notifications</button></span>
+      <span><button [disabled]="userIndex === ''" (click)="loadOther('calendars',ModalOption)">Calendars</button></span>
+      <span><button [disabled]="userIndex === ''" (click)="loadOther('attributes/computed',ModalOption)">Computed
+          Attributes</button></span>
+      <span><button [disabled]="userIndex === ''" (click)="loadOther('drivers',ModalOption)">Drivers</button></span>
+      <span><button [disabled]="userIndex === ''" (click)="loadOther('commands',ModalOption)">Saved Commands</button></span>
+      <span><button [disabled]="userIndex === ''" (click)="loadOther('maintenances',ModalOption)">Maintenances</button></span>
+    </div>
+    <div>
+      <table>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Admin</th>
+          <th>Disabled</th>
+        </tr>
+        <tr *ngFor="let val of users;let i = index" (click)="userSelected(i)">
+          <td>{{val.name}}</td>
+          <td>{{val.email}}</td>
+          <td>{{val.administrator}}</td>
+          <td>{{val.disabled}}</td>
+        </tr>
+      </table>
+    </div>
+
+
+  </div>
+</ng-template>
+
+<ng-template #userAddModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">{{userIndex ? 'Edit' : 'Add'}} User</h4>
+    <button type="button" class="close" aria-label="Close" #userAddModalClose (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form name="form" (ngSubmit)="userForm.form.valid && AdduserSubmit(userForm,userAddModalClose)" #userForm="ngForm"
+      novalidate>
+
       <div class="form-group">
-        <label for="firstName">First Name</label>
-        <input type="text" class="form-control" name="firstName" [(ngModel)]="model.firstName" #firstName="ngModel"
-          [ngClass]="{ 'is-invalid': f.submitted && firstName.invalid }" required />
-        <div *ngIf="f.submitted && firstName.invalid" class="invalid-feedback">
-          <div *ngIf="firstName.errors.required">First Name is required</div>
-        </div>
+        <label for="name">Name</label>
+        <input type="text" class="form-control" name="name" [(ngModel)]="userEdit.name" required>
       </div>
-      <div class="form-group">
-        <label for="lastName">Last Name</label>
-        <input type="text" class="form-control" name="lastName" [(ngModel)]="model.lastName" #lastName="ngModel"
-          [ngClass]="{ 'is-invalid': f.submitted && lastName.invalid }" required />
-        <div *ngIf="f.submitted && lastName.invalid" class="invalid-feedback">
-          <div *ngIf="lastName.errors.required">Last Name is required</div>
-        </div>
-      </div>
+
       <div class="form-group">
         <label for="email">Email</label>
-        <input type="text" class="form-control" name="email" [(ngModel)]="model.email" #email="ngModel" [ngClass]="{ 'is-invalid': f.submitted && email.invalid }"
-          required email />
-        <div *ngIf="f.submitted && email.invalid" class="invalid-feedback">
-          <div *ngIf="email.errors.required">Email is required</div>
-          <div *ngIf="email.errors.email">Email must be a valid email address</div>
-        </div>
+        <input type="email" class="form-control" name="email" [(ngModel)]="userEdit.email" required />
+
+
       </div>
+
       <div class="form-group">
         <label for="password">Password</label>
-        <input type="password" class="form-control" name="password" [(ngModel)]="model.password" #password="ngModel"
-          [ngClass]="{ 'is-invalid': f.submitted && password.invalid }" required minlength="6" />
-        <div *ngIf="f.submitted && password.invalid" class="invalid-feedback">
-          <div *ngIf="password.errors.required">Password is required</div>
-          <div *ngIf="password.errors.minlength">Password must be at least 6 characters</div>
-        </div>
+        <input type="text" class="form-control" name="password" [(ngModel)]="userEdit.password" />
+
+
       </div>
+
+
       <div class="form-group">
-        <button class="btn btn-primary">Register</button>
+        <label for="phone">Phone</label>
+        <input type="text" class="form-control" name="phone" [(ngModel)]="userEdit.phone">
+      </div>
+
+      <div class="form-group">
+        <label for="map">Map Layer</label>
+        <select class="form-control" name="map" [(ngModel)]="userEdit.map">
+          <option *ngFor="let map of maps" [value]="map.key">{{map.key}}</option>
+        </select>
+
+
+      </div>
+
+      <div class="form-group">
+        <label for="latitude">Latitude</label>
+        <input type="number" class="form-control" name="latitude" [(ngModel)]="userEdit.latitude" />
+      </div>
+
+      <div class="form-group">
+        <label for="longitude">Longitude</label>
+        <input type="number" class="form-control" name="longitude" [(ngModel)]="userEdit.longitude" />
+      </div>
+
+      <div class="form-group">
+        <label for="zoom">Zoom</label>
+        <input type="number" class="form-control" name="zoom" [(ngModel)]="userEdit.zoom" />
+      </div>
+
+      <div class="form-group">
+        <label for="twelveHourFormat">Twelve Hour Format</label>
+        <input type="checkbox" class="form-control" name="twelveHourFormat" [(ngModel)]="userEdit.twelveHourFormat" />
+      </div>
+
+      <div class="form-group">
+        <label for="coordinateFormat">Coordinate Format</label>
+        <select class="form-control" name="coordinateFormat" [(ngModel)]="userEdit.coordinateFormat">
+          <option *ngFor="let cor of coordinate" [value]="cor.key">{{cor.value}}</option>
+        </select>
+
+
+      </div>
+
+      <div class="form-group">
+        <label for="poiLayer">POI Layer</label>
+        <input type="text" class="form-control" name="poiLayer" [(ngModel)]="userEdit.poiLayer">
+      </div>
+
+      <div class="form-group">
+        <label for="disabled">Disabled</label>
+        <input type="checkbox" class="form-control" name="disabled" [(ngModel)]="userEdit.disabled" />
+      </div>
+
+      <div class="form-group">
+        <label for="administrator">Admin</label>
+        <input type="checkbox" class="form-control" name="administrator" [(ngModel)]="userEdit.administrator" />
+      </div>
+
+      <div class="form-group">
+        <label for="readonly">Readonly</label>
+        <input type="checkbox" class="form-control" name="readonly" [(ngModel)]="userEdit.readonly" />
+      </div>
+
+
+      <div class="form-group">
+        <label for="deviceReadonly">Device readonly</label>
+        <input type="checkbox" class="form-control" name="deviceReadonly" [(ngModel)]="userEdit.deviceReadonly" />
+      </div>
+
+
+      <div class="form-group">
+        <label for="limitCommands">Limit Commands</label>
+        <input type="checkbox" class="form-control" name="limitCommands" [(ngModel)]="userEdit.limitCommands" />
+      </div>
+
+      <div class="form-group">
+        <label for="expirationTime">Expiration</label>
+        <input type="date" class="form-control" name="expirationTime" [(ngModel)]="userEdit.expirationTime" />
+      </div>
+
+      <div class="form-group">
+        <label for="deviceLimit">Device Limit</label>
+        <input type="number" class="form-control" name="deviceLimit" [(ngModel)]="userEdit.deviceLimit" />
+      </div>
+
+      <div class="form-group">
+        <label for="userLimit">User Limit</label>
+        <input type="number" class="form-control" name="userLimit" [(ngModel)]="userEdit.userLimit" />
+      </div>
+
+      <div class="form-group">
+        <label for="token">Token</label>
+        <input type="text" class="form-control" name="token" [(ngModel)]="userEdit.token" disabled>
+        <a href="#" (click)="generateToken()">
+          <fa name="refresh"></fa>
+        </a>
+      </div>
+
+      <div class="form-group">
+        <button class="btn btn-primary" [disabled]="!userForm.valid" type="submit">{{userIndex ?
+          'Update' : 'Add'}}</button>
+      </div>
+    </form>
+    <div class="form-group">
+      <button class="btn btn-primary" (click)="open(attributeModal)">Attributes</button>
+    </div>
+
+  </div>
+</ng-template>
+
+
+<ng-template #attributeModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Attributes</h4>
+    <button type="button" class="close" aria-label="Close" #attributeModalClose (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+
+    <div>
+      <span><button (click)="AddAttr(attributeAddModal)">Add</button></span>&nbsp;
+      <span><button [disabled]="!attributeIndex" (click)="editAttr(attributeAddModal)">Edit</button></span>&nbsp;
+      <span><button [disabled]="!attributeIndex" (click)="deleteAttr()">Delete</button></span>
+    </div>
+    <div>
+      <table>
+        <tr>
+          <th>Name</th>
+          <th>Value</th>
+        </tr>
+        <tr *ngFor="let attr of getKeys(attributes)" (click)="attributeIndex = attr">
+          <td>{{attr}}</td>
+          <td>{{attributes[attr]}}</td>
+        </tr>
+      </table>
+    </div>
+
+
+  </div>
+</ng-template>
+
+<ng-template #attributeAddModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">{{attributeIndex ? 'Edit' : 'Add'}} Attribute</h4>
+    <button type="button" class="close" aria-label="Close" #attributeAddModalClose (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form name="form" (ngSubmit)="addAttributeForm.form.valid && AddAttributeSubmit(addAttributeForm,attributeAddModalClose)"
+      #addAttributeForm="ngForm" novalidate>
+
+      <div class="form-group">
+        <label for="name">Name</label>
+        <select name="name" (change)="onAttrNameChange(attrName.value)" [(ngModel)]="attributeEdit.name" #attrName="ngModel"
+          [ngClass]="{ 'is-invalid': addAttributeForm.submitted && attrName.invalid }" required>
+          <option *ngFor="let attr of attrNames" [value]="attr.key">{{attr.key}}</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="value">Value</label>
+        <ng-container *ngIf="attributeNameSelected === 'distanceUnit' || attributeNameSelected === 'speedUnit'
+          || attributeNameSelected === 'volumeUnit'  || attributeNameSelected === 'timezone'">
+          <select name="value" [(ngModel)]="attributeEdit.value" required>
+            <option *ngFor="let time of getArray()" [value]="time.key">{{time.key}}</option>
+          </select>
+        </ng-container>
+        <ng-container *ngIf="attributeNameSelected === 'mail.smtp.port' || attributeNameSelected === 'web.liveRouteLength'
+                  || attributeNameSelected === 'web.selectZoom' || attributeNameSelected === 'web.maxZoom'">
+          <input type="number" class="form-control" name="value" [(ngModel)]="attributeEdit.value" required [minlength]="attributeNameSelected === 'web.selectZoom' || attributeNameSelected === 'web.maxZoom' ? 4 : ''">
+        </ng-container>
+        <ng-container *ngIf="attributeNameSelected === 'mail.smtp.starttls.enable' || attributeNameSelected === 'mail.smtp.starttls.required'
+                            ||  attributeNameSelected === 'mail.smtp.ssl.enable' || attributeNameSelected === 'mail.smtp.auth'
+                            || attributeNameSelected === 'ui.disableReport' || attributeNameSelected === 'ui.disableEvents'
+                            || attributeNameSelected === 'ui.disableVehicleFetures' || attributeNameSelected === 'ui.disableDrivers'
+                            || attributeNameSelected === 'ui.disableComputedAttributes' || attributeNameSelected === 'ui.disableCalendars'
+                            || attributeNameSelected === 'ui.disableMaintenances'">
+          <input type="checkbox" name="value" value="false" [(ngModel)]="attributeEdit.value">
+        </ng-container>
+        <ng-container *ngIf="attributeNameSelected === '' || attributeNameSelected === 'mail.smtp.host' || attributeNameSelected === 'mail.smtp.ssl.trust'
+              ||  attributeNameSelected === 'mail.smtp.ssl.protocols' || attributeNameSelected === 'mail.smtp.from'
+              || attributeNameSelected === 'mail.smtp.username' || attributeNameSelected === 'mail.smtp.password'
+              || attributeNameSelected === 'ui.hidePositionAttributes'">
+          <input type="text" class="form-control" name="value" [(ngModel)]="attributeEdit.value" required />
+        </ng-container>
+
+      </div>
+
+      <div class="form-group">
+        <button class="btn btn-primary" [disabled]="!addAttributeForm.valid" type="submit">{{attributeIndex ?
+          'Update' : 'Add'}}</button>
       </div>
     </form>
 
-
-
-    <!-- <form>
-      <div class="form-group">
-        <label for="dateOfBirth">Date of birth</label>
-        <div class="input-group">
-          <input id="dateOfBirth" class="form-control" placeholder="yyyy-mm-dd" name="dp" ngbDatepicker #dp="ngbDatepicker">
-          <div class="input-group-append">
-            <button class="btn btn-outline-secondary calendar" (click)="dp.toggle()" type="button"></button>
-          </div>
-        </div>
-      </div>
-    </form> -->
   </div>
-  <div class="modal-footer">
-    <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Save</button>
+</ng-template>
+
+<ng-template #ModalOption let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">{{optionSelected}}</h4>
+    <button type="button" class="close" aria-label="Close" #ModalClose (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+
+
+    <div *ngIf="optionSelected == 'geofences' || optionSelected == 'groups' || optionSelected == 'calendars'">
+      <table>
+        <tr>
+          <th>Name</th>
+        </tr>
+        <tr *ngFor="let obj of optionArr;let i = index">
+          <td><input type="checkbox" [disabled]="response" [checked]="obj.selected" (change)="onChangeOption($event,obj.id)"></td>
+          <td>{{obj.name}}</td>
+        </tr>
+      </table>
+    </div>
+
+
+    <div *ngIf="optionSelected == 'devices' || optionSelected == 'drivers'">
+      <table>
+        <tr>
+          <th>Name</th>
+          <th>Identfier</th>
+        </tr>
+        <tr *ngFor="let obj of optionArr;let i = index">
+          <td><input type="checkbox" [disabled]="response" [checked]="obj.selected" (change)="onChangeOption($event,obj.id)"></td>
+          <td>{{obj.name}}</td>
+          <td>{{obj.uniqueId}}</td>
+        </tr>
+      </table>
+    </div>
+
+
+    <div *ngIf="optionSelected == 'notifications'">
+      <table>
+        <tr>
+          <th>Type Of Notification</th>
+          <th>All devices</th>
+          <th>Channels</th>
+        </tr>
+        <tr *ngFor="let obj of optionArr;let i = index">
+          <td><input type="checkbox" [disabled]="response" [checked]="obj.selected" (change)="onChangeOption($event,obj.id)"></td>
+          <td>{{obj.type}}</td>
+          <td>{{obj.always}}</td>
+          <td>{{obj.notificators}}</td>
+        </tr>
+      </table>
+    </div>
+
+
+    <div *ngIf="optionSelected == 'attributes/computed'">
+      <table>
+        <tr>
+          <th>Description</th>
+          <th>Attribute</th>
+        </tr>
+        <tr *ngFor="let obj of optionArr;let i = index">
+          <td><input type="checkbox" [disabled]="response" [checked]="obj.selected" (change)="onChangeOption($event,obj.id)"></td>
+          <td>{{obj.description}}</td>
+          <td>{{obj.attribute}}</td>
+        </tr>
+      </table>
+    </div>
+
+    <div *ngIf="optionSelected == 'commands'">
+      <table>
+        <tr>
+          <th>Description</th>
+          <th>Type</th>
+        </tr>
+        <tr *ngFor="let obj of optionArr;let i = index">
+          <td><input type="checkbox" [disabled]="response" [checked]="obj.selected" (change)="onChangeOption($event,obj.id)"></td>
+          <td>{{obj.description}}</td>
+          <td>{{obj.type}}</td>
+        </tr>
+      </table>
+    </div>
+
+    <div *ngIf="optionSelected == 'maintenances'">
+      <table>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Start</th>
+          <th>Period</th>
+        </tr>
+        <tr *ngFor="let obj of optionArr;let i = index">
+          <td><input type="checkbox" [disabled]="response" [checked]="obj.selected" (change)="onChangeOption($event,obj.id)"></td>
+          <td>{{obj.name}}</td>
+          <td>{{obj.type}}</td>
+          <td>{{obj.start}}</td>
+          <td>{{obj.period}}</td>
+        </tr>
+      </table>
+    </div>
+
+
   </div>
 </ng-template>
