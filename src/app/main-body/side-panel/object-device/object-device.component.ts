@@ -116,7 +116,7 @@ export class ObjectDeviceComponent implements OnInit {
 
     this.deviceData.subscribe((val) => {
       let currentData = JSON.parse(val);
-      // console.log(currentData);
+      console.log(currentData);
       if ("devices" in currentData) {
         let curDeviceData = currentData.devices;
         this.CommonService.tempData.map((data, index) => {
@@ -136,9 +136,11 @@ export class ObjectDeviceComponent implements OnInit {
         let curDeviceData = currentData.positions;
         this.CommonService.tempData.map((data, index) => {
           // console.log(data);
+
           for (let cDD of curDeviceData) {
             if (data.id == cDD.deviceId) {
               if (data.id == this.deviceId) {
+                // console.log(cDD);
                 this.CommonService.deviceDetailsemit(cDD)
               }
             }
@@ -186,9 +188,12 @@ export class ObjectDeviceComponent implements OnInit {
     this.getDeviceDetails(this.apiurl2, this.deviceId);
   }
 
-  getDeviceDetails(apiurl, headerconst?) {
-    this.ajax.get(apiurl + this.deviceId, httpOptions).then((value) => {
-      this.CommonService.deviceDetailsemit(value)
+  getDeviceDetails(apiurl, id) {
+    this.ajax.get(apiurl + id, httpOptions).then((value) => {
+      value.map((dat) => {
+        this.CommonService.deviceDetailsemit(dat)
+      })
+
       //console.log(this.device);
     }).catch(() => {
       console.log('error happened');
@@ -248,7 +253,7 @@ export class ObjectDeviceComponent implements OnInit {
         console.log('error happened');
       });
     } else {
-      this.ajax.delete(this.apiDriverAssign, data, httpOptions).then((data) => {
+      this.ajax.deleteDevicewithbody(this.apiDriverAssign, data).then((data) => {
         this.response = false;
       }).catch(() => {
         this.response = false;
@@ -296,7 +301,7 @@ export class ObjectDeviceComponent implements OnInit {
         console.log('error happened');
       });
     } else {
-      this.ajax.delete(this.apiDriverAssign, httpOptions).then((data) => {
+      this.ajax.deleteDevicewithbody(this.apiDriverAssign, data).then((data) => {
         this.response = false;
       }).catch(() => {
         this.response = false;
@@ -344,7 +349,7 @@ export class ObjectDeviceComponent implements OnInit {
         console.log('error happened');
       });
     } else {
-      this.ajax.delete(this.apiDriverAssign, httpOptions).then((data) => {
+      this.ajax.deleteDevicewithbody(this.apiDriverAssign, data).then((data) => {
         this.response = false;
       }).catch(() => {
         this.response = false;

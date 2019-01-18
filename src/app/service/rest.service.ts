@@ -83,7 +83,23 @@ export class RestService {
 
   //   return this.http.delete(url, new RequestOptions({ headers: header, body: body }));
   // }
+  deleteDevicewithbody(url: string, body?: any) {
 
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': 'Basic ' + 'YWRtaW46YWRtaW4='
+      }), body: body
+    };
+    let promise = new Promise((resolve, reject) => {
+      this.http.delete(url, httpOptions).subscribe((device: object) => {
+        resolve(device);
+      }, (error) => {
+        reject(error);
+      })
+    });
+    return promise;
+  }
 
 
 }
