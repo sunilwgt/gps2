@@ -21,6 +21,7 @@ import { DriverModalComponent } from './modals/driver-modal/driver-modal.compone
 import { GroupModalComponent } from './modals/group-modal/group-modal.component';
 import { NotificationModalComponent } from './modals/notification-modal/notification-modal.component';
 import { ComputedAttributesModalComponent } from './modals/computed-attributes-modal/computed-attributes-modal.component';
+import { AccountModalComponent } from './modals/account-modal/account-modal.component';
 
 
 
@@ -40,6 +41,7 @@ import { ComputedAttributesModalComponent } from './modals/computed-attributes-m
     DriverModalComponent,
     GroupModalComponent,
     NotificationModalComponent,
+    AccountModalComponent,
     ComputedAttributesModalComponent,
   ],
 

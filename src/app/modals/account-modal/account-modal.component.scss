@@ -1,0 +1,8 @@
+a {
+    text-decoration: none;
+    padding: .5rem 1rem;
+    display: block;
+    &:hover {
+        background: #ccc;
+    }
+}
