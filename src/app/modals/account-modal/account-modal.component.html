@@ -37,7 +37,8 @@
       <p>
         <button type="button" class="btn btn-outline-primary" (click)="isCollapsedpreferences = !isCollapsedpreferences"
           [attr.aria-expanded]="!isCollapsedpreferences" aria-controls="collapseExample">
-        
+          <fa name="plus" *ngIf="isCollapsedpreferences"></fa>
+          <fa name="minus"  *ngIf="!isCollapsedpreferences"></fa>
           Preferences
         </button>
       </p>
@@ -97,7 +98,9 @@
       <p>
         <button type="button" class="btn btn-outline-primary" (click)="isCollapsedPermissions = !isCollapsedPermissions"
           [attr.aria-expanded]="!isCollapsedPermissions" aria-controls="collapseExample">
-        
+          <fa name="plus" *ngIf="isCollapsedPermissions"></fa>
+          <fa name="minus"  *ngIf="!isCollapsedPermissions"></fa>
+
           Permissions
         </button>
       </p>
@@ -155,6 +158,7 @@
       <div class="col-md-3">
         <div class="form-group">
           <button class="btn btn-warning" (click)="open(attributeModal)">Attributes 
+            <fa name="plus"></fa>
 
 
           </button>
