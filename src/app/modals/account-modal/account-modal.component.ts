@@ -192,6 +192,32 @@ export class AccountModalComponent implements OnInit {
     factor: 3.785
   }];
 
+
+  MapLayer: any = [{
+    key: 'cartobasemaps',
+    value: 'Carto BaseMaps'
+  }, {
+    key: 'openstreetmap',
+    value: 'Open Street Map'
+  }, {
+    key: 'bingmapsroad',
+    value: 'Bing Maps Road '
+  }
+  ]
+
+
+  cordinatesformat: any = [{
+    key: 'decimaldegrees',
+    value: 'Decimal Degrees'
+  }, {
+    key: 'degreesdecimalminutes',
+    value: 'Degrees Decimal Minutes'
+  }, {
+    key: 'degreesminutesecond',
+    value: 'Degrees Minute Seconds'
+  }]
+  mlayer: any;
+  coformat:any;
   closeResult: any;
   userEdit: any = {};
   apiurlGetusers: string = "http://13.232.8.87:8082/api/users";
@@ -207,11 +233,38 @@ export class AccountModalComponent implements OnInit {
   optionSelected: string = '';
   response: boolean = false;
   userId: string = ''
-
+  timeformat: boolean;
   constructor(private modalService: NgbModal, private ajax: RestService) { }
 
   ngOnInit() {
     this.getusers();
+    console.log('users are', this.users)
+  }
+
+  submitaccountdata() {
+    console.log("m layer  ", this.mlayer);
+
+    console.log("account data is ", this.users);
+  }
+
+
+  async  getusers() {
+    await this.ajax.get(this.apiurlGetusers, httpOptions).then((data) => {
+      this.users = data;
+      console.log('users are ', this.users)
+      this.timeformat = this.users.twelveHourFormat;
+      console.log('time formate', this.timeformat)
+      // this.attributes = {};
+      // this.userIndex = '';
+    }).catch(error => {
+      console.error(error);
+    });
+  }
+
+  userSelected(i: string) {
+    this.userIndex = i;
+    this.userId = this.users[i].id;
+    this.attributes = this.users[i].attributes;
   }
 
   getArray() {
@@ -227,22 +280,6 @@ export class AccountModalComponent implements OnInit {
     if (this.attributeNameSelected === 'timezone') {
       return this.timeUnit;
     }
-  }
-
-  getusers() {
-    this.ajax.get(this.apiurlGetusers, httpOptions).then((data) => {
-      this.users = data;
-      // this.attributes = {};
-      // this.userIndex = '';
-    }).catch(error => {
-      console.error(error);
-    });
-  }
-
-  userSelected(i: string) {
-    this.userIndex = i;
-    this.userId = this.users[i].id;
-    this.attributes = this.users[i].attributes;
   }
 
   open(content) {

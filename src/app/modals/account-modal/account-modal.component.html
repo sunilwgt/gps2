@@ -14,7 +14,7 @@
 
       <div class="form-group">
         <label for="name">Name</label>
-        <input type="text" class="form-control" name="name" required />
+        <input type="text" class="form-control" name="name"  [(ngModel)]="users[0].name" required  />
         <!-- <div *ngIf="AccountForm.submitted && name.invalid" class="invalid-feedback">
           <div *ngIf="name.errors.required">Name is required</div>
         </div> -->
@@ -22,14 +22,14 @@
 
       <div class="form-group">
         <label for="email">Email</label>
-        <input type="email" class="form-control" name="email" required />
+        <input type="email" class="form-control" name="email"  [(ngModel)]="users[0].email" required />
         <!-- <div *ngIf="AccountForm.submitted && email.invalid" class="invalid-feedback">
           <div *ngIf="email.errors.required">Email is required</div>
         </div> -->
       </div>
       <div class="form-group">
         <label for="password">Password</label>
-        <input type="text" class="form-control" name="password" required />
+        <input type="text" class="form-control" name="password" [(ngModel)]="users[0].password" required />
         <!-- <div *ngIf="AccountForm.submitted && password.invalid" class="invalid-feedback">
           <div *ngIf="password.errors.required">Password is required</div>
         </div> -->
@@ -37,6 +37,7 @@
       <p>
         <button type="button" class="btn btn-outline-primary" (click)="isCollapsedpreferences = !isCollapsedpreferences"
           [attr.aria-expanded]="!isCollapsedpreferences" aria-controls="collapseExample">
+        
           Preferences
         </button>
       </p>
@@ -46,44 +47,49 @@
 
             <div class="form-group">
               <label for="phone">Phone</label>
-              <input type="number" class="form-control" name="phone" required />
+              <input type="number" class="form-control" name="phone" [(ngModel)]="users[0].phone"  />
             </div>
             <div class="form-group">
               <label for="latitude">Latitude</label>
-              <input type="number" class="form-control" name="latitude" required />
+              <input type="number" class="form-control" name="latitude" [(ngModel)]="users[0].latitude" />
             </div>
             <div class="form-group">
               <label for="longitude">Longitude</label>
-              <input type="number" class="form-control" name="longitude" required />
+              <input type="number" class="form-control" name="longitude" [(ngModel)]="users[0].longitude" />
             </div>
             <div class="form-group">
               <label for="zoom">Zoom</label>
-              <input type="number" class="form-control" name="zoom" required />
+              <input type="number" class="form-control" name="zoom" [(ngModel)]="users[0].zoom" />
             </div>
             <div class="form-group">
               <label for="poilayer">POI Layer</label>
-              <input type="text" class="form-control" name="poilayer" required />
+              <input type="text" class="form-control" name="poilayer" [(ngModel)]="users[0].poiLayer" />
             </div>
             <div class="form-group">
               <label for="maplayer">Map Layer</label><br>
               <div>
-                <select name="maplayer">
-                  <option> Name</option>
+                <select name="maplayer" [(ngModel)]="mlayer">
+                  <option *ngFor="let mlayer of MapLayer" > {{mlayer.value}}</option>
                 </select>
               </div>
             </div>
-
+            <!-- <div class="form-group">
+              <label for="group">Group</label>
+              <select  name="groupId" [(ngModel)]="model.groupId">
+                <option  *ngFor="let group of groups" [value]="group.id">{{group.name}}</option>
+              </select>
+            </div> -->
             <div class="form-group">
               <label for="cordinateformat">Coordinate Format</label><br>
               <div>
-                <select name="cordinateformat">
-                  <option> Name</option>
+                <select name="cordinateformat" [(ngModel)]="coformat">
+                  <option *ngFor="let coformat of cordinatesformat"> {{coformat.value}}</option>
                 </select>
               </div>
             </div>
             <div class="form-group">
               <label for="hourformat">12-Hour Format</label> &nbsp;&nbsp;
-              <input type="checkbox" name="hourformat">
+              <input type="checkbox" name="hourformat" [(ngModel)]="users[3].twelveHourFormat">
             </div>
           </div>
         </div>
@@ -91,6 +97,7 @@
       <p>
         <button type="button" class="btn btn-outline-primary" (click)="isCollapsedPermissions = !isCollapsedPermissions"
           [attr.aria-expanded]="!isCollapsedPermissions" aria-controls="collapseExample">
+        
           Permissions
         </button>
       </p>
@@ -99,68 +106,71 @@
           <div class="card-body">
             <div class="form-group">
               <label for="disabled">Disabled</label> &nbsp;&nbsp;
-              <input type="checkbox" name="disabled">
+              <input type="checkbox" name="disabled" [(ngModel)]="users[0].disabled">
             </div>
             <div class="form-group">
               <label for="admin">Admin</label> &nbsp;&nbsp;
-              <input type="checkbox" name="admin">
+              <input type="checkbox" name="admin" [(ngModel)]="users[0].administrator">
             </div>
             <div class="form-group">
               <label for="readonly">Readonly</label> &nbsp;&nbsp;
-              <input type="checkbox" name="readonly">
+              <input type="checkbox" name="readonly" [(ngModel)]="users[0].readonly">
             </div>
             <div class="form-group">
               <label for="devicereadonly">Device Readonly</label> &nbsp;&nbsp;
-              <input type="checkbox" name="devicereadonly">
+              <input type="checkbox" name="devicereadonly" [(ngModel)]="users[0].deviceReadonly">
             </div>
             <div class="form-group">
               <label for="limit Commands">Limit Commands</label> &nbsp;&nbsp;
-              <input type="checkbox" name="limitcommands">
+              <input type="checkbox" name="limitcommands" [(ngModel)]="users[0].limitCommands">
             </div>
             <div class="form-group">
               <label for="expiration">Expiration Date</label>
-              <input type="date" class="form-control" name="expiration" />
+              <input type="date"  class="form-control" name="expiration"  [(ngModel)]="users[0].expirationTime"/>
             </div>
             <div class="form-group">
               <label for="devicelimit">Device Limit</label>
-              <input type="number" class="form-control" name="devicelimit" required />
+              <input type="number" class="form-control" name="devicelimit" [(ngModel)]="users[0].deviceLimit" />
             </div>
             <div class="form-group">
               <label for="userlimit">User Limit</label>
-              <input type="number" class="form-control" name="userlimit" required />
+              <input type="number" class="form-control" name="userlimit" [(ngModel)]="users[0].userLimit" />
             </div>
             <div class="form-group">
               <label for="token">Token</label>
-              <input type="text" class="form-control" name="token" required />
+              <input type="text" class="form-control" name="token" [(ngModel)]="users[0].token" />
             </div>
           </div>
         </div>
       </div>
       <div class="form-group">
-        <button class="btn btn-success" type="submit" >Submit
+        <button class="btn btn-success" type="submit"  (click)="submitaccountdata()">Submit
         </button>
       </div>
 
     </form>
+<hr>
 
     <div class="row">
-      <div class="col-md-2">
+      <div class="col-md-3">
         <div class="form-group">
-          <button class="btn btn-warning" (click)="open(attributeModal)">Attributes</button>
+          <button class="btn btn-warning" (click)="open(attributeModal)">Attributes 
+
+
+          </button>
         </div>
       </div>
-      <div class="col-md-3 col-md-offset-3">
+      <div class="col-md-3 col-md-offset-2">
         <div class="form-group">
-          <button class="btn btn-danger" (click)="open(attributeModal)">Set Map State</button>
+          <button class="btn btn-danger" (click)="open(attributeModal)">Get Map State</button>
         </div>
       </div>
-      <div class="col-md-3 col-md-offset-1">
+      <div class="col-md-3 col-md-offset-2">
         <div class="form-group">
           <button class="btn btn-secondary" (click)="open(attributeModal)">Send Notifications</button>
         </div>
       </div>
     </div>
-
 
 
 
