@@ -21,7 +21,9 @@ import { DriverModalComponent } from './modals/driver-modal/driver-modal.compone
 import { GroupModalComponent } from './modals/group-modal/group-modal.component';
 import { NotificationModalComponent } from './modals/notification-modal/notification-modal.component';
 import { ComputedAttributesModalComponent } from './modals/computed-attributes-modal/computed-attributes-modal.component';
+import { MaintenanceModalComponent } from './modals/maintenance-modal/maintenance-modal.component';
 import { AccountModalComponent } from './modals/account-modal/account-modal.component';
+import { GeofenceModalComponent } from './modals/geofence-modal/geofence-modal.component';
 import { SignupComponent } from './Authentication/signup/signup.component';
 import { LoginComponent } from './Authentication/login/login.component';
 
@@ -45,6 +47,8 @@ import { LoginComponent } from './Authentication/login/login.component';
     NotificationModalComponent,
     AccountModalComponent,
     ComputedAttributesModalComponent,
+    MaintenanceModalComponent,
+    GeofenceModalComponent,
     SignupComponent,
     LoginComponent
   ],

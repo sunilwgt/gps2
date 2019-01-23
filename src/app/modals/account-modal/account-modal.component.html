@@ -1,4 +1,4 @@
-<a href="#" (click)="openModal(userModal)">
+<a title="Account" href="#" (click)="openModal(userModal)">
   <fa name="user"></fa>
 </a>
 <ng-template #userModal let-modal>
@@ -14,7 +14,7 @@
 
       <div class="form-group">
         <label for="name">Name</label>
-        <input type="text" class="form-control" name="name" [(ngModel)]="user.name"  required  />
+        <input type="text" class="form-control" name="name" [(ngModel)]="user.name" required />
         <!-- <div *ngIf="AccountForm.submitted && name.invalid" class="invalid-feedback">
           <div *ngIf="name.errors.required">Name is required</div>
         </div> -->
@@ -22,7 +22,7 @@
 
       <div class="form-group">
         <label for="email">Email</label>
-        <input type="email" class="form-control" name="email" [(ngModel)]="user.email"  required />
+        <input type="email" class="form-control" name="email" [(ngModel)]="user.email" required />
         <!-- <div *ngIf="AccountForm.submitted && email.invalid" class="invalid-feedback">
           <div *ngIf="email.errors.required">Email is required</div>
         </div> -->
@@ -38,7 +38,7 @@
         <button type="button" class="btn btn-outline-primary" (click)="isCollapsedpreferences = !isCollapsedpreferences"
           [attr.aria-expanded]="!isCollapsedpreferences" aria-controls="collapseExample">
           <fa name="plus" *ngIf="isCollapsedpreferences"></fa>
-          <fa name="minus"  *ngIf="!isCollapsedpreferences"></fa>
+          <fa name="minus" *ngIf="!isCollapsedpreferences"></fa>
           Preferences
         </button>
       </p>
@@ -48,29 +48,29 @@
 
             <div class="form-group">
               <label for="phone">Phone</label>
-              <input type="number" class="form-control" name="phone"  [(ngModel)]="user.phone"  />
+              <input type="number" class="form-control" name="phone" [(ngModel)]="user.phone" />
             </div>
             <div class="form-group">
               <label for="latitude">Latitude</label>
-              <input type="number" class="form-control" name="latitude"  [(ngModel)]="user.latitude"  />
+              <input type="number" class="form-control" name="latitude" [(ngModel)]="user.latitude" />
             </div>
             <div class="form-group">
               <label for="longitude">Longitude</label>
-              <input type="number" class="form-control" name="longitude"   [(ngModel)]="user.longitude" />
+              <input type="number" class="form-control" name="longitude" [(ngModel)]="user.longitude" />
             </div>
             <div class="form-group">
               <label for="zoom">Zoom</label>
-              <input type="number" class="form-control" name="zoom"  [(ngModel)]="user.zoom"   />
+              <input type="number" class="form-control" name="zoom" [(ngModel)]="user.zoom" />
             </div>
             <div class="form-group">
               <label for="poilayer">POI Layer</label>
-              <input type="text" class="form-control" name="poilayer"   [(ngModel)]="user.poiLayer"  />
+              <input type="text" class="form-control" name="poilayer" [(ngModel)]="user.poiLayer" />
             </div>
             <div class="form-group">
               <label for="maplayer">Map Layer</label><br>
               <div>
                 <select name="maplayer" [(ngModel)]="mlayer">
-                  <option *ngFor="let mlayer of MapLayer" > {{mlayer.value}}</option>
+                  <option *ngFor="let mlayer of MapLayer"> {{mlayer.value}}</option>
                 </select>
               </div>
             </div>
@@ -90,7 +90,7 @@
             </div>
             <div class="form-group">
               <label for="hourformat">12-Hour Format</label> &nbsp;&nbsp;
-              <input type="checkbox" name="hourformat"   [(ngModel)]="user.twelveHourFormat" >
+              <input type="checkbox" name="hourformat" [(ngModel)]="user.twelveHourFormat">
             </div>
           </div>
         </div>
@@ -99,7 +99,7 @@
         <button type="button" class="btn btn-outline-primary" (click)="isCollapsedPermissions = !isCollapsedPermissions"
           [attr.aria-expanded]="!isCollapsedPermissions" aria-controls="collapseExample">
           <fa name="plus" *ngIf="isCollapsedPermissions"></fa>
-          <fa name="minus"  *ngIf="!isCollapsedPermissions"></fa>
+          <fa name="minus" *ngIf="!isCollapsedPermissions"></fa>
 
           Permissions
         </button>
@@ -109,55 +109,55 @@
           <div class="card-body">
             <div class="form-group">
               <label for="disabled">Disabled</label> &nbsp;&nbsp;
-              <input type="checkbox" name="disabled"   [(ngModel)]="user.disabled" >
+              <input type="checkbox" name="disabled" [(ngModel)]="user.disabled">
             </div>
             <div class="form-group">
               <label for="admin">Admin</label> &nbsp;&nbsp;
-              <input type="checkbox" name="admin"  [(ngModel)]="user.administrator" >
+              <input type="checkbox" name="admin" [(ngModel)]="user.administrator">
             </div>
             <div class="form-group">
               <label for="readonly">Readonly</label> &nbsp;&nbsp;
-              <input type="checkbox" name="readonly"  [(ngModel)]="user.readonly"  >
+              <input type="checkbox" name="readonly" [(ngModel)]="user.readonly">
             </div>
             <div class="form-group">
               <label for="devicereadonly">Device Readonly</label> &nbsp;&nbsp;
-              <input type="checkbox" name="devicereadonly"  [(ngModel)]="user.deviceReadonly"  >
+              <input type="checkbox" name="devicereadonly" [(ngModel)]="user.deviceReadonly">
             </div>
             <div class="form-group">
               <label for="limit Commands">Limit Commands</label> &nbsp;&nbsp;
-              <input type="checkbox" name="limitcommands"  [(ngModel)]="user.limitCommands" >
+              <input type="checkbox" name="limitcommands" [(ngModel)]="user.limitCommands">
             </div>
             <div class="form-group">
               <label for="expiration">Expiration Date</label>
-              <input type="date"  class="form-control" name="expiration"   [(ngModel)]="user.expirationTime" />
+              <input type="date" class="form-control" name="expiration" [(ngModel)]="user.expirationTime" />
             </div>
             <div class="form-group">
               <label for="devicelimit">Device Limit</label>
-              <input type="number" class="form-control" name="devicelimit"  [(ngModel)]="user.deviceLimit"   />
+              <input type="number" class="form-control" name="devicelimit" [(ngModel)]="user.deviceLimit" />
             </div>
             <div class="form-group">
               <label for="userlimit">User Limit</label>
-              <input type="number" class="form-control" name="userlimit"  [(ngModel)]="user.userLimit" />
+              <input type="number" class="form-control" name="userlimit" [(ngModel)]="user.userLimit" />
             </div>
             <div class="form-group">
               <label for="token">Token</label>
-              <input type="text" class="form-control" name="token"  [(ngModel)]="user.token"   />
+              <input type="text" class="form-control" name="token" [(ngModel)]="user.token" />
             </div>
           </div>
         </div>
       </div>
       <div class="form-group">
-        <button class="btn btn-success" type="submit"  (click)="submitaccountdata()">Submit
+        <button class="btn btn-success" type="submit" (click)="submitaccountdata()">Submit
         </button>
       </div>
 
     </form>
-<hr>
+    <hr>
 
     <div class="row">
       <div class="col-md-3">
         <div class="form-group">
-          <button class="btn btn-warning" (click)="open(attributeModal)">Attributes 
+          <button class="btn btn-warning" (click)="open(attributeModal)">Attributes
             <fa name="plus"></fa>
 
 

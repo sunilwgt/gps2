@@ -1,33 +1,35 @@
-<a title="Notification" href="#" (click)="openModal(notifyModal)">
-  <fa name="envelope"></fa>
+<a title="Maintainence" href="#" (click)="openModal(maintainModal)">
+  <fa name="wrench"></fa>
 </a>
 
 
-<ng-template #notifyModal let-modal>
+<ng-template #maintainModal let-modal>
   <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title">Notifications</h4>
-    <button type="button" class="close" aria-label="Close" #notifyModalClose (click)="modal.dismiss('Cross click')">
+    <h4 class="modal-title" id="modal-basic-title">maintains</h4>
+    <button type="button" class="close" aria-label="Close" #maintainModalClose (click)="modal.dismiss('Cross click')">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
   <div class="modal-body">
 
     <div>
-      <span><button (click)="Add(notifyAddModal)">Add</button></span>&nbsp;
-      <span><button [disabled]="notifyIndex === ''" (click)="edit(notifyAddModal)">Edit</button></span>&nbsp;
-      <span><button [disabled]="notifyIndex === ''" (click)="delete()">Delete</button></span>
+      <span><button (click)="Add(maintainAddModal)">Add</button></span>&nbsp;
+      <span><button [disabled]="maintainIndex === ''" (click)="edit(maintainAddModal)">Edit</button></span>&nbsp;
+      <span><button [disabled]="maintainIndex === ''" (click)="delete()">Delete</button></span>
     </div>
     <div>
       <table>
         <tr>
-          <th>Type of Notifications</th>
-          <th>All devices</th>
-          <th>Channels</th>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Start</th>
+          <th>Period</th>
         </tr>
-        <tr *ngFor="let val of notifys;let i = index" (click)="notifySelected(i)">
+        <tr *ngFor="let val of maintains;let i = index" (click)="maintainSelected(i)">
+          <td>{{val.name}}</td>
           <td>{{val.type}}</td>
-          <td>{{val.always}}</td>
-          <td>{{val.notificators}}</td>
+          <td>{{val.start}}</td>
+          <td>{{val.period}}</td>
         </tr>
       </table>
     </div>
@@ -36,45 +38,43 @@
   </div>
 </ng-template>
 
-<ng-template #notifyAddModal let-modal>
+<ng-template #maintainAddModal let-modal>
   <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title">{{notifyIndex ? 'Edit' : 'Add'}} notification</h4>
-    <button type="button" class="close" aria-label="Close" #notifyAddModalClose (click)="modal.dismiss('Cross click')">
+    <h4 class="modal-title" id="modal-basic-title">{{maintainIndex ? 'Edit' : 'Add'}} maintain</h4>
+    <button type="button" class="close" aria-label="Close" #maintainAddModalClose (click)="modal.dismiss('Cross click')">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
   <div class="modal-body">
-    <form name="form" (ngSubmit)="notifyForm.form.valid && AddnotifySubmit(notifyForm,notifyAddModalClose)" #notifyForm="ngForm"
-      novalidate>
+    <form name="form" (ngSubmit)="maintainForm.form.valid && AddmaintainSubmit(maintainForm,maintainAddModalClose)"
+      #maintainForm="ngForm" novalidate>
+
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input type="text" class="form-control" name="name" [(ngModel)]="maintainEdit.name" required>
+      </div>
 
       <div class="form-group">
         <label for="type">Type</label>
-        <select class="form-control" name="type" [(ngModel)]="notifyEdit.type" required>
-          <option *ngFor="let type of notifyTypes" [value]="type.type">{{type.type}}</option>
+        <select class="form-control" name="type" [(ngModel)]="maintainEdit.type" required>
+          <option *ngFor="let arr of typeArr" [value]="arr.key">{{arr.key | uppercase}}</option>
         </select>
-      </div>
 
-      <div class="form-group">
-        <label for="always">All Devices</label>
-        <input type="checkbox" class="form-control" name="always" [(ngModel)]="notifyEdit.always">
 
       </div>
 
       <div class="form-group">
-        <label for="notificators">Channels</label>
-        <select class="form-control" name="notificators" [(ngModel)]="notifyEdit.notificators" required>
-          <option value="web">Web</option>
-          <option value="Mail">Mail</option>
-        </select>
+        <label for="start">Start</label>
+        <input type="number" class="form-control" name="start" [(ngModel)]="maintainEdit.start" required>
       </div>
 
       <div class="form-group">
-        <label for="calendarId">Calender</label>
-        <input type="number" class="form-control" name="calendarId" [(ngModel)]="notifyEdit.calendarId">
+        <label for="period">Period</label>
+        <input type="number" class="form-control" name="period" [(ngModel)]="maintainEdit.period" required>
       </div>
 
       <div class="form-group">
-        <button class="btn btn-primary" [disabled]="!notifyForm.valid" type="submit">{{notifyIndex ?
+        <button class="btn btn-primary" [disabled]="!maintainForm.valid" type="submit">{{maintainIndex ?
           'Update' : 'Add'}}</button>
       </div>
     </form>
@@ -84,6 +84,7 @@
 
   </div>
 </ng-template>
+
 
 <ng-template #attributeModal let-modal>
   <div class="modal-header">
