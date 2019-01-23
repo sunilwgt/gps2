@@ -18,7 +18,20 @@ const httpOptions = {
 
 export class RestService {
 
-  constructor(private http: HttpClient, public CommonService: CommonServiceService) { }
+  httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Basic ' + 'YWRtaW46YWRtaW4='
+    })
+  };
+
+
+
+  constructor(private http: HttpClient, public CommonService: CommonServiceService) {
+
+  }
+
+
 
   public get(url: string, data?: any, headers?: any): Promise<any> {
     let promise = new Promise((resolve, reject) => {

@@ -1,0 +1,36 @@
+<h1  style="margin-left:30%">Login </h1>
+<div class="row ">
+  <div class="formposition" style="margin-left:30%; margin-top: 10%">
+      <form (ngSubmit)="onlogin(loginform)" #loginform="ngForm">
+          <div class="row col-md-12 ">
+            <div class="col-md-4">
+              <label for="email">Email</label>
+            </div>
+            <div class="col-md-6">
+              <input type="text" name="email" ngModel>
+            </div>
+          </div>
+      
+          <div class="row col-md-12 ">
+            <div class="col-md-4">
+              <label for="password">Password</label>
+            </div>
+            <div class="col-md-6">
+              <input type="text" name="password" ngModel>
+            </div>
+          </div>
+          <br>
+          <div class="row col-md-12">
+              <div class="col-md-4 ">
+              </div>
+              <div class="col-md-6 ">
+                  <button  class="btn btn-info" type="submit">LogIn</button>
+              </div>
+            </div>
+        </form>
+      
+  </div>
+ 
+
+</div>
+

@@ -3,6 +3,7 @@ import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { RestService } from '../../service/rest.service';
 import { HttpHeaders } from '@angular/common/http';
 import { NgForm } from '@angular/forms';
+import { AuthenticationService } from 'src/app/Authentication/authentication.service';
 
 var headers_object = new HttpHeaders();
 headers_object.append('Content-Type', 'application/json');
@@ -23,7 +24,8 @@ export class AccountModalComponent implements OnInit {
 
   public isCollapsedpreferences = true;
   public isCollapsedPermissions = true;
-
+  userid;
+  user;
 
   maps: any = [{
     key: 'carto'
@@ -217,10 +219,10 @@ export class AccountModalComponent implements OnInit {
     value: 'Degrees Minute Seconds'
   }]
   mlayer: any;
-  coformat:any;
+  coformat: any;
   closeResult: any;
   userEdit: any = {};
-  apiurlGetusers: string = "http://13.232.8.87:8082/api/users";
+  apiurlGetusers: string = "http://13.232.8.87:8082/api/users/id=1";
   users: any;
   userIndex: string = '';
   attributes: any = {};
@@ -234,9 +236,15 @@ export class AccountModalComponent implements OnInit {
   response: boolean = false;
   userId: string = ''
   timeformat: boolean;
-  constructor(private modalService: NgbModal, private ajax: RestService) { }
+  constructor(private modalService: NgbModal, private ajax: RestService, private authservice: AuthenticationService) { }
 
-  ngOnInit() {
+  async ngOnInit() {
+    this.user = this.authservice.getUser();
+    console.log('users data', this.user)
+
+    // this.userId = this.userEdit.id;
+    // console.log('user ', user.id)
+
     this.getusers();
     console.log('users are', this.users)
   }

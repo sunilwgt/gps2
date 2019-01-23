@@ -24,6 +24,8 @@ import { ComputedAttributesModalComponent } from './modals/computed-attributes-m
 import { MaintenanceModalComponent } from './modals/maintenance-modal/maintenance-modal.component';
 import { AccountModalComponent } from './modals/account-modal/account-modal.component';
 import { GeofenceModalComponent } from './modals/geofence-modal/geofence-modal.component';
+import { SignupComponent } from './Authentication/signup/signup.component';
+import { LoginComponent } from './Authentication/login/login.component';
 
 
 
@@ -47,6 +49,8 @@ import { GeofenceModalComponent } from './modals/geofence-modal/geofence-modal.c
     ComputedAttributesModalComponent,
     MaintenanceModalComponent,
     GeofenceModalComponent,
+    SignupComponent,
+    LoginComponent
   ],
 
 
