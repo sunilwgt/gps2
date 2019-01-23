@@ -6,7 +6,7 @@ import { NgForm } from '@angular/forms';
 
 var headers_object = new HttpHeaders();
 headers_object.append('Content-Type', 'application/json');
-headers_object.append("Authorization", "Basic" + "admin:admin");
+headers_object.append("Authorization", "Basic " + "YWRtaW46YWRtaW4=");
 
 const httpOptions = {
   withCredentials: true,

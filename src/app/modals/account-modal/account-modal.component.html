@@ -14,7 +14,7 @@
 
       <div class="form-group">
         <label for="name">Name</label>
-        <input type="text" class="form-control" name="name"  [(ngModel)]="users[0].name" required  />
+        <input type="text" class="form-control" name="name"   required  />
         <!-- <div *ngIf="AccountForm.submitted && name.invalid" class="invalid-feedback">
           <div *ngIf="name.errors.required">Name is required</div>
         </div> -->
@@ -22,14 +22,14 @@
 
       <div class="form-group">
         <label for="email">Email</label>
-        <input type="email" class="form-control" name="email"  [(ngModel)]="users[0].email" required />
+        <input type="email" class="form-control" name="email"   required />
         <!-- <div *ngIf="AccountForm.submitted && email.invalid" class="invalid-feedback">
           <div *ngIf="email.errors.required">Email is required</div>
         </div> -->
       </div>
       <div class="form-group">
         <label for="password">Password</label>
-        <input type="text" class="form-control" name="password" [(ngModel)]="users[0].password" required />
+        <input type="text" class="form-control" name="password"  required />
         <!-- <div *ngIf="AccountForm.submitted && password.invalid" class="invalid-feedback">
           <div *ngIf="password.errors.required">Password is required</div>
         </div> -->
@@ -48,23 +48,23 @@
 
             <div class="form-group">
               <label for="phone">Phone</label>
-              <input type="number" class="form-control" name="phone" [(ngModel)]="users[0].phone"  />
+              <input type="number" class="form-control" name="phone"  />
             </div>
             <div class="form-group">
               <label for="latitude">Latitude</label>
-              <input type="number" class="form-control" name="latitude" [(ngModel)]="users[0].latitude" />
+              <input type="number" class="form-control" name="latitude"  />
             </div>
             <div class="form-group">
               <label for="longitude">Longitude</label>
-              <input type="number" class="form-control" name="longitude" [(ngModel)]="users[0].longitude" />
+              <input type="number" class="form-control" name="longitude" />
             </div>
             <div class="form-group">
               <label for="zoom">Zoom</label>
-              <input type="number" class="form-control" name="zoom" [(ngModel)]="users[0].zoom" />
+              <input type="number" class="form-control" name="zoom"  />
             </div>
             <div class="form-group">
               <label for="poilayer">POI Layer</label>
-              <input type="text" class="form-control" name="poilayer" [(ngModel)]="users[0].poiLayer" />
+              <input type="text" class="form-control" name="poilayer"  />
             </div>
             <div class="form-group">
               <label for="maplayer">Map Layer</label><br>
@@ -90,7 +90,7 @@
             </div>
             <div class="form-group">
               <label for="hourformat">12-Hour Format</label> &nbsp;&nbsp;
-              <input type="checkbox" name="hourformat" [(ngModel)]="users[3].twelveHourFormat">
+              <input type="checkbox" name="hourformat" >
             </div>
           </div>
         </div>
@@ -109,39 +109,39 @@
           <div class="card-body">
             <div class="form-group">
               <label for="disabled">Disabled</label> &nbsp;&nbsp;
-              <input type="checkbox" name="disabled" [(ngModel)]="users[0].disabled">
+              <input type="checkbox" name="disabled" >
             </div>
             <div class="form-group">
               <label for="admin">Admin</label> &nbsp;&nbsp;
-              <input type="checkbox" name="admin" [(ngModel)]="users[0].administrator">
+              <input type="checkbox" name="admin" >
             </div>
             <div class="form-group">
               <label for="readonly">Readonly</label> &nbsp;&nbsp;
-              <input type="checkbox" name="readonly" [(ngModel)]="users[0].readonly">
+              <input type="checkbox" name="readonly" >
             </div>
             <div class="form-group">
               <label for="devicereadonly">Device Readonly</label> &nbsp;&nbsp;
-              <input type="checkbox" name="devicereadonly" [(ngModel)]="users[0].deviceReadonly">
+              <input type="checkbox" name="devicereadonly" >
             </div>
             <div class="form-group">
               <label for="limit Commands">Limit Commands</label> &nbsp;&nbsp;
-              <input type="checkbox" name="limitcommands" [(ngModel)]="users[0].limitCommands">
+              <input type="checkbox" name="limitcommands" >
             </div>
             <div class="form-group">
               <label for="expiration">Expiration Date</label>
-              <input type="date"  class="form-control" name="expiration"  [(ngModel)]="users[0].expirationTime"/>
+              <input type="date"  class="form-control" name="expiration"  />
             </div>
             <div class="form-group">
               <label for="devicelimit">Device Limit</label>
-              <input type="number" class="form-control" name="devicelimit" [(ngModel)]="users[0].deviceLimit" />
+              <input type="number" class="form-control" name="devicelimit"  />
             </div>
             <div class="form-group">
               <label for="userlimit">User Limit</label>
-              <input type="number" class="form-control" name="userlimit" [(ngModel)]="users[0].userLimit" />
+              <input type="number" class="form-control" name="userlimit" />
             </div>
             <div class="form-group">
               <label for="token">Token</label>
-              <input type="text" class="form-control" name="token" [(ngModel)]="users[0].token" />
+              <input type="text" class="form-control" name="token"  />
             </div>
           </div>
         </div>

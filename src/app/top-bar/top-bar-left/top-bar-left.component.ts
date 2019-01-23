@@ -4,6 +4,7 @@ import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http
 import { NgForm } from '@angular/forms';
 import { CommonServiceService } from '../../service/common-service.service';
 import { RestService } from '../../service/rest.service';
+import { AuthenticationService } from 'src/app/Authentication/authentication.service';
 
 
 
@@ -29,7 +30,9 @@ export class TopBarLeftComponent implements OnInit {
 
 
 
-  constructor(private modalService: NgbModal, public CommonService: CommonServiceService, private ajax: RestService, ) { }
+  constructor(private modalService: NgbModal, public CommonService: CommonServiceService, private ajax: RestService, 
+    private authservice:AuthenticationService
+    ) { }
 
   @ViewChild('DeviceForm') deviceForm: NgForm;
   @ViewChild('deviceclose') closedeviceform: any;
@@ -67,7 +70,9 @@ export class TopBarLeftComponent implements OnInit {
   onSubmit() {
 
   }
-
+  onlogout(){
+this.authservice.onlogout()
+  }
 
 
 }

@@ -1,9 +1,13 @@
 <!--The content below is only a placeholder and can be replaced.-->
+<div class="" *ngIf=isLoogedin>
+    <app-top-bar></app-top-bar>
+    <app-left-side-bar></app-left-side-bar>
+    <app-main-body></app-main-body>
+</div>
 
-<app-top-bar></app-top-bar>
-<app-left-side-bar></app-left-side-bar>
-<app-main-body></app-main-body>
+<div  class="" *ngIf=!isLoogedin>
+    <router-outlet></router-outlet>
 
-<router-outlet></router-outlet>
+</div>
 
 

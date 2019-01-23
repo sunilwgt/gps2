@@ -22,6 +22,8 @@ import { GroupModalComponent } from './modals/group-modal/group-modal.component'
 import { NotificationModalComponent } from './modals/notification-modal/notification-modal.component';
 import { ComputedAttributesModalComponent } from './modals/computed-attributes-modal/computed-attributes-modal.component';
 import { AccountModalComponent } from './modals/account-modal/account-modal.component';
+import { SignupComponent } from './Authentication/signup/signup.component';
+import { LoginComponent } from './Authentication/login/login.component';
 
 
 
@@ -43,6 +45,8 @@ import { AccountModalComponent } from './modals/account-modal/account-modal.comp
     NotificationModalComponent,
     AccountModalComponent,
     ComputedAttributesModalComponent,
+    SignupComponent,
+    LoginComponent
   ],
 
 
