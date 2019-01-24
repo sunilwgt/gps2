@@ -25,6 +25,7 @@ export class AccountModalComponent implements OnInit {
   public isCollapsedpreferences = true;
   public isCollapsedPermissions = true;
   userid;
+  user;
 
   maps: any = [{
     key: 'carto'
@@ -221,7 +222,7 @@ export class AccountModalComponent implements OnInit {
   coformat: any;
   closeResult: any;
   userEdit: any = {};
-  apiurlGetusers: string = "http://13.232.8.87:8082/api/users";
+  apiurlGetusers: string = "http://13.232.8.87:8082/api/users/id=1";
   users: any;
   userIndex: string = '';
   attributes: any = {};
@@ -238,9 +239,11 @@ export class AccountModalComponent implements OnInit {
   constructor(private modalService: NgbModal, private ajax: RestService, private authservice: AuthenticationService) { }
 
   async ngOnInit() {
-    const user = this.authservice.getUser();
-    this.userId = this.userEdit.id;
-    console.log('user ', user.id)
+    this.user = this.authservice.getUser();
+    console.log('users data', this.user)
+
+    // this.userId = this.userEdit.id;
+    // console.log('user ', user.id)
 
     this.getusers();
     console.log('users are', this.users)
