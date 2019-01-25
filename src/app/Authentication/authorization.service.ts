@@ -13,6 +13,7 @@ export class AuthorizationService {
     let promise = new Promise((resolve, reject) => {
       this.http.post(url, data).subscribe((data: any) => {
         resolve(data);
+        
         console.log('login resolve' , data);
       }, (error) => {
         reject(error);

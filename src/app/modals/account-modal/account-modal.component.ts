@@ -9,11 +9,17 @@ var headers_object = new HttpHeaders();
 headers_object.append('Content-Type', 'application/json');
 headers_object.append("Authorization", "Basic" + "admin:admin");
 
-const httpOptions = {
-  withCredentials: true,
-  headers: headers_object
-};
+// const httpOptions = {
+//   withCredentials: true,
+//   headers: headers_object
+// };
 
+const httpOptions = {
+  headers: new HttpHeaders({
+    'Content-Type': 'application/json',
+    'Authorization': 'Basic ' + 'YWRtaW46YWRtaW4='
+  })
+};
 
 @Component({
   selector: 'app-account-modal',
@@ -222,7 +228,7 @@ export class AccountModalComponent implements OnInit {
   coformat: any;
   closeResult: any;
   userEdit: any = {};
-  apiurlGetusers: string = "http://13.232.8.87:8082/api/users/id=1";
+  apiurlGetusers: string = "http://13.232.8.87:8082/api/users/";
   users: any;
   userIndex: string = '';
   attributes: any = {};

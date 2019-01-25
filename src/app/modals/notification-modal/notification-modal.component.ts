@@ -8,11 +8,16 @@ var headers_object = new HttpHeaders();
 headers_object.append('Content-Type', 'application/json');
 headers_object.append("Authorization", "Basic" + "admin:admin");
 
+// const httpOptions = {
+//   withCredentials: true,
+//   headers: headers_object
+// };
 const httpOptions = {
-  withCredentials: true,
-  headers: headers_object
+  headers: new HttpHeaders({
+    'Content-Type': 'application/json',
+    'Authorization': 'Basic ' + 'YWRtaW46YWRtaW4='
+  })
 };
-
 @Component({
   selector: 'app-notification-modal',
   templateUrl: './notification-modal.component.html',

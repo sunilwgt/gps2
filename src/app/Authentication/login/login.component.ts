@@ -33,6 +33,7 @@ export class LoginComponent implements OnInit {
   getuser() {
     const user = sessionStorage.getItem('currentuser');
     if (user) {
+   
       this.authenticatiionservice.settologgedin(user);
     }
     else {

@@ -6,13 +6,13 @@ import { Subject } from 'rxjs';
   providedIn: 'root'
 })
 export class AuthenticationService {
-
+  Body;
   islloggedin = false;
   loginsub = new Subject();
   loginhttpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/x-www-form-urlencoded',
-    })
+    }), withCredentials: true,
   };
   loginurl = 'http://13.232.8.87:8082/api/session'
   constructor(private http: HttpClient) { }
@@ -21,10 +21,11 @@ export class AuthenticationService {
     let body = new URLSearchParams();
     body.set('email', data.email);
     body.set('password', data.password);
-
+    this.Body = body;
     let promise = new Promise((resolve, reject) => {
       this.http.post(this.loginurl, body.toString(), this.loginhttpOptions).subscribe((data) => {
         if (data) {
+          console.log('login data' , data)
           this.settologgedin(data);
           this.setUser(data);
 
@@ -45,9 +46,44 @@ export class AuthenticationService {
   }
   onlogout() {
 
-    this.islloggedin = false;
-    this.loginsub.next(this.islloggedin);
-    this.clearUser();
+    // this.http.delete(this.loginurl,this.loginhttpOptions).subscribe((res)=>{
+
+    // })
+
+    const logdelhttpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      })
+    };
+    let promise = new Promise((resolve, reject) => {
+      this.http.delete(this.loginurl, this.loginhttpOptions).subscribe((data) => {
+        console.log('logout success data ', data)
+
+        this.islloggedin = false;
+        this.loginsub.next(this.islloggedin);
+        this.clearUser();
+        // if (data) {
+
+        //   console.log('logout success data ', data)
+
+        //   this.islloggedin = false;
+        //   this.loginsub.next(this.islloggedin);
+        //   this.clearUser();
+
+        // }
+        resolve(data);
+      }, (error) => {
+        console.log('logout error is ', error)
+
+        reject(error);
+      })
+
+      return promise;
+    });
+
+    // this.islloggedin = false;
+    // this.loginsub.next(this.islloggedin);
+    // this.clearUser();
   }
 
   setUser(data: any) {
