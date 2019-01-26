@@ -113,6 +113,23 @@ export class RestService {
     });
     return promise;
   }
+  public putaccount(url: string, data?: any, headers?: any): Promise<any> {
+    console.log('account put url' , url);
+    console.log('account put data' , data);
+    console.log('account put headers' , this.httpOptions);
+
+    let promise = new Promise((resolve, reject) => {
+      this.http.put(url, data , this.httpOptions ).subscribe((data: any) => {
+        console.log('account put response' , data);
+        resolve(data);
+      }, (error) => {
+        reject(error);
+        console.log('account put error' , error);
+
+      })
+    });
+    return promise;
+  }
 
 
 }

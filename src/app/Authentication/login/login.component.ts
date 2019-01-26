@@ -20,7 +20,6 @@ export class LoginComponent implements OnInit {
     this.getuser()
   }
   onlogin(form: NgForm) {
-    console.log('form value is ', form.value)
     this.authenticatiionservice.login(form.value).then((res) => {
       if (res) {
       }

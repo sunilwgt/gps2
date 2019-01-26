@@ -25,7 +25,6 @@ export class AuthenticationService {
     let promise = new Promise((resolve, reject) => {
       this.http.post(this.loginurl, body.toString(), this.loginhttpOptions).subscribe((data) => {
         if (data) {
-          console.log('login data' , data)
           this.settologgedin(data);
           this.setUser(data);
 
@@ -57,8 +56,6 @@ export class AuthenticationService {
     };
     let promise = new Promise((resolve, reject) => {
       this.http.delete(this.loginurl, this.loginhttpOptions).subscribe((data) => {
-        console.log('logout success data ', data)
-
         this.islloggedin = false;
         this.loginsub.next(this.islloggedin);
         this.clearUser();

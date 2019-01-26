@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { RestService } from '../../service/rest.service';
 import { HttpHeaders } from '@angular/common/http';
@@ -202,38 +202,69 @@ export class AccountModalComponent implements OnInit {
 
 
   MapLayer: any = [{
-    key: 'cartobasemaps',
+    key: 'carto',
     value: 'Carto BaseMaps'
   }, {
-    key: 'openstreetmap',
+    key: 'osm',
     value: 'Open Street Map'
   }, {
-    key: 'bingmapsroad',
+    key: 'bingRoad',
     value: 'Bing Maps Road '
+  }, {
+    key: 'bingAerial',
+    value: 'Map Bing Aerial'
+  }, {
+    key: 'bingHybrid',
+    value: 'Map Bing Hybrid'
+  }, {
+    key: 'baidu',
+    value: 'Map Baidu'
+  }, {
+    key: 'yandexMap',
+    value: 'Map Yandex Map'
+  }, {
+    key: 'yandexSat',
+    value: 'Map Yandex Set'
+  }, {
+    key: 'wikimedia',
+    value: 'Map Wikimedia'
+  }, {
+    key: 'custom',
+    value: 'Map Custom'
+
   }
+
   ]
 
 
+
   cordinatesformat: any = [{
-    key: 'decimaldegrees',
-    value: 'Decimal Degrees'
+    key: 'dd',
+    value: ' Shared Decimal Degrees'
   }, {
-    key: 'degreesdecimalminutes',
-    value: 'Degrees Decimal Minutes'
+    key: 'ddm',
+    value: 'Shared Degrees Decimal Minutes'
   }, {
-    key: 'degreesminutesecond',
-    value: 'Degrees Minute Seconds'
+    key: 'dms',
+    value: 'Shared Degrees Minute Seconds'
   }]
-  mlayer: any;
-  coformat: any;
+
+
+
+
   closeResult: any;
   userEdit: any = {};
   apiurlGetusers: string = "http://13.232.8.87:8082/api/users/";
+  apiurlPutuser: string = "http://13.232.8.87:8082/api/users/";
+  @ViewChild('userModal') userModal: ElementRef;
   users: any;
+  mlayer: any;
+  coformat: any;
   userIndex: string = '';
   attributes: any = {};
   attributeEdit: any = {};
   attributeIndex: string = ''
+  comingattributes = {};
   attributeNameSelected: string = '';
   optionApi: string = "http://13.232.8.87:8082/api/";
   optionChangeApi: string = "http://13.232.8.87:8082/api/permissions";
@@ -242,23 +273,40 @@ export class AccountModalComponent implements OnInit {
   response: boolean = false;
   userId: string = ''
   timeformat: boolean;
-  constructor(private modalService: NgbModal, private ajax: RestService, private authservice: AuthenticationService) { }
-
-  async ngOnInit() {
+  constructor(private modalService: NgbModal, private ajax: RestService, private authservice: AuthenticationService) { 
     this.user = this.authservice.getUser();
     console.log('users data', this.user)
+    this.mlayer = this.user.map;
+    this.coformat = this.user.coordinateFormat;
+    this.comingattributes = this.user.attributes;
+    console.log('comingdata' , this.comingattributes)
+  }
 
-    // this.userId = this.userEdit.id;
-    // console.log('user ', user.id)
+   ngOnInit() {
 
-    this.getusers();
-    console.log('users are', this.users)
+
   }
 
   submitaccountdata() {
-    console.log("m layer  ", this.mlayer);
+    const a = document.getElementById('usermodelclose');
+    console.log('a is ', a);
+    this.user.map = this.mlayer
+    this.user.coordinateFormat = this.coformat
+    this.ajax.putaccount(this.apiurlGetusers + this.user.id, this.user).then((data) => {
+      this.users = data;
+      this.user = data;
+      this.coformat = data.coordinateFormat;
+      this.mlayer = data.map;
+      this.authservice.setUser(data);
+      this.timeformat = this.users.twelveHourFormat;
+      document.getElementById('usermodelclose').click();
 
-    console.log("account data is ", this.users);
+      // closeModal.click();
+      // this.attributes = {};
+      // this.userIndex = '';
+    }).catch(error => {
+      console.error(error);
+    });
   }
 
 
@@ -304,56 +352,56 @@ export class AccountModalComponent implements OnInit {
     });
   }
 
-  AdduserSubmit(formdata, modal) {
-    // this.users.push(formdata.value);
+  // AdduserSubmit(formdata, modal) {
+  //   // this.users.push(formdata.value);
 
-    let driv = {
-      administrator: formdata.value.administrator ? true : false,
-      attributes: this.attributes,
-      coordinateFormat: formdata.value.coordinateFormat,
-      deviceLimit: formdata.value.deviceLimit,
-      deviceReadonly: formdata.value.deviceReadonly ? true : false,
-      disabled: formdata.value.disabled ? true : false,
-      email: formdata.value.email,
-      expirationTime: formdata.value.expirationTime,
-      latitude: formdata.value.latitude,
-      limitCommands: formdata.value.limitCommands ? true : false,
-      login: formdata.value.login,
-      longitude: formdata.value.longitude,
-      map: formdata.value.map,
-      name: formdata.value.name,
-      password: formdata.value.password,
-      phone: formdata.value.phone,
-      poiLayer: formdata.value.poiLayer,
-      readonly: formdata.value.readonly ? true : false,
-      token: this.userEdit.hasOwnProperty('token') ? this.userEdit.token : undefined,
-      twelveHourFormat: formdata.value.twelveHourFormat ? true : false,
-      userLimit: formdata.value.userLimit,
-      zoom: formdata.value.zoom
-
-
-    }
-    if (this.userIndex) {
-      driv['id'] = this.userEdit.id;
-      this.ajax.editDevice(this.apiurlGetusers + '/' + this.userEdit.id, driv, httpOptions).then((value) => {
-        formdata.reset();
-        modal.click();
-        this.getusers();
-      }).catch(() => {
-        console.log('error happened');
-      });
-    } else {
-      this.ajax.addDevice(this.apiurlGetusers, driv, httpOptions).then((value) => {
-        formdata.reset();
-        modal.click();
-        this.getusers();
-      }).catch(() => {
-        console.log('error happened');
-      });
-    }
+  //   let driv = {
+  //     administrator: formdata.value.administrator ? true : false,
+  //     attributes: this.attributes,
+  //     coordinateFormat: formdata.value.coordinateFormat,
+  //     deviceLimit: formdata.value.deviceLimit,
+  //     deviceReadonly: formdata.value.deviceReadonly ? true : false,
+  //     disabled: formdata.value.disabled ? true : false,
+  //     email: formdata.value.email,
+  //     expirationTime: formdata.value.expirationTime,
+  //     latitude: formdata.value.latitude,
+  //     limitCommands: formdata.value.limitCommands ? true : false,
+  //     login: formdata.value.login,
+  //     longitude: formdata.value.longitude,
+  //     map: formdata.value.map,
+  //     name: formdata.value.name,
+  //     password: formdata.value.password,
+  //     phone: formdata.value.phone,
+  //     poiLayer: formdata.value.poiLayer,
+  //     readonly: formdata.value.readonly ? true : false,
+  //     token: this.userEdit.hasOwnProperty('token') ? this.userEdit.token : undefined,
+  //     twelveHourFormat: formdata.value.twelveHourFormat ? true : false,
+  //     userLimit: formdata.value.userLimit,
+  //     zoom: formdata.value.zoom
 
 
-  }
+  //   }
+  //   if (this.userIndex) {
+  //     driv['id'] = this.userEdit.id;
+  //     this.ajax.editDevice(this.apiurlGetusers + '/' + this.userEdit.id, driv, httpOptions).then((value) => {
+  //       formdata.reset();
+  //       modal.click();
+  //       this.getusers();
+  //     }).catch(() => {
+  //       console.log('error happened');
+  //     });
+  //   } else {
+  //     this.ajax.addDevice(this.apiurlGetusers, driv, httpOptions).then((value) => {
+  //       formdata.reset();
+  //       modal.click();
+  //       this.getusers();
+  //     }).catch(() => {
+  //       console.log('error happened');
+  //     });
+  //   }
+
+
+  // }
 
 
   private getDismissReason(reason: any): string {
@@ -411,11 +459,28 @@ export class AccountModalComponent implements OnInit {
     });
   }
 
-  AddAttributeSubmit(formdata: NgForm, closeModal: any) {
-    this.attributes[formdata.value.name] = formdata.value.value;
+ AddAttributeSubmit(formdata: NgForm, closeModal: any) {
+  this.comingattributes[formdata.value.name] = formdata.value.value;
+    this.user.attributes = this.comingattributes;
 
-    formdata.reset();
-    closeModal.click();
+    this.user.map = this.mlayer
+    this.user.coordinateFormat = this.coformat
+    this.ajax.putaccount(this.apiurlGetusers + this.user.id, this.user).then((data) => {
+      this.users = data;
+      this.user = data;
+      this.coformat = data.coordinateFormat;
+      this.mlayer = data.map;
+      this.comingattributes = data.attributes;
+      this.authservice.setUser(data);
+      this.timeformat = this.users.twelveHourFormat;
+      formdata.reset();
+      closeModal.click();
+      closeModal.click();
+      // this.attributes = {};
+      // this.userIndex = '';
+    }).catch(error => {
+      console.error(error);
+    });
   }
 
   editAttr(modal) {
@@ -425,7 +490,29 @@ export class AccountModalComponent implements OnInit {
   }
 
   deleteAttr(modal) {
-    delete this.attributes[this.attributeIndex];
+     delete this.comingattributes[this.attributeIndex];
+     this.user.attributes = this.comingattributes;
+    console.log('comingattributes' , this.comingattributes)
+    console.log('before sending user data ' , this.user);
+    this.user.map = this.mlayer
+    this.user.coordinateFormat = this.coformat
+    this.ajax.putaccount(this.apiurlGetusers + this.user.id, this.user).then((data) => {
+      console.log('before sending user data ' , data);
+
+      this.users = data;
+      this.user = data;
+      this.coformat = data.coordinateFormat;
+      this.mlayer = data.map;
+      this.comingattributes = data.attributes;
+      this.authservice.setUser(data);
+      this.timeformat = this.users.twelveHourFormat;
+      // this.attributes = {};
+      // this.userIndex = '';
+    }).catch(error => {
+      console.error(error);
+    });
+
+    
   }
 
   AddAttr(modal) {

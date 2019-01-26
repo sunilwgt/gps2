@@ -4,7 +4,7 @@
 <ng-template #userModal let-modal>
   <div class="modal-header">
     <h4 class="modal-title" id="modal-basic-title">Account</h4>
-    <button type="button" class="close" aria-label="Close" #userModalClose (click)="modal.dismiss('Cross click')">
+    <button type="button"  id="usermodelclose" class="close" aria-label="Close" #userModalClose (click)="modal.dismiss('Cross click')">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
@@ -183,6 +183,28 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <ng-template #attributeModal let-modal>
   <div class="modal-header">
     <h4 class="modal-title" id="modal-basic-title">Attributes</h4>
@@ -203,10 +225,17 @@
           <th>Name</th>
           <th>Value</th>
         </tr>
-        <tr *ngFor="let attr of getKeys(attributes)" (click)="attributeIndex = attr">
+        <tr *ngFor="let attr of getKeys(comingattributes)" (click)="attributeIndex = attr">
           <td>{{attr}}</td>
-          <td>{{attributes[attr]}}</td>
+          <td>{{comingattributes[attr]}}</td>
         </tr>
+
+
+        <!-- <tr *ngFor="let attr of comingattributes" (click)="attributeIndex = attr">
+          <td>{{attr.name}}</td>
+          <td>{{attr.value}}</td>
+        </tr> -->
+
       </table>
     </div>
 
@@ -260,7 +289,7 @@
 
 
 
-
+<!-- 
 <ng-template #userAddModal let-modal>
   <div class="modal-header">
     <h4 class="modal-title" id="modal-basic-title">{{userIndex ? 'Edit' : 'Add'}} User</h4>
@@ -400,7 +429,7 @@
     </div>
 
   </div>
-</ng-template>
+</ng-template> -->
 
 
 
