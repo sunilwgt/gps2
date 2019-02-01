@@ -3,9 +3,9 @@
   <fa name="user"></fa>
 </a> -->
 
-<a title="Account" href="#"
+<a title="Server" href="#"
 (click)="openModal()">
- <fa name="user"></fa>
+ <fa name="server"></fa>
 </a>
 
   <!-- <a id="idModal" class="modal"  data-backdrop="static" data-keyboard="false" href="#"> -->
@@ -18,10 +18,10 @@
     </button>
   </div> -->
 
-  <div class="modal-body" *ngIf="accountmodel" >
+  <div class="modal-body" *ngIf="serverModal" >
 
     <form name="form" (ngSubmit)="AccountForm" #AccountForm="ngForm" novalidate>
-      <button class="btn btn-danger" (click)="closeaccountmodlel()">Close Account Model</button>
+      <button class="btn btn-danger" (click)="closeservermodal()">Close server Model</button>
 
       <div class="form-group">
         <label for="name">Name</label>

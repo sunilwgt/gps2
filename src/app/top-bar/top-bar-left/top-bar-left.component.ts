@@ -73,6 +73,9 @@ export class TopBarLeftComponent implements OnInit {
   onlogout(){
 this.authservice.onlogout()
   }
+  getmapstate(){
 
+
+  }
 
 }

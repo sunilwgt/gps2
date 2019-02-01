@@ -29,17 +29,17 @@ const httpOptions = {
 };
 
 @Component({
-  selector: 'app-account-modal',
-  templateUrl: './account-modal.component.html',
-  styleUrls: ['./account-modal.component.scss']
+  selector: 'app-server-modal',
+  templateUrl: './server-modal.component.html',
+  styleUrls: ['./server-modal.component.scss']
 })
-export class AccountModalComponent implements OnInit {
+export class ServerModalComponent implements OnInit {
   private config: MatSnackBarConfig;
   public isCollapsedpreferences = true;
   public isCollapsedPermissions = true;
   userid;
   user;
-  accountmodel = false;
+  serverModal = false;
   maps: any = [{
     key: 'carto'
   }, {
@@ -320,7 +320,7 @@ export class AccountModalComponent implements OnInit {
       this.authservice.setUser(data);
       this.timeformat = this.users.twelveHourFormat;
       // document.getElementById('usermodelclose').click();
-      this.closeaccountmodlel();
+      this.closeservermodal();
 
       // closeModal.click();
       // this.attributes = {};
@@ -414,11 +414,11 @@ export class AccountModalComponent implements OnInit {
   //   this.open(modal);
   // }
   openModal() {
-    this.accountmodel = true;
+    this.serverModal = true;
   }
 
-  closeaccountmodlel() {
-    this.accountmodel = false;
+  closeservermodal() {
+    this.serverModal = false;
   }
   getKeys(arr) {
     return Object.keys(arr);

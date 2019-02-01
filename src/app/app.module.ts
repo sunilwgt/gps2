@@ -26,8 +26,11 @@ import { AccountModalComponent } from './modals/account-modal/account-modal.comp
 import { GeofenceModalComponent } from './modals/geofence-modal/geofence-modal.component';
 import { SignupComponent } from './Authentication/signup/signup.component';
 import { LoginComponent } from './Authentication/login/login.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-
+import {MatSnackBarModule, MatFormFieldModule, MatSelectModule,
+   MatCheckboxModule, MatInputModule, } from '@angular/material';
+import { ServerModalComponent } from './modals/server-modal/server-modal.component';
 
 
 @NgModule({
@@ -46,6 +49,7 @@ import { LoginComponent } from './Authentication/login/login.component';
     GroupModalComponent,
     NotificationModalComponent,
     AccountModalComponent,
+    ServerModalComponent,
     ComputedAttributesModalComponent,
     MaintenanceModalComponent,
     GeofenceModalComponent,
@@ -60,7 +64,9 @@ import { LoginComponent } from './Authentication/login/login.component';
     AppRoutingModule,
     NgbModule.forRoot(),
     AngularFontAwesomeModule,
-    FormsModule
+    FormsModule,
+    BrowserAnimationsModule,
+    MatSnackBarModule
 
 
   ],
