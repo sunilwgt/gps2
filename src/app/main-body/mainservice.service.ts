@@ -21,7 +21,7 @@ export class MainserviceService {
   getlong;
   getzoom;
   transformedcordinate;
-  mapsubj = new Subject();
+  public mapsubj = new Subject();
 
 
   constructor(private commonService: CommonServiceService, private authenticationservice: AuthenticationService) {
@@ -64,7 +64,7 @@ export class MainserviceService {
       }
 
     })
-
+this.mapsubj.next(this.map);
   }
 
   addMapPoint(lng, lat) {
@@ -115,6 +115,7 @@ export class MainserviceService {
   }
 
   mapsubscribe() {
+  
     this.mapsubj.next(this.map);
   }
 

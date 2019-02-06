@@ -34,10 +34,12 @@ export class MainBodyComponent implements OnInit {
   }
 
   async ngOnInit() {
-    await this.maminservice.initializemap();
-    await this.maminservice.mapsubscribe();
+    this.maminservice.initializemap();
+    this.maminservice.mapsubscribe();
     this.maminservice.mapsubj.subscribe((res) => {
       this.map = res;
+      console.log('map res from main component ' , this.map);
+
     })
 
   }

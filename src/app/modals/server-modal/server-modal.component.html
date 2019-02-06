@@ -3,605 +3,136 @@
   <fa name="user"></fa>
 </a> -->
 
-<a title="Server" href="#"
-(click)="openModal()">
- <fa name="server"></fa>
+<a title="Server" href="#" (click)="openModal()">
+  <fa name="server"></fa>
 </a>
 
-  <!-- <a id="idModal" class="modal"  data-backdrop="static" data-keyboard="false" href="#"> -->
+<!-- <a id="idModal" class="modal"  data-backdrop="static" data-keyboard="false" href="#"> -->
 
 <!-- <ng-template #userModal let-modal *ngIf="accountmodel" > -->
-  <!-- <div class="modal-header">
+<!-- <div class="modal-header">
     <h4 class="modal-title" id="modal-basic-title">Account</h4>
     <button type="button"  id="usermodelclose" class="close" aria-label="Close" #userModalClose (click)="modal.dismiss('Cross click')">
       <span aria-hidden="true">&times;</span>
     </button>
   </div> -->
+<h2 *ngIf="serverModal">Server Settings</h2>
 
-  <div class="modal-body" *ngIf="serverModal" >
+<div class="modal-body" *ngIf="serverModal">
 
-    <form name="form" (ngSubmit)="AccountForm" #AccountForm="ngForm" novalidate>
-      <button class="btn btn-danger" (click)="closeservermodal()">Close server Model</button>
+  <form name="form" (ngSubmit)="AccountForm" #AccountForm="ngForm" novalidate>
+    <button class="btn btn-danger" (click)="closeservermodal()">Close server Model</button>
 
-      <div class="form-group">
-        <label for="name">Name</label>
-        <input type="text" class="form-control" name="name" [(ngModel)]="user.name" required />
-        <!-- <div *ngIf="AccountForm.submitted && name.invalid" class="invalid-feedback">
-          <div *ngIf="name.errors.required">Name is required</div>
-        </div> -->
-      </div>
+    <p>
+      <button type="button" class="btn btn-outline-primary" (click)="isCollapsedpreferences = !isCollapsedpreferences"
+        [attr.aria-expanded]="!isCollapsedpreferences" aria-controls="collapseExample">
+        <fa name="plus" *ngIf="isCollapsedpreferences"></fa>
+        <fa name="minus" *ngIf="!isCollapsedpreferences"></fa>
+        Preferences
+      </button>
+    </p>
 
-      <div class="form-group">
-        <label for="email">Email</label>
-        <input type="email" class="form-control" name="email" [(ngModel)]="user.email" required />
-        <!-- <div *ngIf="AccountForm.submitted && email.invalid" class="invalid-feedback">
-          <div *ngIf="email.errors.required">Email is required</div>
-        </div> -->
-      </div>
-      <div class="form-group">
-        <label for="password">Password</label>
-        <input type="text" class="form-control" name="password" [(ngModel)]="user.password" required />
-        <!-- <div *ngIf="AccountForm.submitted && password.invalid" class="invalid-feedback">
-          <div *ngIf="password.errors.required">Password is required</div>
-        </div> -->
-      </div>
-      <p>
-        <button type="button" class="btn btn-outline-primary" (click)="isCollapsedpreferences = !isCollapsedpreferences"
-          [attr.aria-expanded]="!isCollapsedpreferences" aria-controls="collapseExample">
-          <fa name="plus" *ngIf="isCollapsedpreferences"></fa>
-          <fa name="minus" *ngIf="!isCollapsedpreferences"></fa>
-          Preferences
-        </button>
-      </p>
-      <div id="collapseExample" [ngbCollapse]="isCollapsedpreferences">
-        <div class="card">
-          <div class="card-body">
+    <div id="collapseExample" [ngbCollapse]="isCollapsedpreferences">
+      <div class="card">
+        <div class="card-body">
 
-            <div class="form-group">
-              <label for="phone">Phone</label>
-              <input type="number" class="form-control" name="phone" [(ngModel)]="user.phone" />
-            </div>
-            <div class="form-group">
-              <label for="latitude">Latitude</label>
-              <input type="number" class="form-control" name="latitude" [(ngModel)]="user.latitude" />
-            </div>
-            <div class="form-group">
-              <label for="longitude">Longitude</label>
-              <input type="number" class="form-control" name="longitude" [(ngModel)]="user.longitude" />
-            </div>
-            <div class="form-group">
-              <label for="zoom">Zoom</label>
-              <input type="number" class="form-control" name="zoom" [(ngModel)]="user.zoom" />
-            </div>
-            <div class="form-group">
-              <label for="poilayer">POI Layer</label>
-              <input type="text" class="form-control" name="poilayer" [(ngModel)]="user.poiLayer" />
-            </div>
-            <div class="form-group">
-              <label for="maplayer">Map Layer</label><br>
-              <div>
-                <select name="maplayer" [(ngModel)]="mlayer">
-                  <option *ngFor="let mlayer of MapLayer"> {{mlayer.value}}</option>
-                </select>
-              </div>
-            </div>
-            <!-- <div class="form-group">
-              <label for="group">Group</label>
-              <select  name="groupId" [(ngModel)]="model.groupId">
-                <option  *ngFor="let group of groups" [value]="group.id">{{group.name}}</option>
+          <div class="form-group">
+            <label for="maplayer">Map Layer</label><br>
+            <div>
+              <select name="maplayer" [(ngModel)]="maplayer">
+                <option *ngFor="let mlayer of MapLayer"> {{mlayer.value}}</option>
               </select>
-            </div> -->
-            <div class="form-group">
-              <label for="cordinateformat">Coordinate Format</label><br>
-              <div>
-                <select name="cordinateformat" [(ngModel)]="coformat">
-                  <option *ngFor="let coformat of cordinatesformat"> {{coformat.value}}</option>
-                </select>
-              </div>
             </div>
-            <div class="form-group">
-              <label for="hourformat">12-Hour Format</label> &nbsp;&nbsp;
-              <input type="checkbox" name="hourformat" [(ngModel)]="user.twelveHourFormat">
+          </div>
+          <div class="form-group">
+            <label for="bingmapkey">Bing Maps Key</label>
+            <input type="number" class="form-control" name="bingmapkey" [(ngModel)]="server.bingKey" />
+          </div>
+
+          <div class="form-group">
+            <label for="custommap">Custom Map</label>
+            <input type="string" class="form-control" name="custommap" [(ngModel)]="server.mapUrl" />
+          </div>
+          <div class="form-group">
+            <label for="latitude">Latitude</label>
+            <input type="number" class="form-control" name="latitude" [(ngModel)]="server.latitude" />
+          </div>
+          <div class="form-group">
+            <label for="longitude">Longitude</label>
+            <input type="number" class="form-control" name="longitude" [(ngModel)]="server.longitude" />
+          </div>
+          <div class="form-group">
+            <label for="zoom">Zoom</label>
+            <input type="number" class="form-control" name="zoom" [(ngModel)]="server.zoom" />
+          </div>
+          <div class="form-group">
+            <label for="poilayer">POI Layer</label>
+            <input type="text" class="form-control" name="poilayer" [(ngModel)]="server.poiLayer" />
+          </div>
+  
+
+          <div class="form-group">
+            <label for="cordinateformat">Coordinate Format</label><br>
+            <div>
+              <select name="cordinateformat" [(ngModel)]="coordformat">
+                <option *ngFor="let coformat of cordinatesformat"> {{coformat.value}}</option>
+              </select>
             </div>
+          </div>
+          <div class="form-group">
+            <label for="hourformat">12-Hour Format</label> &nbsp;&nbsp;
+            <input type="checkbox" name="hourformat" [(ngModel)]="server.twelveHourFormat">
+          </div>
+          <div class="form-group">
+            <label for="hourformat">Force Settings</label> &nbsp;&nbsp;
+            <input type="checkbox" name="hourformat" [(ngModel)]="server.forceSettings">
           </div>
         </div>
       </div>
-      <p>
-        <button type="button" class="btn btn-outline-primary" (click)="isCollapsedPermissions = !isCollapsedPermissions"
-          [attr.aria-expanded]="!isCollapsedPermissions" aria-controls="collapseExample">
-          <fa name="plus" *ngIf="isCollapsedPermissions"></fa>
-          <fa name="minus" *ngIf="!isCollapsedPermissions"></fa>
+    </div>
+    <p>
+      <button type="button" class="btn btn-outline-primary" (click)="isCollapsedPermissions = !isCollapsedPermissions"
+        [attr.aria-expanded]="!isCollapsedPermissions" aria-controls="collapseExample">
+        <fa name="plus" *ngIf="isCollapsedPermissions"></fa>
+        <fa name="minus" *ngIf="!isCollapsedPermissions"></fa>
 
-          Permissions
-        </button>
-      </p>
-      <div id="collapseExample" [ngbCollapse]="isCollapsedPermissions">
-        <div class="card">
-          <div class="card-body">
-            <div class="form-group">
-              <label for="disabled">Disabled</label> &nbsp;&nbsp;
-              <input type="checkbox" name="disabled" [(ngModel)]="user.disabled">
-            </div>
-            <div class="form-group">
-              <label for="admin">Admin</label> &nbsp;&nbsp;
-              <input type="checkbox" name="admin" [(ngModel)]="user.administrator">
-            </div>
-            <div class="form-group">
-              <label for="readonly">Readonly</label> &nbsp;&nbsp;
-              <input type="checkbox" name="readonly" [(ngModel)]="user.readonly">
-            </div>
-            <div class="form-group">
-              <label for="devicereadonly">Device Readonly</label> &nbsp;&nbsp;
-              <input type="checkbox" name="devicereadonly" [(ngModel)]="user.deviceReadonly">
-            </div>
-            <div class="form-group">
-              <label for="limit Commands">Limit Commands</label> &nbsp;&nbsp;
-              <input type="checkbox" name="limitcommands" [(ngModel)]="user.limitCommands">
-            </div>
-            <div class="form-group">
-              <label for="expiration">Expiration Date</label>
-              <input type="date" class="form-control" name="expiration" [(ngModel)]="user.expirationTime" />
-            </div>
-            <div class="form-group">
-              <label for="devicelimit">Device Limit</label>
-              <input type="number" class="form-control" name="devicelimit" [(ngModel)]="user.deviceLimit" />
-            </div>
-            <div class="form-group">
-              <label for="userlimit">User Limit</label>
-              <input type="number" class="form-control" name="userlimit" [(ngModel)]="user.userLimit" />
-            </div>
-            <div class="form-group">
-              <label for="token">Token</label>
-              <input type="text" class="form-control" name="token" [(ngModel)]="user.token" />
-            </div>
+        Permissions
+      </button>
+    </p>
+    <div id="collapseExample" [ngbCollapse]="isCollapsedPermissions">
+      <div class="card">
+        <div class="card-body">
+          <div class="form-group">
+            <label for="registration">Registration</label> &nbsp;&nbsp;
+            <input type="checkbox" name="disabled" [(ngModel)]="server.registration">
+          </div>
+      
+          <div class="form-group">
+            <label for="readonly">Readonly</label> &nbsp;&nbsp;
+            <input type="checkbox" name="readonly" [(ngModel)]="server.readonly">
+          </div>
+          <div class="form-group">
+            <label for="devicereadonly">Device Readonly</label> &nbsp;&nbsp;
+            <input type="checkbox" name="devicereadonly" [(ngModel)]="server.deviceReadonly">
+          </div>
+          <div class="form-group">
+            <label for="limitcommand">Limit Commands</label> &nbsp;&nbsp;
+            <input type="checkbox" name="limitcommand" [(ngModel)]="server.limitCommands">
           </div>
         </div>
       </div>
-      <div class="form-group">
-        <button class="btn btn-success" type="submit" (click)="submitaccountdata()">Submit
-        </button>
-      </div>
-
-    </form>
-    <hr>
-
-    <div class="row">
-      <div class="col-md-3">
-        <div class="form-group">
-          <button class="btn btn-warning" (click)="open(attributeModal)">Attributes
-            <fa name="plus"></fa>
-
-
-          </button>
-        </div>
-      </div>
-      <div class="col-md-3 col-md-offset-2">
-        <div class="form-group">
-          <button class="btn btn-danger" (click)="getmapstate()">Get Map State</button>
-        </div>
-      </div>
-      <div class="col-md-3 col-md-offset-2">
-        <div class="form-group">
-          <button class="btn btn-secondary" (click)="sendnotifications()">Send Notifications</button>
-
-        </div>
-      </div>
     </div>
-
-
-
-  </div>
-<!-- </ng-template> -->
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<ng-template #attributeModal let-modal>
-  <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title">Attributes</h4>
-    <button type="button" class="close" aria-label="Close" #attributeModalClose (click)="modal.dismiss('Cross click')">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body">
-
-    <div>
-      <span><button (click)="AddAttr(attributeAddModal)">Add</button></span>&nbsp;
-      <span><button [disabled]="!attributeIndex" (click)="editAttr(attributeAddModal)">Edit</button></span>&nbsp;
-      <span><button [disabled]="!attributeIndex" (click)="deleteAttr()">Delete</button></span>
-    </div>
-    <div>
-      <table>
-        <tr>
-          <th>Name</th>
-          <th>Value</th>
-        </tr>
-        <tr *ngFor="let attr of getKeys(comingattributes)" (click)="attributeIndex = attr">
-          <td>{{attr}}</td>
-          <td>{{comingattributes[attr]}}</td>
-        </tr>
-
-
-        <!-- <tr *ngFor="let attr of comingattributes" (click)="attributeIndex = attr">
-          <td>{{attr.name}}</td>
-          <td>{{attr.value}}</td>
-        </tr> -->
-
-      </table>
-    </div>
-
-
-  </div>
-</ng-template>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<!-- 
-<ng-template #userAddModal let-modal>
-  <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title">{{userIndex ? 'Edit' : 'Add'}} User</h4>
-    <button type="button" class="close" aria-label="Close" #userAddModalClose (click)="modal.dismiss('Cross click')">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body">
-    <form name="form" (ngSubmit)="userForm.form.valid && AdduserSubmit(userForm,userAddModalClose)" #userForm="ngForm"
-      novalidate>
-
-      <div class="form-group">
-        <label for="name">Name</label>
-        <input type="text" class="form-control" name="name" [(ngModel)]="userEdit.name" required>
-      </div>
-
-      <div class="form-group">
-        <label for="email">Email</label>
-        <input type="email" class="form-control" name="email" [(ngModel)]="userEdit.email" required />
-
-
-      </div>
-
-      <div class="form-group">
-        <label for="password">Password</label>
-        <input type="text" class="form-control" name="password" [(ngModel)]="userEdit.password" />
-
-
-      </div>
-
-
-      <div class="form-group">
-        <label for="phone">Phone</label>
-        <input type="text" class="form-control" name="phone" [(ngModel)]="userEdit.phone">
-      </div>
-
-      <div class="form-group">
-        <label for="map">Map Layer</label>
-        <select class="form-control" name="map" [(ngModel)]="userEdit.map">
-          <option *ngFor="let map of maps" [value]="map.key">{{map.key}}</option>
-        </select>
-
-
-      </div>
-
-      <div class="form-group">
-        <label for="latitude">Latitude</label>
-        <input type="number" class="form-control" name="latitude" [(ngModel)]="userEdit.latitude" />
-      </div>
-
-      <div class="form-group">
-        <label for="longitude">Longitude</label>
-        <input type="number" class="form-control" name="longitude" [(ngModel)]="userEdit.longitude" />
-      </div>
-
-      <div class="form-group">
-        <label for="zoom">Zoom</label>
-        <input type="number" class="form-control" name="zoom" [(ngModel)]="userEdit.zoom" />
-      </div>
-
-      <div class="form-group">
-        <label for="twelveHourFormat">Twelve Hour Format</label>
-        <input type="checkbox" class="form-control" name="twelveHourFormat" [(ngModel)]="userEdit.twelveHourFormat" />
-      </div>
-
-      <div class="form-group">
-        <label for="coordinateFormat">Coordinate Format</label>
-        <select class="form-control" name="coordinateFormat" [(ngModel)]="userEdit.coordinateFormat">
-          <option *ngFor="let cor of coordinate" [value]="cor.key">{{cor.value}}</option>
-        </select>
-
-
-      </div>
-
-      <div class="form-group">
-        <label for="poiLayer">POI Layer</label>
-        <input type="text" class="form-control" name="poiLayer" [(ngModel)]="userEdit.poiLayer">
-      </div>
-
-      <div class="form-group">
-        <label for="disabled">Disabled</label>
-        <input type="checkbox" class="form-control" name="disabled" [(ngModel)]="userEdit.disabled" />
-      </div>
-
-      <div class="form-group">
-        <label for="administrator">Admin</label>
-        <input type="checkbox" class="form-control" name="administrator" [(ngModel)]="userEdit.administrator" />
-      </div>
-
-      <div class="form-group">
-        <label for="readonly">Readonly</label>
-        <input type="checkbox" class="form-control" name="readonly" [(ngModel)]="userEdit.readonly" />
-      </div>
-
-
-      <div class="form-group">
-        <label for="deviceReadonly">Device readonly</label>
-        <input type="checkbox" class="form-control" name="deviceReadonly" [(ngModel)]="userEdit.deviceReadonly" />
-      </div>
-
-
-      <div class="form-group">
-        <label for="limitCommands">Limit Commands</label>
-        <input type="checkbox" class="form-control" name="limitCommands" [(ngModel)]="userEdit.limitCommands" />
-      </div>
-
-      <div class="form-group">
-        <label for="expirationTime">Expiration</label>
-        <input type="date" class="form-control" name="expirationTime" [(ngModel)]="userEdit.expirationTime" />
-      </div>
-
-      <div class="form-group">
-        <label for="deviceLimit">Device Limit</label>
-        <input type="number" class="form-control" name="deviceLimit" [(ngModel)]="userEdit.deviceLimit" />
-      </div>
-
-      <div class="form-group">
-        <label for="userLimit">User Limit</label>
-        <input type="number" class="form-control" name="userLimit" [(ngModel)]="userEdit.userLimit" />
-      </div>
-
-      <div class="form-group">
-        <label for="token">Token</label>
-        <input type="text" class="form-control" name="token" [(ngModel)]="userEdit.token" disabled>
-        <a href="#" (click)="generateToken()">
-          <fa name="refresh"></fa>
-        </a>
-      </div>
-
-      <div class="form-group">
-        <button class="btn btn-primary" [disabled]="!userForm.valid" type="submit">{{userIndex ?
-          'Update' : 'Add'}}</button>
-      </div>
-    </form>
+   
+   
     <div class="form-group">
-      <button class="btn btn-primary" (click)="open(attributeModal)">Attributes</button>
+      <button class="btn btn-success" type="submit" (click)="submitserverdata()">Submit
+      </button>
     </div>
-
-  </div>
-</ng-template> -->
-
-
-
-
-<ng-template #attributeAddModal let-modal>
-  <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title">{{attributeIndex ? 'Edit' : 'Add'}} Attribute</h4>
-    <button type="button" class="close" aria-label="Close" #attributeAddModalClose (click)="modal.dismiss('Cross click')">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body">
-    <form name="form" (ngSubmit)="addAttributeForm.form.valid && AddAttributeSubmit(addAttributeForm,attributeAddModalClose)"
-      #addAttributeForm="ngForm" novalidate>
-
-      <div class="form-group">
-        <label for="name">Name</label>
-        <select name="name" (change)="onAttrNameChange(attrName.value)" [(ngModel)]="attributeEdit.name" #attrName="ngModel"
-          [ngClass]="{ 'is-invalid': addAttributeForm.submitted && attrName.invalid }" required>
-          <option *ngFor="let attr of attrNames" [value]="attr.key">{{attr.key}}</option>
-        </select>
-      </div>
-
-      <div class="form-group">
-        <label for="value">Value</label>
-        <ng-container *ngIf="attributeNameSelected === 'distanceUnit' || attributeNameSelected === 'speedUnit'
-          || attributeNameSelected === 'volumeUnit'  || attributeNameSelected === 'timezone'">
-          <select name="value" [(ngModel)]="attributeEdit.value" required>
-            <option *ngFor="let time of getArray()" [value]="time.key">{{time.key}}</option>
-          </select>
-        </ng-container>
-        <ng-container *ngIf="attributeNameSelected === 'mail.smtp.port' || attributeNameSelected === 'web.liveRouteLength'
-                  || attributeNameSelected === 'web.selectZoom' || attributeNameSelected === 'web.maxZoom'">
-          <input type="number" class="form-control" name="value" [(ngModel)]="attributeEdit.value" required [minlength]="attributeNameSelected === 'web.selectZoom' || attributeNameSelected === 'web.maxZoom' ? 4 : ''">
-        </ng-container>
-        <ng-container *ngIf="attributeNameSelected === 'mail.smtp.starttls.enable' || attributeNameSelected === 'mail.smtp.starttls.required'
-                            ||  attributeNameSelected === 'mail.smtp.ssl.enable' || attributeNameSelected === 'mail.smtp.auth'
-                            || attributeNameSelected === 'ui.disableReport' || attributeNameSelected === 'ui.disableEvents'
-                            || attributeNameSelected === 'ui.disableVehicleFetures' || attributeNameSelected === 'ui.disableDrivers'
-                            || attributeNameSelected === 'ui.disableComputedAttributes' || attributeNameSelected === 'ui.disableCalendars'
-                            || attributeNameSelected === 'ui.disableMaintenances'">
-          <input type="checkbox" name="value" value="false" [(ngModel)]="attributeEdit.value">
-        </ng-container>
-        <ng-container *ngIf="attributeNameSelected === '' || attributeNameSelected === 'mail.smtp.host' || attributeNameSelected === 'mail.smtp.ssl.trust'
-              ||  attributeNameSelected === 'mail.smtp.ssl.protocols' || attributeNameSelected === 'mail.smtp.from'
-              || attributeNameSelected === 'mail.smtp.username' || attributeNameSelected === 'mail.smtp.password'
-              || attributeNameSelected === 'ui.hidePositionAttributes'">
-          <input type="text" class="form-control" name="value" [(ngModel)]="attributeEdit.value" required />
-        </ng-container>
-
-      </div>
-
-      <div class="form-group">
-        <button class="btn btn-primary" [disabled]="!addAttributeForm.valid" type="submit">{{attributeIndex ?
-          'Update' : 'Add'}}</button>
-      </div>
-    </form>
-
-  </div>
-</ng-template>
-
-<ng-template #ModalOption let-modal>
-  <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title">{{optionSelected}}</h4>
-    <button type="button" class="close" aria-label="Close" #ModalClose (click)="modal.dismiss('Cross click')">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body">
-
-
-    <div *ngIf="optionSelected == 'geofences' || optionSelected == 'groups' || optionSelected == 'calendars'">
-      <table>
-        <tr>
-          <th>Name</th>
-        </tr>
-        <tr *ngFor="let obj of optionArr;let i = index">
-          <td><input type="checkbox" [disabled]="response" [checked]="obj.selected" (change)="onChangeOption($event,obj.id)"></td>
-          <td>{{obj.name}}</td>
-        </tr>
-      </table>
+    <div class="form-group">
+      <button class="btn btn-danger" (click)="getmapstate()">Get Map State</button>
     </div>
+  </form>
+  <hr>
 
 
-    <div *ngIf="optionSelected == 'devices' || optionSelected == 'drivers'">
-      <table>
-        <tr>
-          <th>Name</th>
-          <th>Identfier</th>
-        </tr>
-        <tr *ngFor="let obj of optionArr;let i = index">
-          <td><input type="checkbox" [disabled]="response" [checked]="obj.selected" (change)="onChangeOption($event,obj.id)"></td>
-          <td>{{obj.name}}</td>
-          <td>{{obj.uniqueId}}</td>
-        </tr>
-      </table>
-    </div>
-
-
-    <div *ngIf="optionSelected == 'notifications'">
-      <table>
-        <tr>
-          <th>Type Of Notification</th>
-          <th>All devices</th>
-          <th>Channels</th>
-        </tr>
-        <tr *ngFor="let obj of optionArr;let i = index">
-          <td><input type="checkbox" [disabled]="response" [checked]="obj.selected" (change)="onChangeOption($event,obj.id)"></td>
-          <td>{{obj.type}}</td>
-          <td>{{obj.always}}</td>
-          <td>{{obj.notificators}}</td>
-        </tr>
-      </table>
-    </div>
-
-
-    <div *ngIf="optionSelected == 'attributes/computed'">
-      <table>
-        <tr>
-          <th>Description</th>
-          <th>Attribute</th>
-        </tr>
-        <tr *ngFor="let obj of optionArr;let i = index">
-          <td><input type="checkbox" [disabled]="response" [checked]="obj.selected" (change)="onChangeOption($event,obj.id)"></td>
-          <td>{{obj.description}}</td>
-          <td>{{obj.attribute}}</td>
-        </tr>
-      </table>
-    </div>
-
-    <div *ngIf="optionSelected == 'commands'">
-      <table>
-        <tr>
-          <th>Description</th>
-          <th>Type</th>
-        </tr>
-        <tr *ngFor="let obj of optionArr;let i = index">
-          <td><input type="checkbox" [disabled]="response" [checked]="obj.selected" (change)="onChangeOption($event,obj.id)"></td>
-          <td>{{obj.description}}</td>
-          <td>{{obj.type}}</td>
-        </tr>
-      </table>
-    </div>
-
-    <div *ngIf="optionSelected == 'maintenances'">
-      <table>
-        <tr>
-          <th>Name</th>
-          <th>Type</th>
-          <th>Start</th>
-          <th>Period</th>
-        </tr>
-        <tr *ngFor="let obj of optionArr;let i = index">
-          <td><input type="checkbox" [disabled]="response" [checked]="obj.selected" (change)="onChangeOption($event,obj.id)"></td>
-          <td>{{obj.name}}</td>
-          <td>{{obj.type}}</td>
-          <td>{{obj.start}}</td>
-          <td>{{obj.period}}</td>
-        </tr>
-      </table>
-    </div>
-
-
-  </div>
-</ng-template>
+</div>

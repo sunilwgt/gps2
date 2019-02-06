@@ -35,32 +35,33 @@ const httpOptions = {
 })
 export class ServerModalComponent implements OnInit {
   private config: MatSnackBarConfig;
-  public isCollapsedpreferences = true;
+  public isCollapsedpreferences = false;
   public isCollapsedPermissions = true;
   userid;
   user;
   serverModal = false;
-  maps: any = [{
-    key: 'carto'
-  }, {
-    key: 'osm'
-  }, {
-    key: 'bingRoad'
-  }, {
-    key: 'bingAerial'
-  }, {
-    key: 'bingHybrid'
-  }, {
-    key: 'baidu'
-  }, {
-    key: 'yandexMap'
-  }, {
-    key: 'yandexSat'
-  }, {
-    key: 'wikimedia'
-  }, {
-    key: 'custom'
-  }];
+
+  // maps: any = [{
+  //   key: 'carto'
+  // }, {
+  //   key: 'osm'
+  // }, {
+  //   key: 'bingRoad'
+  // }, {
+  //   key: 'bingAerial'
+  // }, {
+  //   key: 'bingHybrid'
+  // }, {
+  //   key: 'baidu'
+  // }, {
+  //   key: 'yandexMap'
+  // }, {
+  //   key: 'yandexSat'
+  // }, {
+  //   key: 'wikimedia'
+  // }, {
+  //   key: 'custom'
+  // }];
 
   coordinate: any = [{
     key: 'dd',
@@ -265,8 +266,8 @@ export class ServerModalComponent implements OnInit {
   apiurlPutuser: string = "http://13.232.8.87:8082/api/users/";
   @ViewChild('userModal') userModal: ElementRef;
   users: any;
-  mlayer: any;
-  coformat: any;
+  maplayer: any;
+  coordformat: any;
   userIndex: string = '';
   attributes: any = {};
   attributeEdit: any = {};
@@ -276,11 +277,14 @@ export class ServerModalComponent implements OnInit {
   optionApi: string = "http://13.232.8.87:8082/api/";
   optionChangeApi: string = "http://13.232.8.87:8082/api/permissions";
   testnoteapi: string = "http://13.232.8.87:8082/api/notifications/test";
+  apiurlserver: string = "http://13.232.8.87:8082/api/server";
+
   optionArr: any = [];
   optionSelected: string = '';
   response: boolean = false;
   userId: string = ''
   timeformat: boolean;
+  server;
 
 
   constructor(private modalService: NgbModal, private ajax: RestService,
@@ -288,63 +292,51 @@ export class ServerModalComponent implements OnInit {
     private authservice: AuthenticationService,
     private snackbar: MatSnackBar
   ) {
-    // let config = new MatSnackBarConfig();
-    // config.verticalPosition = this.verticalPosition;
-    // config.horizontalPosition = this.horizontalPosition;
-    // config.duration = this.setAutoHide ? this.autoHide : 0;
-    // this.user = this.authservice.getUser();
-    // console.log('users data', this.user)
-    // this.mlayer = this.user.map;
-    // this.coformat = this.user.coordinateFormat;
-    // this.comingattributes = this.user.attributes;
-    // console.log('comingdata', this.comingattributes)
   }
 
   ngOnInit() {
-    this.user = this.authservice.getUser();
-    this.mlayer = this.user.map;
-    this.coformat = this.user.coordinateFormat;
-    this.comingattributes = this.user.attributes;
+    this.getserverdata();
 
   }
 
-  submitaccountdata() {
-    const a = document.getElementById('usermodelclose');
-    this.user.map = this.mlayer
-    this.user.coordinateFormat = this.coformat
-    this.ajax.putaccount(this.apiurlGetusers + this.user.id, this.user).then((data) => {
-      this.users = data;
-      this.user = data;
-      this.coformat = data.coordinateFormat;
-      this.mlayer = data.map;
-      this.authservice.setUser(data);
-      this.timeformat = this.users.twelveHourFormat;
-      // document.getElementById('usermodelclose').click();
-      this.closeservermodal();
-
-      // closeModal.click();
-      // this.attributes = {};
-      // this.userIndex = '';
-    }).catch(error => {
-      console.error(error);
-    });
-  }
-  getmapstate() {
-    this.mainservice.getmapcenterandzoom().then((res) => {
-      this.user.latitude = res.co[0]
-      this.user.longitude = res.co[1]
-      this.user.zoom = res.zoom
+  getserverdata() {
+    this.ajax.commonget(this.apiurlserver).then((res) => {
+      this.server = res;
+      this.maplayer = this.server.map;
+      this.coordformat = this.server.coordinateFormat;
+      this.comingattributes = this.server.attributes;
+    } , error =>{
+      console.log(error);
     })
   }
-  sendnotifications() {
-    this.ajax.commonpost(this.testnoteapi).then((res) => {
-      this.snackbar.open('Test Notification Send', 'Close', { duration: 3000});
-   
-    }, error => {
-    this.snackbar.open(error.error, 'Close', { duration: 3000});
-  })
+  
+ 
+  submitserverdata() {
+    this.server.map = this.maplayer;
+    this.server.coordinateFormat = this.coordformat;
+    this.ajax.commonput(this.apiurlserver , this.server).then((res)=>{
+      this.snackbar.open(' Server settings updated successfully', 'Close', { duration: 3000 });
+    } , error => {
+      console.log(error);
+      this.snackbar.open(error.error, 'Close', { duration: 3000 });
 
+    })
   }
+
+
+  getmapstate() {
+    this.mainservice.getmapcenterandzoom().then((res) => {
+      this.server.latitude = res.co[0]
+      this.server.longitude = res.co[1]
+      this.server.zoom = res.zoom
+      this.snackbar.open(' Map  State Fetched  successfully , Submit To update it', 'Close', { duration: 3000 });
+
+    } , error =>{
+      this.snackbar.open(error.error, 'Close', { duration: 3000 });
+
+    })
+  }
+
 
   async  getusers() {
     await this.ajax.get(this.apiurlGetusers, httpOptions).then((data) => {
@@ -446,129 +438,4 @@ export class ServerModalComponent implements OnInit {
     }).catch(() => {
     });
   }
-
-  AddAttributeSubmit(formdata: NgForm, closeModal: any) {
-    this.comingattributes[formdata.value.name] = formdata.value.value;
-    this.user.attributes = this.comingattributes;
-
-    this.user.map = this.mlayer
-    this.user.coordinateFormat = this.coformat
-    this.ajax.putaccount(this.apiurlGetusers + this.user.id, this.user).then((data) => {
-      this.users = data;
-      this.user = data;
-      this.coformat = data.coordinateFormat;
-      this.mlayer = data.map;
-      this.comingattributes = data.attributes;
-      this.authservice.setUser(data);
-      this.timeformat = this.users.twelveHourFormat;
-      formdata.reset();
-      closeModal.click();
-      closeModal.click();
-      // this.attributes = {};
-      // this.userIndex = '';
-    }).catch(error => {
-      console.error(error);
-    });
-  }
-
-  editAttr(modal) {
-    this.attributeEdit['name'] = this.attributeIndex;
-    this.attributeEdit['value'] = this.attributes[this.attributeIndex];
-    this.open(modal);
-  }
-
-  deleteAttr(modal) {
-    delete this.comingattributes[this.attributeIndex];
-    this.user.attributes = this.comingattributes;
-    console.log('comingattributes', this.comingattributes)
-    console.log('before sending user data ', this.user);
-    this.user.map = this.mlayer
-    this.user.coordinateFormat = this.coformat
-    this.ajax.putaccount(this.apiurlGetusers + this.user.id, this.user).then((data) => {
-      console.log('before sending user data ', data);
-
-      this.users = data;
-      this.user = data;
-      this.coformat = data.coordinateFormat;
-      this.mlayer = data.map;
-      this.comingattributes = data.attributes;
-      this.authservice.setUser(data);
-      this.timeformat = this.users.twelveHourFormat;
-      // this.attributes = {};
-      // this.userIndex = '';
-    }).catch(error => {
-      console.error(error);
-    });
-
-
-  }
-
-  AddAttr(modal) {
-    this.attributeIndex = '';
-    this.open(modal);
-  }
-
-  onAttrNameChange(val) {
-    this.attributeEdit.value = ''
-    this.attributeNameSelected = val;
-  }
-
-  loadOther(option, modal) {
-    let url = this.optionApi + option + "?all=true"
-    let optionUrl = this.optionApi + option + "?userId=" + this.userId;
-    let ids = [];
-    this.optionSelected = option;
-    this.ajax.get(url, httpOptions).then((data) => {
-      this.optionArr = data;
-      this.ajax.get(optionUrl, httpOptions).then((optionData) => {
-
-        optionData.map((val) => {
-          let i = val['id'];
-          ids.push(i);
-
-        });
-        this.optionArr.map((value, index) => {
-          if (ids.indexOf(value.id) != -1) {
-            this.optionArr[index].selected = true;
-          } else {
-            this.optionArr[index].selected = false;
-          }
-        });
-        this.open(modal);
-      });
-    });
-
-  }
-
-  onChangeOption(event, i) {
-    let data = {};
-    let idName = this.optionSelected.substring(0, this.optionSelected.length - 1) + "Id";
-    data['userId'] = this.userId;
-    if (this.optionSelected == 'attributes/computed') {
-      data["attributeId"] = i;
-    } else {
-      data[idName] = i;
-    }
-
-    this.response = true;
-    if (event.target.checked) {
-      this.ajax.addDevice(this.optionChangeApi, data, httpOptions).then((data) => {
-        this.response = false;
-      }).catch(() => {
-        this.response = false;
-        console.log('error happened');
-      });
-    } else {
-      this.ajax.deleteDevicewithbody(this.optionChangeApi, data).then((data) => {
-        this.response = false;
-      }).catch(() => {
-        this.response = false;
-        console.log('error happened');
-      });
-    }
-  }
-
-
-
-
 }

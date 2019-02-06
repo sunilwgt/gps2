@@ -313,6 +313,8 @@ export class AccountModalComponent implements OnInit {
     this.user.map = this.mlayer
     this.user.coordinateFormat = this.coformat
     this.ajax.putaccount(this.apiurlGetusers + this.user.id, this.user).then((data) => {
+      this.snackbar.open('Account data updated successfully', 'Close', { duration: 3000 });
+
       this.users = data;
       this.user = data;
       this.coformat = data.coordinateFormat;
@@ -326,7 +328,7 @@ export class AccountModalComponent implements OnInit {
       // this.attributes = {};
       // this.userIndex = '';
     }).catch(error => {
-      console.error(error);
+      this.snackbar.open(error.error, 'Close', { duration: 3000 });
     });
   }
   getmapstate() {
@@ -334,15 +336,19 @@ export class AccountModalComponent implements OnInit {
       this.user.latitude = res.co[0]
       this.user.longitude = res.co[1]
       this.user.zoom = res.zoom
+      this.snackbar.open(' Map  State Fetched  successfully , Submit To update it', 'Close', { duration: 3000 });
+    }, error => {
+      this.snackbar.open(error.error, 'Close', { duration: 3000 });
+
     })
   }
   sendnotifications() {
     this.ajax.commonpost(this.testnoteapi).then((res) => {
-      this.snackbar.open('Test Notification Send', 'Close', { duration: 3000});
-   
+      this.snackbar.open('Test Notification Send', 'Close', { duration: 3000 });
+
     }, error => {
-    this.snackbar.open(error.error, 'Close', { duration: 3000});
-  })
+      this.snackbar.open(error.error, 'Close', { duration: 3000 });
+    })
 
   }
 
@@ -454,6 +460,7 @@ export class AccountModalComponent implements OnInit {
     this.user.map = this.mlayer
     this.user.coordinateFormat = this.coformat
     this.ajax.putaccount(this.apiurlGetusers + this.user.id, this.user).then((data) => {
+      this.snackbar.open('Attribute added  successfully', 'Close', { duration: 3000 });
       this.users = data;
       this.user = data;
       this.coformat = data.coordinateFormat;
@@ -468,6 +475,8 @@ export class AccountModalComponent implements OnInit {
       // this.userIndex = '';
     }).catch(error => {
       console.error(error);
+      this.snackbar.open(error.error, 'Close', { duration: 3000 });
+
     });
   }
 
@@ -486,6 +495,7 @@ export class AccountModalComponent implements OnInit {
     this.user.coordinateFormat = this.coformat
     this.ajax.putaccount(this.apiurlGetusers + this.user.id, this.user).then((data) => {
       console.log('before sending user data ', data);
+      this.snackbar.open('Attribute deleted successfully', 'Close', { duration: 3000 });
 
       this.users = data;
       this.user = data;
@@ -498,6 +508,8 @@ export class AccountModalComponent implements OnInit {
       // this.userIndex = '';
     }).catch(error => {
       console.error(error);
+      this.snackbar.open(error.error, 'Close', { duration: 3000 });
+
     });
 
 

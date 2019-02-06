@@ -127,14 +127,38 @@ export class RestService {
 
   commonpost(url: string, data?: any, headers?: any) {
     let promise = new Promise((resolve, reject) => {
-      this.http.post(url, data, this.httpOptions).subscribe((device: object) => {
-        resolve(device);
+      this.http.post(url, data, this.httpOptions).subscribe((res: object) => {
+        resolve(res);
       }, (error) => {
         reject(error);
       })
     });
     return promise;
   }
+  commonget(url: string,  headers?: any) {
+    let promise = new Promise((resolve, reject) => {
+      this.http.get(url, this.httpOptions).subscribe((res: object) => {
+        resolve(res);
+      }, (error) => {
+        reject(error);
+      })
+    });
+    return promise;
+  }
+
+  commonput(url: string, data?: any, headers?: any): Promise<any> {
+    let promise = new Promise((resolve, reject) => {
+      this.http.put(url, data, this.httpOptions).subscribe((data: any) => {
+        resolve(data);
+      }, (error) => {
+        reject(error);
+        console.log('server put error', error);
+
+      })
+    });
+    return promise;
+  }
+
 
 
 }
