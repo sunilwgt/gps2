@@ -28,13 +28,13 @@ export class ObjectDetailsComponent implements OnInit {
   constructor(public CommonService: CommonServiceService, private ajax: RestService) { }
 
   deviceDetails: ObjectDetails;
-
+  // deviceDetails;
 
   ngOnInit() {
 
     this.CommonService.deviceDetails.subscribe((value) => {
-      this.deviceDetails = value[0];
-      //console.log (value);
+      this.deviceDetails = value;
+      console.log ('subscribed device details value' , this.deviceDetails);
     })
 
 

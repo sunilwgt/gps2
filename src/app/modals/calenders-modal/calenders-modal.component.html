@@ -1,0 +1,136 @@
+<a title="Calenders" href="#" (click)="openModal(maintainModal)">
+  <fa name="calendar"></fa>
+</a>
+
+
+<ng-template #maintainModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Calenders</h4>
+    <button type="button" class="close" aria-label="Close" #maintainModalClose (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+
+    <div>
+      <span><button (click)="Add(maintainAddModal)">Add</button></span>&nbsp;
+      <span><button [disabled]="maintainIndex === ''" (click)="edit(maintainAddModal)">Edit</button></span>&nbsp;
+      <span><button [disabled]="maintainIndex === ''" (click)="delete()">Delete</button></span>
+    </div>
+    <div>
+      <table>
+        <tr>
+          <th>Name</th>
+         
+        </tr>
+        <tr *ngFor="let val of maintains;let i = index" (click)="maintainSelected(i)">
+          <td>{{val.name}}</td>
+        </tr>
+      </table>
+    </div>
+
+
+  </div>
+</ng-template>
+
+<ng-template #maintainAddModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">{{maintainIndex ? 'Edit' : 'Add'}} maintain</h4>
+    <button type="button" class="close" aria-label="Close" #maintainAddModalClose (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form name="form" (ngSubmit)="maintainForm.form.valid && AddmaintainSubmit(maintainForm,maintainAddModalClose)"
+      #maintainForm="ngForm" novalidate>
+
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input type="text" class="form-control" name="name" [(ngModel)]="maintainEdit.name" 
+        required>
+      </div>
+
+
+      <div class="form-group">
+        <label for="start">File</label>
+        <input type="file" class="form-control" id="file" name="file" [(ngModel)]="maintainEdit.start" 
+        (change)="onFileChange($event)"
+        
+        required>
+      </div>
+      <div  hidden id="base64"></div>
+      <div class="form-group">
+        <button class="btn btn-primary" [disabled]="!maintainForm.valid" type="submit">{{maintainIndex ?
+          'Update' : 'Add'}}</button>
+      </div>
+    </form>
+    <div class="form-group">
+      <button class="btn btn-primary" (click)="open(attributeModal)">Attributes</button>
+    </div>
+
+  </div>
+</ng-template>
+
+
+<ng-template #attributeModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Attributes</h4>
+    <button type="button" class="close" aria-label="Close" #attributeModalClose (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+
+    <div>
+      <span><button (click)="AddAttr(attributeAddModal)">Add</button></span>&nbsp;
+      <span><button [disabled]="!attributeIndex" (click)="editAttr(attributeAddModal)">Edit</button></span>&nbsp;
+      <span><button [disabled]="!attributeIndex" (click)="deleteAttr()">Delete</button></span>
+    </div>
+    <div>
+      <table>
+        <tr>
+          <th>Name</th>
+          <th>Value</th>
+        </tr>
+        <tr *ngFor="let attr of getKeys(attributes)" (click)="attributeIndex = attr">
+          <td>{{attr}}</td>
+          <td>{{attributes[attr]}}</td>
+        </tr>
+      </table>
+    </div>
+
+
+  </div>
+</ng-template>
+
+<ng-template #attributeAddModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">{{attributeIndex ? 'Edit' : 'Add'}} Attribute</h4>
+    <button type="button" class="close" aria-label="Close" #attributeAddModalClose (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form name="form" (ngSubmit)="addAttributeForm.form.valid && AddAttributeSubmit(addAttributeForm,attributeAddModalClose)"
+      #addAttributeForm="ngForm" novalidate>
+
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input type="text" class="form-control" name="name" [(ngModel)]="attributeEdit.name" required />
+      </div>
+
+      <div class="form-group">
+        <label for="value">Value</label>
+        <input type="text" class="form-control" name="value" [(ngModel)]="attributeEdit.value" required />
+
+
+      </div>
+
+      <div class="form-group">
+        <button class="btn btn-primary" [disabled]="!addAttributeForm.valid" type="submit">{{attributeIndex ?
+          'Update' : 'Add'}}</button>
+      </div>
+    </form>
+
+  </div>
+</ng-template>

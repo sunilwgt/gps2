@@ -101,7 +101,7 @@ export class GeofenceModalComponent implements OnInit {
   getgeofences() {
     this.ajax.get(this.apiurlGetgeofences, httpOptions).then((data) => {
       this.geofences = data;
-      console.log('getgeofences', data)
+      // console.log('getgeofences', data)
       // this.attributes = {};
       // this.geofenceIndex = '';
     }).catch(error => {

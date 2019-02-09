@@ -76,7 +76,7 @@
             <li>
               <a href="javascript:" class="object_maintenances">
                 <fa name="magic"></fa>
-                <span class="text">Maintenances</span>
+                <span class="text" (click)="assignmaintenance(xb.id,maintenancemodal)">Maintenances</span>
               </a>
             </li>
             <li>
@@ -209,3 +209,38 @@
 
   </div>
 </ng-template>
+
+
+<ng-template #maintenancemodal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Maintenance</h4>
+    <button type="button" class="close" aria-label="Close" #maintenanceModalClose (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+
+
+    <div>
+      <table>
+        <tr>
+          <th>Name </th>
+          <th>Type</th>
+          <th>start</th>
+          <th>period</th>
+        </tr>
+        <tr *ngFor="let maintenance of maintenance;let i = index">
+             
+          <td><input type="checkbox" [disabled]="response"  [checked]="maintenance.selected"  (change)="onChangemaintenance($event,maintenance.id)"></td>
+          <td>{{maintenance.name}}</td>
+          <td>{{maintenance.type}}</td>
+          <td>{{maintenance.start}}</td>
+          <td>{{maintenance.period}}</td>
+        </tr>
+      </table>
+    </div>
+
+
+  </div>
+</ng-template>
+<!-- [checked]="compAttribute.selected" -->

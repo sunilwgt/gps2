@@ -23,6 +23,7 @@ export class MainBodyComponent implements OnInit {
 
   // latitude: number = 18.5204;
   // longitude: number = 73.8567;
+  // 22.609857, 88.480111
   // zoom: number = 14;
   map: any;
   // deviceDetails: any;

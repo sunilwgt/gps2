@@ -31,6 +31,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatSnackBarModule, MatFormFieldModule, MatSelectModule,
    MatCheckboxModule, MatInputModule, } from '@angular/material';
 import { ServerModalComponent } from './modals/server-modal/server-modal.component';
+import { SavedcommandsModalComponent } from './modals/savedcommands-modal/savedcommands-modal.component';
+import { CalenderModalComponent } from './modals/calenders-modal/calenders-modal.component';
+import { StatisticsModalComponent } from './modals/statistics-modal/statistics-modal.component';
 
 
 @NgModule({
@@ -54,7 +57,12 @@ import { ServerModalComponent } from './modals/server-modal/server-modal.compone
     MaintenanceModalComponent,
     GeofenceModalComponent,
     SignupComponent,
-    LoginComponent
+    LoginComponent,
+    SavedcommandsModalComponent,
+ CalenderModalComponent,
+ StatisticsModalComponent
+
+
   ],
 
 

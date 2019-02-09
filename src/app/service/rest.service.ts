@@ -34,6 +34,7 @@ export class RestService {
 
 
   public get(url: string, data?: any, headers?: any): Promise<any> {
+    console.log('ajax url' , url , 'data' , data); 
     let promise = new Promise((resolve, reject) => {
       this.http.get(url, data).subscribe((data: any) => {
         resolve(data);
@@ -136,6 +137,7 @@ export class RestService {
     return promise;
   }
   commonget(url: string,  headers?: any) {
+    console.log('common get url ' , url);
     let promise = new Promise((resolve, reject) => {
       this.http.get(url, this.httpOptions).subscribe((res: object) => {
         resolve(res);
@@ -159,7 +161,42 @@ export class RestService {
     return promise;
   }
 
+  commongetwithbody(url: string, body?: any) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': 'Basic ' + 'YWRtaW46YWRtaW4='
+      }), body: body
+    };
 
+    let promise = new Promise((resolve, reject) => {
+      this.http.get(url, httpOptions).subscribe((device: object) => {
+        resolve(device);
+      }, (error) => {
+        reject(error);
+      })
+    });
+    return promise;
+  }
+
+
+  commongetwithparam(url: string,  param?:any) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': 'Basic ' + 'YWRtaW46YWRtaW4='
+      }),
+    };
+
+    let promise = new Promise((resolve, reject) => {
+      this.http.get(url+param, this.httpOptions).subscribe((res: object) => {
+        resolve(res);
+      }, (error) => {
+        reject(error);
+      })
+    });
+    return promise;
+  }
 
 }
 
