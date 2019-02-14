@@ -39,7 +39,6 @@ export class MainBodyComponent implements OnInit {
     this.maminservice.mapsubscribe();
     this.maminservice.mapsubj.subscribe((res) => {
       this.map = res;
-      console.log('map res from main component ' , this.map);
 
     })
 

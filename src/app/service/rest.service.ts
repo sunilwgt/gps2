@@ -34,7 +34,6 @@ export class RestService {
 
 
   public get(url: string, data?: any, headers?: any): Promise<any> {
-    console.log('ajax url' , url , 'data' , data); 
     let promise = new Promise((resolve, reject) => {
       this.http.get(url, data).subscribe((data: any) => {
         resolve(data);
@@ -119,7 +118,6 @@ export class RestService {
         resolve(data);
       }, (error) => {
         reject(error);
-        console.log('account put error', error);
 
       })
     });
@@ -137,7 +135,6 @@ export class RestService {
     return promise;
   }
   commonget(url: string,  headers?: any) {
-    console.log('common get url ' , url);
     let promise = new Promise((resolve, reject) => {
       this.http.get(url, this.httpOptions).subscribe((res: object) => {
         resolve(res);
@@ -154,7 +151,6 @@ export class RestService {
         resolve(data);
       }, (error) => {
         reject(error);
-        console.log('server put error', error);
 
       })
     });

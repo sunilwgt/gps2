@@ -16,7 +16,6 @@ export class LeftSideBarComponent implements OnInit {
   //status: boolean = false;
 
   public changeClass() {
-    console.log(this.CommonService.status);
     this.CommonService.status = !this.CommonService.status;
     //this.status = !this.status
   }

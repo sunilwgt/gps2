@@ -6,6 +6,7 @@ import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { SocketDataService } from '../../../socket-data.service';
 import { Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { element } from '@angular/core/src/render3';
 
 var headers_object = new HttpHeaders();
 headers_object.append('Content-Type', 'application/json');
@@ -34,8 +35,19 @@ export class ObjectDeviceComponent implements OnInit {
   model: any = {};
   closeResult: string;
   deviceData: any;
-
-
+  commandstype = [{ name: 'Custom', value: 'Custom Command' }];
+  commands = []
+  command;
+  newcommand = false;
+  sendnewcommandtype;
+  sendnewcommanddata;
+  filteredelement = [];
+  filteredelementdescription;
+  filteredelementtextchannel;
+  filteredelementtype;
+  filteredelementdata;
+  textchannel;
+  dataselected = false;
   constructor(private CommonService: CommonServiceService, private ajax: RestService, private modalService: NgbModal, private wsService: SocketDataService) {
     this.deviceData = <Subject<any>>wsService
       .connect("ws://13.232.8.87:8082/api/socket")
@@ -56,7 +68,7 @@ export class ObjectDeviceComponent implements OnInit {
   apiUrlDriverDevice: string = "http://13.232.8.87:8082/api/drivers?deviceId";
 
   apiDriverAssign: string = "http://13.232.8.87:8082/api/permissions";
-  
+
   apiurlGetNotify: string = "http://13.232.8.87:8082/api/notifications";
   apiurlNotifyDevice: string = "http://13.232.8.87:8082/api/notifications?deviceId";
 
@@ -67,7 +79,16 @@ export class ObjectDeviceComponent implements OnInit {
   apiurlGetMaintainancedevice: string = "http://13.232.8.87:8082/api/maintenances?deviceId";
   apiurlMaintainanceassign: string = "http://13.232.8.87:8082/api/maintenances";
 
+  apiurlGetsavedcommands: string = "http://13.232.8.87:8082/api/commands";
+  apiurlGetsavedcommandsdevice: string = "http://13.232.8.87:8082/api/commands?deviceId";
+  apiurlsavedcommandassign: string = "http://13.232.8.87:8082/api/commands";
 
+  apiurlGetgeofences: string = "http://13.232.8.87:8082/api/geofences";
+  apiurlGetgeofencedevice: string = "http://13.232.8.87:8082/api/geofences?deviceId";
+  apiurlgeofenceassign: string = "http://13.232.8.87:8082/api/geofences";
+
+  apiurlGetcommandsdevice: string = "http://13.232.8.87:8082/api/commands/send?deviceId";
+  apiurlsendcommand: string = "http://13.232.8.87:8082/api/commands/send";
 
 
   device: object;
@@ -75,7 +96,9 @@ export class ObjectDeviceComponent implements OnInit {
   deviceId: number;
   deviceName: string;
   drivers: any = [];
-  maintenance:any = [];
+  maintenance: any = [];
+  savedcommands: any = [];
+  geofences: any = [];
   driversSelected: any = [];
   response: boolean = false;
   notifys: any = [];
@@ -139,7 +162,6 @@ export class ObjectDeviceComponent implements OnInit {
           for (let cDD of curDeviceData) {
             if (data.id == cDD.id) {
               this.CommonService.tempData[index] = cDD;
-
             }
           }
 
@@ -161,7 +183,6 @@ export class ObjectDeviceComponent implements OnInit {
               }
             }
           }
-
         });
       }
 
@@ -181,18 +202,28 @@ export class ObjectDeviceComponent implements OnInit {
 
     this.ajax.get(this.apiurlGetCompAttribute, httpOptions).then((data) => {
       this.compAttributes = data;
-      console.log('get compAttributes'  , this.compAttributes)
-
     }).catch(error => {
       console.error(error);
     });
 
     this.ajax.get(this.apiurlGetMaintainance, httpOptions).then((data) => {
       this.maintenance = data;
-      console.log('get maintenance'  , this.maintenance)
     }).catch(error => {
       console.error(error);
     });
+
+    this.ajax.get(this.apiurlGetsavedcommands, httpOptions).then((data) => {
+      this.savedcommands = data;
+    }).catch(error => {
+      console.error(error);
+    });
+
+    this.ajax.get(this.apiurlGetgeofences, httpOptions).then((data) => {
+      this.geofences = data;
+    }).catch(error => {
+      console.error(error);
+    });
+
   }
 
 
@@ -208,8 +239,6 @@ export class ObjectDeviceComponent implements OnInit {
 
 
   onClick(id) {
-
-    console.log('id' , id, 'apiurl2' , this.apiurl2);
     // var target = event.target || event.srcElement || event.currentTarget;
     this.deviceId = id;
     this.getDeviceDetails(this.apiurl2, this.deviceId);
@@ -219,14 +248,9 @@ export class ObjectDeviceComponent implements OnInit {
 
   getDeviceDetails(apiurl, id) {
     this.ajax.get(apiurl + id, httpOptions).then((value) => {
-      console.log('device details from api ' , value);
       value.map((dat) => {
-      console.log('device details dat ' , dat);
-
         this.CommonService.deviceDetailsemit(dat)
       })
-
-      //console.log(this.device); 
     }).catch(() => {
       console.log('error happened');
     });
@@ -265,10 +289,6 @@ export class ObjectDeviceComponent implements OnInit {
       });
       this.open(modal);
     });
-
-
-
-
   }
 
   onChangeDriver(event, i) {
@@ -292,7 +312,6 @@ export class ObjectDeviceComponent implements OnInit {
         console.log('error happened');
       });
     }
-
   }
 
   assignNotify(id: number, modal: any) {
@@ -302,7 +321,6 @@ export class ObjectDeviceComponent implements OnInit {
       not.map((val) => {
         let i = val['id'];
         ids.push(i);
-
       });
       this.notifys.map((value, index) => {
         if (ids.indexOf(value.id) != -1) {
@@ -313,10 +331,6 @@ export class ObjectDeviceComponent implements OnInit {
       });
       this.open(modal);
     });
-
-
-
-
   }
 
   onChangeNotify(event, i) {
@@ -347,11 +361,9 @@ export class ObjectDeviceComponent implements OnInit {
     let ids = [];
     this.deviceId = id;
     this.ajax.get(this.apiurlCompAttrDevice + "=" + id, httpOptions).then((not) => {
-      console.log('comp device' , not);
       not.map((val) => {
         let i = val['id'];
         ids.push(i);
-
       });
       this.compAttributes.map((value, index) => {
 
@@ -363,10 +375,6 @@ export class ObjectDeviceComponent implements OnInit {
       });
       this.open(modal);
     });
-
-
-
-
   }
 
   onChangecompAttribute(event, i) {
@@ -374,8 +382,6 @@ export class ObjectDeviceComponent implements OnInit {
       deviceId: this.deviceId,
       attributeId: i
     };
-
-    console.log('data' , data);
     this.response = true;
     if (event.target.checked) {
       this.ajax.addDevice(this.apiDriverAssign, data, httpOptions).then((data) => {
@@ -392,22 +398,15 @@ export class ObjectDeviceComponent implements OnInit {
         console.log('error happened');
       });
     }
-
   }
 
   assignmaintenance(id: number, modal: any) {
-    console.log('maintenance device ' , id);
-    console.log('maintenance device ' , modal);
-
     let ids = [];
     this.deviceId = id;
     this.ajax.get(this.apiurlGetMaintainancedevice + "=" + id, httpOptions).then((not) => {
-      console.log('maintenance device ' , not);
       not.map((val) => {
         let i = val['id'];
         ids.push(i);
-        console.log('all ids ' , ids);
-
       });
       this.maintenance.map((value, index) => {
         if (ids.indexOf(value.id) != -1) {
@@ -418,39 +417,184 @@ export class ObjectDeviceComponent implements OnInit {
       });
       this.open(modal);
     });
-
   }
 
-
-  
   onChangemaintenance(event, i) {
     let data = {
       deviceId: this.deviceId,
-      // attributeId: i
-      maintenanceid:i
+      maintenanceid: i
     };
-
-    console.log('data' , data);
     this.response = true;
     if (event.target.checked) {
       this.ajax.addDevice(this.apiDriverAssign, data, httpOptions).then((data) => {
-        console.log('data1' , data);
+        console.log('data1', data);
         this.response = false;
       }).catch((error) => {
         this.response = false;
-        console.log('error happened1' ,error);
+        console.log('error happened1', error);
       });
     } else {
       this.ajax.deleteDevicewithbody(this.apiDriverAssign, data).then((data) => {
         this.response = false;
       }).catch((error) => {
         this.response = false;
-        console.log('data2' , data);
-        console.log('error happened2' ,error);
+        console.log('error happened2', error);
       });
     }
 
   }
 
+  assignsavedcommands(id: number, modal: any) {
+    let ids = [];
+    this.deviceId = id;
+    this.ajax.get(this.apiurlGetsavedcommandsdevice + "=" + id, httpOptions).then((not) => {
+      console.log('ssaved commands device ', not);
+      not.map((val) => {
+        let i = val['id'];
+        ids.push(i);
+      });
+      this.savedcommands.map((value, index) => {
+        if (ids.indexOf(value.id) != -1) {
+          this.savedcommands[index].selected = true;
+        } else {
+          this.savedcommands[index].selected = false;
+        }
+      });
+      this.open(modal);
+    });
+  }
+
+  onChangesavedcommands(event, i) {
+    let data = {
+      deviceId: this.deviceId,
+      commandId: i
+    };
+    this.response = true;
+    if (event.target.checked) {
+      this.ajax.addDevice(this.apiDriverAssign, data, httpOptions).then((data) => {
+        this.response = false;
+      }).catch((error) => {
+        this.response = false;
+      });
+    } else {
+      this.ajax.deleteDevicewithbody(this.apiDriverAssign, data).then((data) => {
+        this.response = false;
+      }).catch((error) => {
+        this.response = false;
+        console.log('error happened2', error);
+      });
+    }
+  }
+
+  assigngeofence(id: number, modal: any) {
+    let ids = [];
+    this.deviceId = id;
+    this.ajax.get(this.apiurlGetgeofencedevice + "=" + id, httpOptions).then((not) => {
+      not.map((val) => {
+        let i = val['id'];
+        ids.push(i);
+      });
+      this.geofences.map((value, index) => {
+        if (ids.indexOf(value.id) != -1) {
+          this.geofences[index].selected = true;
+        } else {
+          this.geofences[index].selected = false;
+        }
+      });
+      this.open(modal);
+    });
+  }
+
+  onChangegeofence(event, i) {
+    let data = {
+      deviceId: this.deviceId,
+      geofenceId: i
+    };
+    this.response = true;
+    if (event.target.checked) {
+      this.ajax.addDevice(this.apiDriverAssign, data, httpOptions).then((data) => {
+        this.response = false;
+      }).catch((error) => {
+        this.response = false;
+      });
+    } else {
+      this.ajax.deleteDevicewithbody(this.apiDriverAssign, data).then((data) => {
+        this.response = false;
+      }).catch((error) => {
+        this.response = false;
+        console.log('error happened2', error);
+      });
+    }
+  }
+
+
+
+  assignsendcommand(id: number, modal: any) {
+    this.commands.splice(0, this.commands.length);
+    let ids = [];
+    this.deviceId = id;
+    this.ajax.get(this.apiurlGetcommandsdevice + "=" + id, httpOptions).then((not) => {
+      this.commands[0] = [{ description: 'New...' }];
+      this.commands.push(not)
+      this.open(modal);
+    });
+  }
+
+  selectcommand(e, data) {
+    if (this.command === 'New...') {
+      this.newcommand = true;
+      this.commands.filter((element) => {
+        if (element[0].description == data) {
+          this.filteredelement = element;
+        }
+      })
+    }
+    else {
+      this.newcommand = false;
+      this.commands.filter((element) => {
+        if (element[0].description == data) {
+          this.filteredelement = element;
+          this.filteredelementtextchannel = this.filteredelement[0].textChannel;
+          this.filteredelementtype = this.filteredelement[0].type;
+          this.filteredelementdata = this.filteredelement[0].attributes.data;
+        }
+      })
+    }
+  }
+
+  settype(e) {
+    if (e === 'Custom Command') {
+      this.dataselected = true;
+    }
+  }
+
+  sendcommand() {
+    this.ajax.addDevice(this.apiurlsendcommand, this.filteredelement[0], httpOptions).then((data) => {
+    }).catch((error) => {
+      console.log('error happened', error);
+    });
+
+  }
+  sendnewcommand() {
+    const d = { data: this.sendnewcommanddata }
+    const fulldata = { description: 'New...', attributes: d, deviceId: this.deviceId, textChannel: this.textchannel, type: 'custom' };
+    this.ajax.addDevice(this.apiurlsendcommand, fulldata, httpOptions).then((data) => {
+    }).catch((error) => {
+      console.log('error happened', error);
+    });
+  }
+
+  assignaccumulator(id: number, modal: any) {
+  //   let ids = [];
+  //   this.deviceId = id;
+  //   const devicedata = new Array(this.device);
+  //  devicedata.filter((ele)=>{ele.filter((e)=>{
+  //    console.log
+  //  })})
+  // console.log('devicedata' , devicedata);
+  
+
+  //   this.open(modal);
+  }
 
 }

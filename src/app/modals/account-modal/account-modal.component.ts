@@ -489,12 +489,9 @@ export class AccountModalComponent implements OnInit {
   deleteAttr(modal) {
     delete this.comingattributes[this.attributeIndex];
     this.user.attributes = this.comingattributes;
-    console.log('comingattributes', this.comingattributes)
-    console.log('before sending user data ', this.user);
     this.user.map = this.mlayer
     this.user.coordinateFormat = this.coformat
     this.ajax.putaccount(this.apiurlGetusers + this.user.id, this.user).then((data) => {
-      console.log('before sending user data ', data);
       this.snackbar.open('Attribute deleted successfully', 'Close', { duration: 3000 });
 
       this.users = data;

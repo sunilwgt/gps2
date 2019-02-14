@@ -34,7 +34,6 @@ export class ObjectDetailsComponent implements OnInit {
 
     this.CommonService.deviceDetails.subscribe((value) => {
       this.deviceDetails = value;
-      console.log ('subscribed device details value' , this.deviceDetails);
     })
 
 

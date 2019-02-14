@@ -30,7 +30,6 @@ export class LoginComponent implements OnInit {
       if (res) {
         const stringres = JSON.stringify(res);
         const parsed = JSON.parse(stringres)
-        console.log(res)
       this.snackbar.open( 'Welcome ' + parsed.name, 'Close', { duration: 3000 });
 
 
@@ -50,7 +49,7 @@ export class LoginComponent implements OnInit {
       this.authenticatiionservice.settologgedin(user);
     }
     else {
-      console.log('You are NOt Logged in , Please login to continue');
+      console.log('You are Not  Logged in , Please login to continue');
 
     }
   }

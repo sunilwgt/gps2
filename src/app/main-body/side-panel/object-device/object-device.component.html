@@ -40,7 +40,7 @@
             <li>
               <a href="javascript:" class="object_command">
                 <fa name="upload"></fa>
-                <span class="text">Command</span>
+                <span class="text" (click)="assignsendcommand(xb.id,sendcommandmodal)">Command</span>
               </a>
             </li>
             <li>
@@ -52,7 +52,7 @@
             <li>
               <a href="javascript:" class="object_geofences">
                 <fa name="globe"></fa>
-                <span class="text">Geofences</span>
+                <span class="text" (click)="assigngeofence(xb.id,geofencemodal)">Geofences</span>
               </a>
             </li>
             <li>
@@ -70,7 +70,7 @@
             <li>
               <a href="javascript:" class="object_saved_commands">
                 <fa name="floppy-o"></fa>
-                <span class="text">Saved Commands</span>
+                <span class="text" (click)="assignsavedcommands(xb.id,savedcommandsmodal)">Saved Commands</span>
               </a>
             </li>
             <li>
@@ -82,17 +82,12 @@
             <li>
               <a href="javascript:" class="object_Accumulators">
                 <fa name="tachometer"></fa>
-                <span class="text">Accumulators</span>
+                <span class="text" (click)="assignaccumulator(xb.id,accumulatormodal)">Accumulators</span>
               </a>
             </li>
           </ul>
-
-
         </div>
       </div>
-
-
-
     </li>
   </ng-container>
 
@@ -213,7 +208,7 @@
 
 <ng-template #maintenancemodal let-modal>
   <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title">Maintenance</h4>
+    <h4 class="modal-title" id="modal-basic-title">Maintenances</h4>
     <button type="button" class="close" aria-label="Close" #maintenanceModalClose (click)="modal.dismiss('Cross click')">
       <span aria-hidden="true">&times;</span>
     </button>
@@ -224,14 +219,15 @@
     <div>
       <table>
         <tr>
-          <th>Name </th>
+          <th></th>
+          <th>Name</th>
           <th>Type</th>
           <th>start</th>
           <th>period</th>
         </tr>
         <tr *ngFor="let maintenance of maintenance;let i = index">
-             
-          <td><input type="checkbox" [disabled]="response"  [checked]="maintenance.selected"  (change)="onChangemaintenance($event,maintenance.id)"></td>
+
+          <td><input type="checkbox" [disabled]="response" [checked]="maintenance.selected" (change)="onChangemaintenance($event,maintenance.id)"></td>
           <td>{{maintenance.name}}</td>
           <td>{{maintenance.type}}</td>
           <td>{{maintenance.start}}</td>
@@ -243,4 +239,151 @@
 
   </div>
 </ng-template>
-<!-- [checked]="compAttribute.selected" -->
+
+<ng-template #savedcommandsmodal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Saved Commands</h4>
+    <button type="button" class="close" aria-label="Close" #savedcommandsClose (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div>
+      <table>
+        <tr>
+          <th></th>
+          <th>Description</th>
+          <th>Type</th>
+          <th>Status</th>
+        </tr>
+        <tr *ngFor="let savedcommands of savedcommands;let i = index">
+
+          <td><input type="checkbox" [disabled]="response" [checked]="savedcommands.selected" (change)="onChangesavedcommands($event,savedcommands.id)"></td>
+          <td>{{savedcommands.description}}</td>
+          <td>{{savedcommands.type}}</td>
+          <td>{{savedcommands.textChannel}}</td>
+
+        </tr>
+      </table>
+    </div>
+
+  </div>
+</ng-template>
+
+<ng-template #geofencemodal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Geofence</h4>
+    <button type="button" class="close" aria-label="Close" #geofenceClose (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div>
+      <table>
+        <tr>
+          <th></th>
+          <th>Name</th>
+        </tr>
+        <tr *ngFor="let geo of geofences;let i = index">
+          <td><input type="checkbox" [disabled]="response" [checked]="geo.selected" (change)="onChangegeofence($event,geo.id)"></td>
+          <td>{{geo.name}}</td>
+        </tr>
+      </table>
+    </div>
+
+  </div>
+</ng-template>
+
+
+<ng-template #sendcommandmodal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Command</h4>
+    <button type="button" class="close" aria-label="Close" #sendcommandClose (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <label for="command" name="command">Command</label>
+      <select name="command" [(ngModel)]="command" (click)="selectcommand($event , command)">
+        <option *ngFor="let command of commands">{{command[0].description}}</option>
+      </select>
+    </div>
+
+    <div class="existingcommand" *ngIf="!newcommand">
+      <div class="row">
+        <td><input type="checkbox" [(ngModel)]="filteredelementtextchannel" readonly disabled="disabled"></td>
+      </div>
+      <div class="row">
+        <label for="type" name="type">Type</label>
+        <input type="text" [(ngModel)]="filteredelementtype" readonly disabled="disabled">
+      </div>
+      <div class="row">
+        <label for="data" name="data">Data</label>
+        <input type="text" name="data" [(ngModel)]="filteredelementdata" readonly disabled="disabled">
+      </div>
+    </div>
+
+
+    <div class="Newcommand" *ngIf="newcommand">
+      <div class="row">
+        <td><input type="checkbox" [(ngModel)]="textchannel"></td>
+      </div>
+      <div class="row">
+        <label for="type" name="type">Type</label>
+        <select name="type" [(ngModel)]="sendnewcommandtype" (click)="settype($event.target.value)">
+          <option *ngFor="let command of commandstype"> {{command.value}}</option>
+        </select>
+      </div>
+      <div class="row" *ngIf="dataselected">
+        <label for="data" name="data">Data</label>
+        <input type="text" name="data" [(ngModel)]="sendnewcommanddata">
+      </div>
+    </div>
+
+    <br>
+    <div class="row">
+      <button *ngIf="!newcommand" class="btn btn-danger" (click)="sendcommand()">Send</button>
+      <button *ngIf="newcommand && dataselected " class="btn btn-danger" (click)="sendnewcommand()">Send</button>
+    </div>
+  </div>
+</ng-template>
+
+
+
+
+
+
+<ng-template #accumulatormodal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Accumulators</h4>
+    <button type="button" class="close" aria-label="Close" #accumulatorClose (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="row col-md-12">
+      <div class="col-md-4">
+          <label for="totaldistance" name="totaldistance">Total Distance</label>
+      </div>
+      <div class="col-md-3">
+          <input type="number">km
+      </div>
+    </div>
+    <div class="row col-md-12">
+        <div class="col-md-4">
+            <label for="hours" name="hours">Hours</label>
+        </div>
+        <div class="col-md-3">
+            <input type="number">h
+        </div>
+      </div>
+      <hr>
+
+      <div class="row col-md-12">
+          <div class="col-md-4 col-md-offset-3">
+              <button class="btn btn-primary">Send</button>
+          </div>
+        </div>
+  </div>
+</ng-template>

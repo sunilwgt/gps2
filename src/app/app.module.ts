@@ -28,8 +28,10 @@ import { SignupComponent } from './Authentication/signup/signup.component';
 import { LoginComponent } from './Authentication/login/login.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import {MatSnackBarModule, MatFormFieldModule, MatSelectModule,
-   MatCheckboxModule, MatInputModule, } from '@angular/material';
+import {
+  MatSnackBarModule, MatFormFieldModule, MatSelectModule,
+  MatCheckboxModule, MatInputModule,
+} from '@angular/material';
 import { ServerModalComponent } from './modals/server-modal/server-modal.component';
 import { SavedcommandsModalComponent } from './modals/savedcommands-modal/savedcommands-modal.component';
 import { CalenderModalComponent } from './modals/calenders-modal/calenders-modal.component';
@@ -59,8 +61,8 @@ import { StatisticsModalComponent } from './modals/statistics-modal/statistics-m
     SignupComponent,
     LoginComponent,
     SavedcommandsModalComponent,
- CalenderModalComponent,
- StatisticsModalComponent
+    CalenderModalComponent,
+    StatisticsModalComponent
 
 
   ],

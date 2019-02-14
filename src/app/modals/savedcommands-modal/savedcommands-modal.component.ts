@@ -126,7 +126,6 @@ export class SavedcommandsModalComponent implements OnInit {
   edit(modal) {
     // this.maintainEdit['name'] = this.maintainIndex;
     this.maintainEdit = this.maintains[this.maintainIndex];
-    console.log('thismaintainedit', this.maintainEdit);
     this.open(modal);
   }
 

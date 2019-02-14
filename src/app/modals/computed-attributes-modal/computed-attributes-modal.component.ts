@@ -231,7 +231,6 @@ export class ComputedAttributesModalComponent implements OnInit {
       }
     })
     // 
-    console.log("this.compAttributeEdit.type");
   }
 
   compAttributeSelected(i: string) {
