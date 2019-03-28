@@ -1,4 +1,4 @@
-<h1  style="margin-left:30%">Login </h1>
+<!-- <h1  style="margin-left:30%">Login </h1>
 <div class="row ">
   <div class="formposition" style="margin-left:30%; margin-top: 10%">
       <form (ngSubmit)="onlogin(loginform)" #loginform="ngForm">
@@ -30,7 +30,29 @@
         </form>
       
   </div>
- 
 
-</div>
+</div> -->
+
+<div class="body"></div>
+		<div class="grad"></div>
+		<div class="header">
+			<div>Gps<span>Tracking</span></div>
+		</div>
+		<br>
+		<div class="login">
+        <form [formGroup]="user_data" (ngSubmit)="onlogin()">
+          <input type="text" placeholder="email" formControlName="email"  required><br>
+          <div *ngIf="user_data.controls['email'].errors && !user_data.controls['email'].pristine" class="error-msg">
+              <div [hidden]="!user_data.controls['email'].errors.required" style="color:red">Email is required.</div>
+              <div [hidden]="!user_data.controls['email'].errors.patternInvalid" style="color:red">Email is invalid.</div>
+            </div>
+          <input type="password" placeholder="password"  formControlName="password" name="password" required><br>
+          <div *ngIf="user_data.controls['password'].errors && !user_data.controls['password'].pristine" class="error-msg">
+              <div [hidden]="!user_data.controls['password'].errors.required" style="color:red">Password is required.</div>
+            </div>
+          <input type="submit"  [disabled]="user_data.invalid" value="Login"
+       >
+      </form>
+       
+		</div>
 

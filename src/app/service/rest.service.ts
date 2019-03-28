@@ -118,7 +118,6 @@ export class RestService {
         resolve(data);
       }, (error) => {
         reject(error);
-
       })
     });
     return promise;
@@ -156,7 +155,6 @@ export class RestService {
     });
     return promise;
   }
-
   commongetwithbody(url: string, body?: any) {
     const httpOptions = {
       headers: new HttpHeaders({

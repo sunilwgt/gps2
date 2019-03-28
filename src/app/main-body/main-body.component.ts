@@ -8,7 +8,6 @@ import { MainserviceService } from './mainservice.service';
 // import {Tile as TileLayer, Vector as VectorLayer} from 'ol/layer.js';
 // import {OSM, Vector as VectorSource} from 'ol/source.js';
 // import {Circle as CircleStyle, Fill, Stroke, Style} from 'ol/style.js';
-
 declare var ol: any;
 var vectorLayer;
 @Component({
@@ -16,11 +15,7 @@ var vectorLayer;
   templateUrl: './main-body.component.html',
   styleUrls: ['./main-body.component.scss']
 })
-
-
-
 export class MainBodyComponent implements OnInit {
-
   // latitude: number = 18.5204;
   // longitude: number = 73.8567;
   // 22.609857, 88.480111
@@ -30,18 +25,14 @@ export class MainBodyComponent implements OnInit {
   // getlat;
   // getlong;
   // getzoom;
-
   constructor(private commonService: CommonServiceService, private maminservice: MainserviceService) {
   }
-
   async ngOnInit() {
     this.maminservice.initializemap();
     this.maminservice.mapsubscribe();
     this.maminservice.mapsubj.subscribe((res) => {
       this.map = res;
-
     })
-
   }
   getmapstate() {
     this.maminservice.getmapstate();
@@ -49,8 +40,6 @@ export class MainBodyComponent implements OnInit {
   setmapstate() {
     this.maminservice.setmapstate();
   }
-
-
   // this.map = new ol.Map({
   //   target: 'map',
   //   layers: [
@@ -64,7 +53,6 @@ export class MainBodyComponent implements OnInit {
   //     zoom: this.zoom
   //   })
   // });
-
   // this.commonService.deviceDetails.subscribe((value) => {
   //   // console.log(value);
   //   // if (value.hasOwnProperty(0)) {
@@ -81,9 +69,7 @@ export class MainBodyComponent implements OnInit {
   //     this.setCenter();
   //     this.addMapPoint(this.longitude, this.latitude);
   //   }
-
   // })
-
   // }
 
   // addMapPoint(lng, lat) {
@@ -138,8 +124,5 @@ export class MainBodyComponent implements OnInit {
   //   this.map.getView().setZoom(this.getzoom)
 
   // }
-
-
 }
-
 // https://stackoverflow.com/questions/31348541/openlayers-3-6-getting-the-center-of-the-current-map-view

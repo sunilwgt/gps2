@@ -17,21 +17,32 @@ export class AuthenticationService {
   loginurl = 'http://13.232.8.87:8082/api/session'
   constructor(private http: HttpClient) { }
 
+
+  // httpOptions = {
+  //   headers: new HttpHeaders({
+  //     'Content-Type': 'application/json',
+  //     'Authorization': 'Basic ' + 'YWRtaW46YWRtaW4='
+  //   })
+  // };
+
   login(data) {
     let body = new URLSearchParams();
     body.set('email', data.email);
     body.set('password', data.password);
     this.Body = body;
+    console.log('login  data' , data);
+    console.log('login body data' , this.Body);
     let promise = new Promise((resolve, reject) => {
       this.http.post(this.loginurl, body.toString(), this.loginhttpOptions).subscribe((data) => {
         if (data) {
+          console.log('user data' , data);
           this.settologgedin(data);
           this.setUser(data);
 
         }
         resolve(data);
       }, (error) => {
-        console.log('login error is ', data)
+        console.log('login error is ', error)
 
         reject(error);
       })

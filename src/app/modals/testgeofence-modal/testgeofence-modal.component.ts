@@ -21,11 +21,11 @@ const httpOptions = {
 declare var ol: any;
 
 @Component({
-  selector: 'app-geofence-modal',
-  templateUrl: './geofence-modal.component.html',
-  styleUrls: ['./geofence-modal.component.scss']
+  selector: 'app-testgeofence-modal',
+  templateUrl: './testgeofence-modal.component.html',
+  styleUrls: ['./testgeofence-modal.component.scss']
 })
-export class GeofenceModalComponent implements OnInit {
+export class TestGeofenceModalComponent implements OnInit {
 
   closeResult: any;
   attrNames: any[] = [{
@@ -126,7 +126,7 @@ export class GeofenceModalComponent implements OnInit {
   }
 
   open(content) {
-    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
+    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
@@ -135,7 +135,7 @@ export class GeofenceModalComponent implements OnInit {
   }
 
   opencustommodel(content) {
-    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
+    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;

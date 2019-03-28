@@ -22,8 +22,6 @@ export class MainserviceService {
   getzoom;
   transformedcordinate;
   public mapsubj = new Subject();
-
-
   constructor(private commonService: CommonServiceService, private authenticationservice: AuthenticationService) {
   }
 
@@ -45,7 +43,6 @@ export class MainserviceService {
         zoom: this.zoom
       })
     });
-
     this.commonService.deviceDetails.subscribe((value) => {
       // console.log(value);
       // if (value.hasOwnProperty(0)) {
@@ -53,7 +50,6 @@ export class MainserviceService {
       // } else {
       //   this.deviceDetails = value;
       // }
-
       // console.log(this.deviceDetails);
       if (this.deviceDetails) {
         // this.clearMap();
@@ -62,13 +58,10 @@ export class MainserviceService {
         this.setCenter();
         this.addMapPoint(this.devicelongitude, this.devicelatitude);
       }
-
     })
-this.mapsubj.next(this.map);
+    this.mapsubj.next(this.map);
   }
-
   addMapPoint(lng, lat) {
-
     vectorLayer = new ol.layer.Vector({
       source: new ol.source.Vector({
         features: [new ol.Feature({
@@ -86,39 +79,30 @@ this.mapsubj.next(this.map);
     });
     this.map.addLayer(vectorLayer);
   }
-
   setCenter() {
     var view = this.map.getView();
     view.setCenter(ol.proj.fromLonLat([this.latitude, this.longitude]));
     view.setZoom(this.zoom);
   }
-
   clearMap() {
     this.map.removeLayer(vectorLayer)
   }
-
   getmapstate() {
     const center = this.map.getView().getCenter();
     this.getzoom = this.map.getView().getZoom();
     this.getlat = center[0];
     this.getlong = center[1];
     this.transformedcordinate = ol.proj.transform([this.getlat, this.getlong], 'EPSG:3857', 'EPSG:4326');
-
   }
-
   setmapstate() {
     const b = ol.proj.transform([this.getlat, this.getlong], 'EPSG:3857', 'EPSG:4326');
     this.map.getView().setCenter(ol.proj.fromLonLat([b[0], b[1]]));
     this.map.getView().setZoom(this.getzoom)
     this.mapsubj.next(this.map);
-
   }
-
   mapsubscribe() {
-  
     this.mapsubj.next(this.map);
   }
-
   async getmapcenterandzoom() {
     await this.getmapstate();
     this.setmapstate();

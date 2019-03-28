@@ -145,6 +145,7 @@ export class ObjectDeviceComponent implements OnInit {
 
     this.CommonService.device.subscribe((value) => {
       this.device = value;
+      
       this.CommonService.tempData = value;
       if (value.length) {
         // this.deviceId = value[0].id;
@@ -228,10 +229,13 @@ export class ObjectDeviceComponent implements OnInit {
 
 
   getDevice(apiurl, headerconst?) {
+    console.log('getdevice url ' , apiurl);
+    console.log('httpOptions ' , httpOptions);
     this.ajax.get(apiurl, httpOptions).then((value) => {
+    console.log('getdevice data ' , value);
       this.CommonService.deviceemit(value)
-    }).catch(() => {
-      console.log('error happened');
+    }).catch((error) => {
+      console.log('error happened' , error);
     });
   }
 

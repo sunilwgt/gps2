@@ -162,6 +162,7 @@ export class MaintenanceModalComponent implements OnInit {
   }
 
   open(content) {
+    console.log('content ' , content);
     this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
@@ -187,7 +188,6 @@ export class MaintenanceModalComponent implements OnInit {
       "period": formdata.value.period,
       "start": formdata.value.start,
       "type": formdata.value.type
-
     }
 
     if (this.maintainIndex) {
@@ -211,7 +211,6 @@ export class MaintenanceModalComponent implements OnInit {
 
 
   }
-
   openModal(modal) {
     this.maintainEdit = {};
     this.maintainIndex = '';

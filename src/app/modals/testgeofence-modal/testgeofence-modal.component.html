@@ -1,0 +1,205 @@
+<a title="Geofence" href="#" (click)="openModal(geofenceModal)">
+  <fa name="globe"></fa>
+</a>
+<ng-template #geofenceModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">geofences</h4>
+    <button type="button" class="close" aria-label="Close" #geofenceModalClose (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+
+    <div>
+      <span><button (click)="Add(geofenceAddModal)">Add</button></span>&nbsp;
+      <span><button [disabled]="geofenceIndex === ''" (click)="edit(geofenceAddModal)">Edit</button></span>&nbsp;
+      <span><button [disabled]="geofenceIndex === ''" (click)="delete()">Delete</button></span>
+    </div>
+    <div>
+      <table>
+        <tr>
+          <th>Name</th>
+          <th>Description</th>
+        </tr>
+        <tr *ngFor="let val of geofences;let i = index" (click)="geofenceSelected(i)">
+          <td>{{val.name}}</td>
+          <td>{{val.description}}</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #geofenceAddModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">{{geofenceIndex ? 'Edit' : 'Add'}} geofence</h4>
+    <button type="button" class="close" aria-label="Close" #geofenceAddModalClose (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form name="form" (ngSubmit)="geofenceForm.form.valid && AddgeofenceSubmit(geofenceForm,geofenceAddModalClose)"
+      #geofenceForm="ngForm" novalidate>
+
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input type="text" class="form-control" name="name" [(ngModel)]="geofenceEdit.name" required>
+      </div>
+
+      <div class="form-group">
+        <label for="description">Description</label>
+        <input type="text" class="form-control" name="description" [(ngModel)]="geofenceEdit.description" />
+      </div>
+
+      <div class="form-group">
+        <label for="calendarId">Calendar</label>
+        <input type="date" class="form-control" name="calendarId" [(ngModel)]="geofenceEdit.calendarId" />
+      </div>
+
+      <div class="form-group">
+        <button class="btn btn-primary" [disabled]="!geofenceForm.valid" type="submit">{{geofenceIndex ?
+          'Update' : 'Add'}}</button>
+      </div>
+    </form>
+    <div class="form-group">
+      <button class="btn btn-primary" (click)="opencustommodel(areaModal)">Area</button>
+    </div>
+    <div class="form-group">
+      <button class="btn btn-primary" (click)="open(attributeModal)">Attributes</button>
+    </div>
+
+  </div>
+</ng-template>
+
+<ng-template #attributeModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Attributes</h4>
+    <button type="button" class="close" aria-label="Close" #attributeModalClose (click)="modal.dismiss('Cross click') && status = false">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div>
+      <span><button (click)="AddAttr(attributeAddModal)">Add</button></span>&nbsp;
+      <span><button [disabled]="!attributeIndex" (click)="editAttr(attributeAddModal)">Edit</button></span>&nbsp;
+      <span><button [disabled]="!attributeIndex" (click)="deleteAttr()">Delete</button></span>
+    </div>
+    <div>
+      <table>
+        <tr>
+          <th>Name</th>
+          <th>Value</th>
+        </tr>
+        <tr *ngFor="let attr of getKeys(attributes)" (click)="attributeIndex = attr">
+          <td>{{attr}}</td>
+          <td>{{attributes[attr]}}</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</ng-template>
+<ng-template #attributeAddModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">{{attributeIndex ? 'Edit' : 'Add'}} Attribute</h4>
+    <button type="button" class="close" aria-label="Close" #attributeAddModalClose (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form name="form" (ngSubmit)="addAttributeForm.form.valid && AddAttributeSubmit(addAttributeForm,attributeAddModalClose)"
+      #addAttributeForm="ngForm" novalidate>
+      <div class="form-group">
+        <label for="name">Name</label>
+        <select name="name" (change)="onAttrNameChange(attrName.value)" [(ngModel)]="attributeEdit.name" #attrName="ngModel"
+          [ngClass]="{ 'is-invalid': addAttributeForm.submitted && attrName.invalid }" required>
+          <option *ngFor="let attr of attrNames" [value]="attr.key">{{attr.key}}</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="value">Value</label>
+        <ng-container *ngIf="attributeNameSelected === 'color'">
+          <input type="color" class="form-control" name="value" [(ngModel)]="attributeEdit.value" required>
+        </ng-container>
+        <ng-container *ngIf="attributeNameSelected === 'speedLimit'">
+          <input type="number" class="form-control" name="value" [(ngModel)]="attributeEdit.value" required>Kn
+        </ng-container>
+        <ng-container *ngIf="attributeNameSelected === 'polylineDistance'">
+          <input type="number" class="form-control" name="value" [(ngModel)]="attributeEdit.value" required>Km
+        </ng-container>
+        <ng-container *ngIf="attributeNameSelected === ''">
+          <input type="text" class="form-control" name="value" [(ngModel)]="attributeEdit.value" required />
+        </ng-container>
+      </div>
+      <div class="form-group">
+        <button class="btn btn-primary" [disabled]="!addAttributeForm.valid" type="submit">{{attributeIndex ?
+          'Update' : 'Add'}}</button>
+      </div>
+    </form>
+  </div>
+</ng-template>
+
+<ng-template #areaModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title" style="width:80%">Area</h4>
+    <button type="button" id="areamodalclose" class="close" aria-label="Close" #areaModalClose (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form class="form-inline">
+      <label>Geometry type &nbsp;</label>
+      <select id="type" (change)="changetype($event)">
+        <option value="">SELECT TYPE</option>
+        <option value="Polygon">Polygon</option>
+        <option value="Circle">Circle</option>
+        <option value="None">None</option>
+      </select><br><br>
+      <button (click)="savegeofence()">Save</button>
+      <div id="main">
+      </div>
+    </form>
+  </div>
+</ng-template>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- <div *ngIf="custommap">
+    <div id="map" style="width: 500px; height: 300px;" class="map"></div>
+</div> -->
+
+
+<!-- <div ng-controller="myController">
+  <div><p>A modal containing a map should appear before your very eyes.</p></div>
+  <div><button class="btn" ng-click="openModal()">Open Modal</button></div>
+  <div modal="showModal" close="close()" options="opts">
+        <div class="modal-header">
+            <h4>I'm a modal!</h4>
+        </div>
+        <div class="modal-body" style="text-align : center;">
+            <div id="map" style="width: 500px; height: 300px; display : inline-block;" class="map"></div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-warning cancel" ng-click="close()">Cancel</button>
+        </div>
+  </div>
+</div> -->

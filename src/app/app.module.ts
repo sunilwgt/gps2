@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { AngularFontAwesomeModule } from 'angular-font-awesome';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 import { AppRoutingModule } from './app-routing.module';
@@ -36,6 +36,7 @@ import { ServerModalComponent } from './modals/server-modal/server-modal.compone
 import { SavedcommandsModalComponent } from './modals/savedcommands-modal/savedcommands-modal.component';
 import { CalenderModalComponent } from './modals/calenders-modal/calenders-modal.component';
 import { StatisticsModalComponent } from './modals/statistics-modal/statistics-modal.component';
+import { TestGeofenceModalComponent } from './modals/testgeofence-modal/testgeofence-modal.component';
 
 
 @NgModule({
@@ -62,7 +63,7 @@ import { StatisticsModalComponent } from './modals/statistics-modal/statistics-m
     LoginComponent,
     SavedcommandsModalComponent,
     CalenderModalComponent,
-    StatisticsModalComponent
+    StatisticsModalComponent,TestGeofenceModalComponent
 
 
   ],
@@ -75,6 +76,7 @@ import { StatisticsModalComponent } from './modals/statistics-modal/statistics-m
     NgbModule.forRoot(),
     AngularFontAwesomeModule,
     FormsModule,
+    ReactiveFormsModule,
     BrowserAnimationsModule,
     MatSnackBarModule
 
